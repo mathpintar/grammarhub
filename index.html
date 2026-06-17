@@ -339,7 +339,6 @@
 
         .quiz-header {
             display: flex;
-            justify-open: space-between;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 10px;
@@ -850,15 +849,14 @@
                 let counter = 1;
                 
                 for(let i=0; i<105; i++) {
-                    let base = templateBases[category][i % templateBases[category].length];
-                    let qText = base.q;
-                    let ans = base.a;
-                    let optionsCopy = [...base.opts];
+                    let qText = "";
+                    let ans = "";
+                    let optionsCopy = [];
 
                     if (category === "nouns") {
                         if (i % 5 === 0) {
                             let city = citiesList[Math.floor(i/5) % citiesList.length];
-                            qText = "Which word in the sentence is a proper noun? 'We plan to visit " + city + " next week.'";
+                            qText = "Which word in this sentence is a proper noun? 'We plan to visit " + city + " next week.'";
                             ans = city;
                             optionsCopy = [city, "visit", "week", "plan"];
                         } else if (i % 5 === 1) {
@@ -882,6 +880,11 @@
                             ans = col;
                             optionsCopy = [col, "large", "animals", "passed"];
                         }
+                    } else {
+                        let base = templateBases[category][i % templateBases[category].length];
+                        qText = base.q;
+                        ans = base.a;
+                        optionsCopy = [...base.opts];
                     }
 
                     db[category].push({
@@ -1124,9 +1127,9 @@
             state.activeTopicKey = topicKey;
             
             let rawPool = (topicKey === "mixed") ? generateFreshMixedPool() : JSON.parse(JSON.stringify(masterQuestionsDatabase[topicKey]));
-            let qtyTarget = Math.min(state.selectedQuantity, rawPool.length);
-
+            
             let completelyShuffledPool = shuffleArray(rawPool);
+            let qtyTarget = Math.min(state.selectedQuantity, completelyShuffledPool.length);
 
             state.sessionQuestions = completelyShuffledPool.slice(0, qtyTarget);
             state.currentQuestionIdx = 0;
