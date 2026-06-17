@@ -1,765 +1,1404 @@
-<script>
-        /*********************************************************************
-         * 1. 100+ SEPENUHNYA UNIK & BERBEZA GRAMMAR QUESTIONS GENERATOR (VERSI BARU)
-         *********************************************************************/
-        function generateExpandedDatabase() {
-            // Kamus data perkataan yang diperluaskan untuk menjana ratusan kombinasi soalan unik
-            const properNouns = ["Kuala Lumpur", "Malacca", "London", "Tokyo", "Paris", "Sydney", "Cairo", "New York", "Seoul", "Berlin", "Penang", "Ipoh", "Johor Bahru", "Kuching", "Kota Kinabalu", "Singapore", "Bangkok", "Jakarta", "Manila", "Hanoi", "Beijing", "Mumbai", "Dubai", "Istanbul", "Rome", "Madrid", "Amsterdam", "Moscow", "Washington", "Toronto", "Chicago", "Los Angeles", "Boston", "Miami", "Seattle", "Melbourne", "Auckland", "Zürich", "Vienna", "Brussels", "Dublin", "Edinburgh", "Stockholm", "Oslo", "Copenhagen", "Helsinki", "Lisbon", "Athens", "Prague", "Warsaw", "Manchester", "Liverpool", "Barcelona", "Munich", "Milan", "Venice", "Florence", "Kyoto", "Osaka", "Seoul", "Busan", "Shanghai", "Hong Kong", "Macau", "Taipei", "Bangalore", "New Delhi", "Mumbai", "Chennai", "Calcutta", "Cape Town", "Johannesburg", "Nairobi", "Cairo", "Alexandria", "Casablanca", "Marrakesh", "Dubai", "Abu Dhabi", "Doha", "Riyadh", "Jeddah", "Mecca", "Medina", "Jerusalem", "Tel Aviv", "Amman", "Beirut", "Damascus", "Baghdad", "Tehran", "Kabul", "Islamabad", "Karachi", "Lahore", "Dhaka", "Colombo", "Male", "Kathmandu"];
-            const abstractNouns = ["honesty", "bravery", "wisdom", "patience", "justice", "freedom", "charity", "kindness", "courage", "comfort", "anger", "beauty", "belief", "calmness", "compassion", "determination", "grief", "happiness", "hate", "jealousy", "joy", "knowledge", "loyalty", "misery", "pride", "relaxation", "sadness", "trust", "truth", "warmth", "sympathy", "envy", "fear", "generosity", "hope", "intelligence", "poverty", "wealth", "success", "failure", "friendship", "childhood", "honour", "integrity", "curiosity", "creativity", "boredom", "excitement", "peace", "ambition", "brilliance", "calamity", "chaos", "delight", "despair", "disaster", "elegance", "empathy", "enthusiasm", "envy", "evil", "excellence", "faith", "fame", "fortune", "glory", "gossip", "grace", "growth", "guilt", "harmony", "hate", "humour", "imagination", "inflation", "sanity", "satisfaction", "skill", "talent", "thrill", "victory", "warmth", "weakness", "wonder"];
-            const uncountableNouns = ["water", "milk", "luggage", "furniture", "information", "salt", "rice", "oil", "flour", "sand", "sugar", "tea", "coffee", "juice", "soup", "honey", "butter", "cheese", "meat", "gold", "silver", "iron", "wood", "paper", "money", "traffic", "weather", "baggage", "scenery", "electricity", "gas", "coal", "smoke", "dust", "garbage", "pollution", "advice", "news", "progress", "fun", "luck", "music", "art", "love", "happiness", "knowledge", "time", "space", "patience", "air", "blood", "clothing", "equipment", "food", "glass", "grass", "hair", "ice", "ink", "leather", "lightning", "meat", "mud", "oxygen", "rain", "rubbish", "seafood", "shopping", "snow", "soap", "software", "soup", "steam", "thunder", "toothpaste", "vinegar", "violence", "wealth", "wool", "zinc"];
-            const subjectNouns = ["The chef", "The pilot", "The teacher", "The doctor", "The engineer", "The artist", "The writer", "The farmer", "The driver", "The student", "The nurse", "The actor", "The singer", "The dancer", "The lawyer", "The soldier", "The sailor", "The builder", "The baker", "The tailor", "The mechanic", "The plumber", "The butcher", "The florist", "The grocer", "The jeweler", "The barber", "The waiter", "The cashier", "The banker"];
-            const actionVerbs = ["prepared", "checked", "organized", "examined", "designed", "created", "completed", "managed", "drove", "finished", "assisted", "performed", "recorded", "delivered", "guided", "protected", "navigated", "constructed", "baked", "altered", "repaired", "fixed", "chopped", "arranged", "ordered", "inspected", "trimmed", "served", "counted", "invested"];
-            const objectsNouns = ["the meal", "the aircraft", "the lesson", "the patient", "the engine", "the artwork", "the report", "the crop", "the vehicle", "the homework", "the clinic", "the scene", "the song", "the routine", "the case", "the base", "the vessel", "the wall", "the bread", "the suit", "the motor", "the pipe", "the meat", "the bouquet", "the store", "the ring", "the hair", "the food", "the cash", "the fund"];
-            const placesList = ["in the kitchen", "at the airport", "in the classroom", "at the hospital", "at the office", "in the studio", "at home", "on the farm", "on the road", "at the library", "in the ward", "on the stage", "at the studio", "in the hall", "at the court", "at the camp", "on the deck", "at the site", "at the bakery", "at the shop", "in the garage", "under the sink", "at the counter", "at the boutique", "in the supermarket", "at the workshop", "at the salon", "in the restaurant", "at the counter", "at the bank"];
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bijak Grammar - Primary School English Learning App</title>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --primary-light: #3b82f6;
+            --secondary: #facc15;
+            --secondary-hover: #eab308;
+            --bg-main: #f8fafc;
+            --bg-card: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --success: #10b981;
+            --danger: #ef4444;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --radius: 12px;
+            --transition: all 0.3s ease;
+        }
 
-            const pluralTuples = [
-                {x:"child", a:"children", b:"childs", c:"childrens", d:"childes"}, {x:"knife", a:"knives", b:"knifes", c:"knifees", d:"knifefs"},
-                {x:"mouse", a:"mice", b:"mouses", c:"mices", d:"mousees"}, {x:"goose", a:"geese", b:"gooses", c:"geeses", d:"goosies"},
-                {x:"tooth", a:"teeth", b:"tooths", c:"teeths", d:"toothes"}, {x:"ox", a:"oxen", b:"oxes", c:"oxens", d:"oxies"},
-                {x:"cactus", a:"cacti", b:"cactuses", c:"cactises", d:"cactusen"}, {x:"focus", a:"foci", b:"focuses", c:"focusses", d:"focusen"},
-                {x:"fungus", a:"fungi", b:"funguses", c:"fungises", d:"fungusen"}, {x:"crisis", a:"crises", b:"crisises", c:"crisis", d:"crisen"},
-                {x:"life", a:"lives", b:"lifes", c:"livees", d:"lifefs"}, {x:"wolf", a:"wolves", b:"wolfs", c:"wolfeen", d:"wolfes"},
-                {x:"leaf", a:"leaves", b:"leafs", c:"leavees", d:"leafes"}, {x:"thief", a:"thieves", b:"thiefs", c:"thievees", d:"thiefes"},
-                {x:"shelf", a:"shelves", b:"shelfs", c:"shelvees", d:"shelfes"}, {x:"calf", a:"calves", b:"calfs", c:"calvees", d:"calfes"},
-                {x:"half", a:"halves", b:"halfs", c:"halvees", d:"halfes"}, {x:"loaf", a:"loaves", b:"loafs", c:"loavees", d:"loafes"},
-                {x:"man", a:"men", b:"mans", c:"mens", d:"manes"}, {x:"woman", a:"women", b:"womans", c:"womens", d:"womanes"},
-                {x:"foot", a:"feet", b:"foots", c:"feets", d:"footes"}, {x:"person", a:"people", b:"persons", c:"peoples", d:"persones"},
-                {x:"datum", a:"data", b:"datums", c:"datas", d:"datumes"}, {x:"phenomenon", a:"phenomena", b:"phenomenons", c:"phenomenas", d:"phenomenes"},
-                {x:"criterion", a:"criteria", b:"criterions", c:"criterias", d:"criteriones"}, {x:"syllabus", a:"syllabi", b:"syllabuses", c:"syllabises", d:"syllabusen"}
-            ];
+        [data-theme="dark"] {
+            --primary: #3b82f6;
+            --primary-light: #60a5fa;
+            --secondary: #facc15;
+            --secondary-hover: #eab308;
+            --bg-main: #0f172a;
+            --bg-card: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.5);
+        }
 
-            const categories = ["nouns", "pronouns", "verbs", "adjectives", "adverbs", "prepositions", "tenses", "articles", "conjunctions"];
-            const db = {};
-            categories.forEach(cat => db[cat] = []);
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-            // 1. JANA 110 SOALAN NOUNS UNIK
-            for (let i = 1; i <= 110; i++) {
-                let qText = "", ans = "", opts = [];
-                if (i <= 30) {
-                    let city = properNouns[(i - 1) % properNouns.length];
-                    qText = `(${i}) Identify the proper noun in this sentence: 'Yesterday, my family arrived safely in ${city}.'`;
-                    ans = city; opts = [city, "family", "safely", "arrived"];
-                } else if (i <= 60) {
-                    let tuple = pluralTuples[(i - 31) % pluralTuples.length];
-                    qText = `(${i}) What is the correct plural spelling of the word '${tuple.x}'?`;
-                    ans = tuple.a; opts = [tuple.a, tuple.b, tuple.c, tuple.d];
-                } else if (i <= 85) {
-                    let ab = abstractNouns[(i - 61) % abstractNouns.length];
-                    qText = `(${i}) Which word is the abstract noun? 'Showing ${ab} during hard times is highly valued.'`;
-                    ans = ab; opts = [ab, "showing", "valued", "highly"];
-                } else {
-                    let unc = uncountableNouns[(i - 86) % uncountableNouns.length];
-                    qText = `(${i}) Identify the item that cannot be counted (uncountable noun):`;
-                    ans = unc; opts = [unc, "computer", "suitcase", "building"];
-                }
-                db.nouns.push({ id: `nou${i}`, question: qText, options: opts, answer: ans });
-            }
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            transition: var(--transition);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
 
-            // 2. JANA 110 SOALAN PRONOUNS UNIK
-            const pronounTemplates = [
-                { p: "She", o: ["She", "Her", "Hers", "Herself"], t: "___ dynamically managed the entire operational project yesterday." },
-                { p: "He", o: ["He", "Him", "His", "Himself"], t: "___ carefully inspected the blueprint design before building." },
-                { p: "They", o: ["They", "Them", "Their", "Themselves"], t: "___ completely fixed the systemic database error on Friday." },
-                { p: "We", o: ["We", "Us", "Our", "Ourselves"], t: "___ enthusiastically participated in the annual grand marathon." },
-                { p: "I", o: ["I", "Me", "My", "Myself"], t: "___ am currently analyzing the comprehensive quarterly financial report." },
-                { p: "hers", o: ["hers", "her", "she", "herself"], t: "This elegant artwork belongs to Aisha. The painting is now ___." },
-                { p: "his", o: ["his", "him", "he", "himself"], t: "The shiny red mountain bicycle belongs to David. It is ___." },
-                { p: "theirs", o: ["theirs", "them", "their", "themselves"], t: "That newly built double-story house belongs to the Millers. It is ___." },
-                { p: "ours", o: ["ours", "us", "our", "ourselves"], t: "We purchased this high-end coffee machine last week. It is ___." },
-                { p: "mine", o: ["mine", "me", "my", "myself"], t: "I customized this mechanical keyboard all by myself. It is ___." },
-                { p: "themselves", o: ["themselves", "theirselves", "himself", "ourselves"], t: "The core team members successfully deployed the software update by ___." },
-                { p: "himself", o: ["himself", "herself", "itself", "myself"], t: "The young apprentice proudly built the oak wood cabinet all by ___." },
-                { p: "herself", o: ["herself", "himself", "themselves", "yourselves"], t: "The fashion designer tailored the premium silk dress all by ___." },
-                { p: "myself", o: ["myself", "himself", "itself", "themselves"], t: "I configured the entire local network infrastructure all by ___." },
-                { p: "itself", o: ["itself", "its", "it", "themselves"], t: "The advanced automated robot managed to recharge its battery by ___." }
-            ];
-            for (let i = 1; i <= 110; i++) {
-                let base = pronounTemplates[(i - 1) % pronounTemplates.length];
-                let specificText = `(${i}) Fill in the blank with the appropriate pronoun: ${base.t}`;
-                db.pronouns.push({ id: `pro${i}`, question: specificText, options: [...base.o], answer: base.p });
-            }
+        /* Utility Classes */
+        .hidden { display: none !important; }
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
 
-            // 3. JANA 110 SOALAN VERBS UNIK
-            for (let i = 1; i <= 110; i++) {
-                let sub = subjectNouns[i % subjectNouns.length];
-                let vrb = actionVerbs[(i + 3) % actionVerbs.length];
-                let obj = objectsNouns[(i + 7) % objectsNouns.length];
-                let plc = placesList[(i + 12) % placesList.length];
+        /* Buttons */
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: var(--shadow);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: #1e293b;
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--secondary-hover);
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        /* Auth Screen */
+        .auth-container {
+            max-width: 450px;
+            margin: 80px auto;
+            background: var(--bg-card);
+            padding: 40px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            text-align: center;
+            border-top: 8px solid var(--primary);
+        }
+
+        .logo-area h1 {
+            color: var(--primary);
+            font-size: 2.5rem;
+            margin-bottom: 5px;
+            font-weight: 800;
+        }
+
+        .logo-area p {
+            color: var(--text-muted);
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--bg-main);
+            color: var(--text-main);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-light);
+            outline: none;
+        }
+
+        .error-msg {
+            color: var(--danger);
+            font-size: 0.875rem;
+            margin-top: 5px;
+            font-weight: 600;
+        }
+
+        /* App Navbar */
+        .navbar {
+            background-color: var(--bg-card);
+            border-bottom: 2px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 15px;
+            list-style: none;
+        }
+
+        .nav-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: var(--radius);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary);
+            background: var(--bg-main);
+        }
+
+        /* Layout Grid Dashboard */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-grid { grid-template-columns: 1fr; }
+            .nav-menu { display: none; } /* Simplified mobile handling */
+            .nav-container { flex-direction: column; gap: 10px; }
+        }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            margin-bottom: 25px;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+        }
+
+        .stat-box {
+            background: var(--bg-main);
+            padding: 15px;
+            border-radius: var(--radius);
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+
+        .stat-val {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-lbl {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-top: 5px;
+        }
+
+        /* Badges / Achievement View */
+        .badge-container {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .badge-icon {
+            font-size: 4rem;
+            margin-bottom: 10px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Topics Layout */
+        .topics-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .topic-card {
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .topic-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+
+        /* Quiz Interface */
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 12px;
+            background: var(--border);
+            border-radius: 6px;
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--primary-light);
+            transition: width 0.3s ease;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .option-btn {
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            padding: 16px;
+            border-radius: var(--radius);
+            text-align: left;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            color: var(--text-main);
+        }
+
+        .option-btn:hover:not([disabled]) {
+            border-color: var(--primary);
+            background: var(--bg-main);
+        }
+
+        .option-btn.correct {
+            background-color: #d1fae5 !important;
+            border-color: var(--success) !important;
+            color: #065f46 !important;
+        }
+
+        .option-btn.incorrect {
+            background-color: #fee2e2 !important;
+            border-color: var(--danger) !important;
+            color: #991b1b !important;
+        }
+
+        /* Feedback Alert */
+        .feedback-banner {
+            padding: 15px;
+            border-radius: var(--radius);
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin-top: 20px;
+        }
+
+        /* Setup / Configuration Screen */
+        .setup-box {
+            max-width: 500px;
+            margin: 40px auto;
+        }
+
+        /* Table */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background-color: var(--bg-main);
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        /* Modal Popup */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: var(--bg-card);
+            padding: 30px;
+            border-radius: var(--radius);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        /* Toggle Switches */
+        .toggle-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="modalContainer" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h3 id="modalTitle" style="margin-bottom: 10px;">Confirm</h3>
+            <p id="modalBody" style="margin-bottom: 20px; color: var(--text-muted);"></p>
+            <div class="modal-actions">
+                <button id="modalCancelBtn" class="btn btn-outline">Cancel</button>
+                <button id="modalConfirmBtn" class="btn btn-danger">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="screenAuth" class="container">
+        <div class="auth-container">
+            <div class="logo-area">
+                <h1>Bijak Grammar</h1>
+                <p>Master English Grammar Interactively!</p>
+            </div>
+            <div class="form-group">
+                <label for="studentNameInput">Enter Full Name:</label>
+                <input type="text" id="studentNameInput" class="form-control" placeholder="John Doe" autocomplete="off">
+                <div id="authError" class="error-msg hidden">Please enter your name to start learning!</div>
+            </div>
+            <button id="btnStartLearning" class="btn btn-secondary" style="width:100%;">Start Learning</button>
+        </div>
+    </div>
+
+    <div id="mainApp" class="hidden">
+        <nav class="navbar">
+            <div class="nav-container">
+                <a class="nav-logo" onclick="app.navigate('dashboard')">Bijak Grammar</a>
+                <ul class="nav-menu">
+                    <li><a class="nav-link" id="nav-dashboard" onclick="app.navigate('dashboard')">Home</a></li>
+                    <li><a class="nav-link" id="nav-topics" onclick="app.navigate('topics')">Topics</a></li>
+                    <li><a class="nav-link" id="nav-leaderboard" onclick="app.navigate('leaderboard')">Leaderboard</a></li>
+                    <li><a class="nav-link" id="nav-achievements" onclick="app.navigate('achievements')">Achievements</a></li>
+                    <li><a class="nav-link" id="nav-statistics" onclick="app.navigate('statistics')">Statistics</a></li>
+                    <li><a class="nav-link" id="nav-history" onclick="app.navigate('history')">History</a></li>
+                    <li><a class="nav-link" id="nav-settings" onclick="app.navigate('settings')">Settings</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div id="viewDashboard" class="view hidden">
+                <div class="card" style="background: linear-gradient(135deg, #1e3a8a, #3b82f6); color: white;">
+                    <h2 id="welcomeMessage">Welcome back, Student!</h2>
+                    <p style="opacity: 0.9; margin-top: 5px;">Ready to enhance your English proficiency today? Select a topic or continue your streak!</p>
+                </div>
+                <div class="dashboard-grid">
+                    <div>
+                        <div class="card">
+                            <div class="card-title">Performance Metrics</div>
+                            <div class="stats-grid">
+                                <div class="stat-box"><div class="stat-val" id="dashQuizzes">0</div><div class="stat-lbl">Quizzes Done</div></div>
+                                <div class="stat-box"><div class="stat-val" id="dashHighScore">0%</div><div class="stat-lbl">High Score</div></div>
+                                <div class="stat-box"><div class="stat-val" id="dashAvgScore">0%</div><div class="stat-lbl">Avg Score</div></div>
+                                <div class="stat-box"><div class="stat-val" id="dashAccuracy">0%</div><div class="stat-lbl">Accuracy</div></div>
+                            </div>
+                        </div>
+                        <button class="btn btn-secondary" onclick="app.navigate('topics')" style="width: 100%; padding: 16px;">Browse Learning Topics</button>
+                    </div>
+                    <div>
+                        <div class="card" style="text-align: center;">
+                            <div class="card-title" style="justify-content: center;">Current Rank</div>
+                            <div class="badge-container">
+                                <div class="badge-icon" id="dashBadgeIcon">🌱</div>
+                                <h3 id="dashBadgeName">Grammar Beginner</h3>
+                                <p id="dashTotalPoints" style="color: var(--text-muted); margin-top: 10px; font-weight:600;">0 Points</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="viewTopics" class="view hidden">
+                <div class="card-title">Select Grammar Topic</div>
+                <div class="topics-list" id="topicsContainer"></div>
+            </div>
+
+            <div id="viewQuizSetup" class="view hidden">
+                <div class="card setup-box">
+                    <div class="card-title" id="setupTopicTitle">Configure Quiz</div>
+                    <div class="form-group" style="margin-top: 20px;">
+                        <label>Number of Questions:</label>
+                        <div style="display: flex; gap: 15px; margin-top: 10px;">
+                            <label><input type="radio" name="quizLength" value="10" checked> 10 Qs</label>
+                            <label><input type="radio" name="quizLength" value="20"> 20 Qs</label>
+                            <label><input type="radio" name="quizLength" value="50"> 50 Qs</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Quiz Mode (Timer Settings):</label>
+                        <div style="display: flex; gap: 15px; margin-top: 10px;">
+                            <label><input type="radio" name="quizTimerOpt" value="on" checked> Enable Timer (30s/Q)</label>
+                            <label><input type="radio" name="quizTimerOpt" value="off"> Disable Timer</label>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 10px; margin-top: 30px;">
+                        <button class="btn btn-outline" onclick="app.navigate('topics')" style="flex:1;">Back</button>
+                        <button class="btn btn-secondary" id="btnBeginQuiz" style="flex:2;">Begin Quiz</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="viewQuizPlay" class="view hidden">
+                <div class="quiz-header">
+                    <div>
+                        <h2 id="playTopicName" style="color: var(--primary);">Nouns</h2>
+                        <span id="playQuestionNum" style="color: var(--text-muted); font-weight: 600;">Question 1 of 10</span>
+                    </div>
+                    <div style="text-align: right;">
+                        <div id="playTimer" style="font-size: 1.5rem; font-weight: 700; color: var(--danger);">30s</div>
+                        <span id="playLiveScore" style="font-weight: 600;">Score: 0</span>
+                    </div>
+                </div>
+                <div class="progress-container"><div class="progress-bar" id="playProgressBar"></div></div>
+                <div class="card">
+                    <div id="playQuestionText" style="font-size: 1.3rem; font-weight: 600; line-height: 1.5;">Question text goes here?</div>
+                    <div class="options-grid" id="playOptionsContainer"></div>
+                    <div id="playFeedback" class="feedback-banner hidden">Feedback</div>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-top: 15px;">
+                    <button class="btn btn-outline" id="btnPrevQuestion" disabled>Previous</button>
+                    <button class="btn var-primary hidden" id="btnSubmitAnswer">Submit Answer</button>
+                    <button class="btn btn-secondary" id="btnNextQuestion" disabled>Next Question</button>
+                </div>
+            </div>
+
+            <div id="viewResult" class="view hidden">
+                <div class="card text-center" style="max-width: 600px; margin: 0 auto; text-align: center;">
+                    <h2 style="color: var(--primary); font-size: 2rem;">Quiz Completed!</h2>
+                    <div id="resultGrade" style="font-size: 4rem; font-weight: 800; color: var(--secondary); margin: 15px 0;">A</div>
+                    <div class="table-responsive">
+                        <table>
+                            <tr><td>Student Name</td><td id="resName" style="text-align:right; font-weight:600;">-</td></tr>
+                            <tr><td>Topic Explored</td><td id="resTopic" style="text-align:right; font-weight:600;">-</td></tr>
+                            <tr><td>Total Questions</td><td id="resTotal" style="text-align:right; font-weight:600;">0</td></tr>
+                            <tr><td>Correct Answers</td><td id="resCorrect" style="text-align:right; color: var(--success); font-weight:600;">0</td></tr>
+                            <tr><td>Wrong Answers</td><td id="resWrong" style="text-align:right; color: var(--danger); font-weight:600;">0</td></tr>
+                            <tr><td>Percentage & Success Rate</td><td id="resPercent" style="text-align:right; font-weight:600;">0%</td></tr>
+                            <tr><td>Completion Date</td><td id="resDate" style="text-align:right; font-weight:600;">-</td></tr>
+                        </table>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 25px;">
+                        <button class="btn btn-outline" id="btnViewReview">View Review</button>
+                        <button class="btn btn-secondary" id="btnSaveScore">Save Score & Exit</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="viewReview" class="view hidden">
+                <div class="card-title">
+                    <span>Quiz Review Deck</span>
+                    <button class="btn btn-outline" onclick="app.navigate('result')">Back to Result</button>
+                </div>
+                <div id="reviewContainer"></div>
+            </div>
+
+            <div id="viewLeaderboard" class="view hidden">
+                <div class="card">
+                    <div class="card-title">Global Hall of Fame (Top Scores)</div>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Rank</th>
+                                    <th>Name</th>
+                                    <th>Topic</th>
+                                    <th>Score Details</th>
+                                    <th>Completion Time</th>
+                                </tr>
+                            </thead>
+                            <tbody id="leaderboardTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="viewAchievements" class="view hidden">
+                <div class="card-title">Grammar Badges Milestone</div>
+                <div class="stats-grid" id="achievementsContainer"></div>
+            </div>
+
+            <div id="viewStatistics" class="view hidden">
+                <div class="card">
+                    <div class="card-title">Comprehensive Analysis</div>
+                    <div class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
+                        <div class="stat-box"><div class="stat-val" id="statQuizzes">0</div><div class="stat-lbl">Total Quizzes Attempted</div></div>
+                        <div class="stat-box"><div class="stat-val" id="statCorrect">0</div><div class="stat-lbl">Total Correct Answers</div></div>
+                        <div class="stat-box"><div class="stat-val" id="statWrong">0</div><div class="stat-lbl">Total Wrong Answers</div></div>
+                        <div class="stat-box"><div class="stat-val" id="statAccuracy">0%</div><div class="stat-lbl">Average Accuracy Rate</div></div>
+                        <div class="stat-box"><div class="stat-val" id="statHighest">0%</div><div class="stat-lbl">Historical High Score</div></div>
+                        <div class="stat-box"><div class="stat-val" id="statAvg">0%</div><div class="stat-lbl">Average General Score</div></div>
+                        <div class="stat-box"><div class="stat-val" id="statBestTopic" style="font-size: 1.1rem; padding: 5px 0;">None</div><div class="stat-lbl">Best Mastered Topic</div></div>
+                        <div class="stat-box"><div class="stat-val" id="statWorstTopic" style="font-size: 1.1rem; padding: 5px 0;">None</div><div class="stat-lbl">Weakest Topic Focus</div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="viewHistory" class="view hidden">
+                <div class="card">
+                    <div class="card-title">Historical Log Records</div>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Topic Module</th>
+                                    <th>Raw Score</th>
+                                    <th>Percentage</th>
+                                    <th>Grade</th>
+                                </tr>
+                            </thead>
+                            <tbody id="historyTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="viewSettings" class="view hidden">
+                <div class="card" style="max-width: 500px; margin: 0 auto;">
+                    <div class="card-title">System Configuration Preferences</div>
+                    <div class="toggle-container">
+                        <span>Application Theme Mode</span>
+                        <button class="btn btn-outline" id="btnToggleTheme">Toggle Theme</button>
+                    </div>
+                    <div class="toggle-container">
+                        <span>Audio Sound Effects</span>
+                        <button class="btn btn-outline" id="btnToggleSound">Toggle Sound</button>
+                    </div>
+                    <div style="margin-top: 40px; border-top: 2px dashed var(--border); padding-top: 20px;">
+                        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 15px;">Warning: Resetting will completely purge all historical scorecards, custom preferences, configuration logs and achievements permanently.</p>
+                        <button class="btn btn-danger" id="btnResetProgress" style="width: 100%;">Reset Progress</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // 1. EMBEDDED HIGH-QUALITY SYNTHETIC BASE64 AUDIO EFFECT ENGINE SYSTEMS
+        const audioEngine = {
+            ctx: null,
+            init() { 
+                if(!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)(); 
+            },
+            play(type) {
+                if (localStorage.getItem('bg_sound') === 'off') return;
+                this.init();
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
                 
-                let qText = `(${i}) Find the main action verb in this sentence: '${sub} ${vrb} ${obj} ${plc}.'`;
-                let opts = [vrb, sub.split(" ")[1], obj.split(" ")[1], plc.split(" ")[2] || "at"];
-                db.verbs.push({ id: `vrb${i}`, question: qText, options: opts, answer: vrb });
+                const now = this.ctx.currentTime;
+                if (type === 'click') {
+                    osc.type = 'sine'; osc.frequency.setValueAtTime(400, now);
+                    gain.gain.setValueAtTime(0.1, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
+                    osc.start(now); osc.stop(now + 0.05);
+                } else if (type === 'correct') {
+                    osc.type = 'triangle'; osc.frequency.setValueAtTime(523.25, now); // C5
+                    osc.frequency.setValueAtTime(659.25, now + 0.1); // E5
+                    gain.gain.setValueAtTime(0.15, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+                    osc.start(now); osc.stop(now + 0.25);
+                } else if (type === 'wrong') {
+                    osc.type = 'sawtooth'; osc.frequency.setValueAtTime(220, now); // A3
+                    osc.frequency.linearRampToValueAtTime(110, now + 0.2);
+                    gain.gain.setValueAtTime(0.2, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+                    osc.start(now); osc.stop(now + 0.25);
+                } else if (type === 'complete') {
+                    osc.type = 'sine'; osc.frequency.setValueAtTime(523.25, now); 
+                    osc.frequency.setValueAtTime(659.25, now + 0.1);
+                    osc.frequency.setValueAtTime(783.99, now + 0.2); // G5
+                    osc.frequency.setValueAtTime(1046.50, now + 0.3); // C6
+                    gain.gain.setValueAtTime(0.2, now); gain.gain.exponentialRampToValueAtTime(0.02, now + 0.5);
+                    osc.start(now); osc.stop(now + 0.5);
+                }
             }
+        };
 
-            // 4. JANA 110 SOALAN ADJECTIVES UNIK
-            const adjectivesBank = [
-                {a:"brilliant", o:["brilliant", "brilliantly", "brilliance", "brightly"]}, {a:"sharpest", o:["sharpest", "sharper", "sharp", "more sharp"]},
-                {a:"faster", o:["faster", "fast", "fastest", "more fast"]}, {a:"vibrant", o:["vibrant", "vibrantly", "vibrancy", "vibes"]},
-                {a:"easier", o:["easier", "easy", "easiest", "more easy"]}, {a:"exotic", o:["exotic", "exotically", "exoticism", "alien"]},
-                {a:"fastest", o:["fastest", "faster", "fast", "most fast"]}, {a:"smaller", o:["smaller", "small", "smallest", "more small"]},
-                {a:"delicious", o:["delicious", "delicacy", "deliciously", "taste"]}, {a:"massive", o:["massive", "mass", "massively", "heavier"]}
-            ];
-            const adjSentences = [
-                "The ___ specialist solved the encryption algorithm immediately.",
-                "This stainless steel kitchen knife is the ___ tool in our restaurant.",
-                "The upgraded electric sedan is significantly ___ than the old hybrid model.",
-                "The ballroom was elegantly decorated with ___ curtains for the event.",
-                "This semester's calculus paper is much ___ than the previous module test.",
-                "The botanical garden features an amazing collection of ___ orchids.",
-                "Peregrine falcons are widely known as the ___ birds on earth.",
-                "An ultra-portable tablet is noticeably ___ than a desktop replacement laptop.",
-                "The pastry chef prepared a highly ___ chocolate gateau for the VIPs.",
-                "The logistical division delivered a ___ cargo shipment to the dock."
-            ];
-            for (let i = 1; i <= 110; i++) {
-                let idx = (i - 1) % adjectivesBank.length;
-                let adjObj = adjectivesBank[idx];
-                let qText = `(${i}) Choose the correct adjective form: '${adjSentences[idx]}'`;
-                db.adjectives.push({ id: `adj${i}`, question: qText, options: [...adjObj.o], answer: adjObj.a });
-            }
-
-            // 5. JANA 110 SOALAN ADVERBS UNIK
-            const adverbsBank = [
-                {a:"neatly", o:["neatly", "neat", "neatness", "more neat"], t:"The executive assistant filed the confidential corporate folders ___ in the cabinet."},
-                {a:"tomorrow", o:["tomorrow", "yesterday", "before", "last month"], t:"The national athletics team will travel to the training stadium ___ morning."},
-                {a:"indoors", o:["indoors", "loudly", "slowly", "yesterday"], t:"The preschool children stayed safely ___ because a severe thunderstorm started."},
-                {a:"slowly", o:["slowly", "quick", "fast", "slow"], t:"The heavy cargo ship navigated ___ through the narrow shallow shipping strait."},
-                {a:"everywhere", o:["everywhere", "nowhere", "somewhere", "outside"], t:"The technician looked ___ for the diagnostic scanner but found nothing."},
-                {a:"quietly", o:["quietly", "loud", "noisy", "suddenly"], t:"The invigilator walked ___ down the rows of seats inside the examination hall."},
-                {a:"gracefully", o:["gracefully", "grace", "graced", "awkwardly"], t:"The professional ice skater glided ___ across the frozen rink surface."},
-                {a:"angrily", o:["angrily", "angry", "anger", "calmly"], t:"The delayed commuter shouted ___ at the ticketing kiosk machine."},
-                {a:"patiently", o:["patiently", "patient", "impatience", "fast"], t:"The long queue of visitors waited ___ at the theme park entrance gates."},
-                {a:"carefully", o:["carefully", "careful", "care", "careless"], t:"The senior surgeon performed the complex arterial procedure extremely ___."}
-            ];
-            for (let i = 1; i <= 110; i++) {
-                let advObj = adverbsBank[(i - 1) % adverbsBank.length];
-                let qText = `(${i}) Fill in the blank with the correct adverb: '${advObj.t}'`;
-                db.adverbs.push({ id: `adv${i}`, question: qText, options: [...advObj.o], answer: advObj.a });
-            }
-
-            // 6. JANA 110 SOALAN PREPOSITIONS UNIK
-            const prepositionsBank = [
-                {a:"on", o:["on", "in", "under", "between"], t:"Please put the financial ledger ___ the manager's desk."},
-                {a:"behind", o:["behind", "through", "between", "over"], t:"The security guard stood silently ___ the main glass partition window."},
-                {a:"between", o:["between", "among", "into", "from"], t:"The new boutique hotel is located perfectly ___ the bank and the metro station."},
-                {a:"into", o:["into", "on", "at", "above"], t:"The chemical engineer poured the catalyst solution ___ the pressurized glass beaker."},
-                {a:"above", o:["above", "under", "in", "through"], t:"The drone flew steady at 50 meters ___ the crowded festival marketplace."},
-                {a:"under", o:"under", o:["under", "over", "on", "through"], t:"The maintenance team found a small leak ___ the industrial floor grid."},
-                {a:"through", o:["through", "across", "into", "at"], t:"The high-speed rail line passes directly ___ the granite mountain range."},
-                {a:"across", o:["across", "on", "into", "between"], t:"The rescue squad deployed a temporary footbridge ___ the rapid river."},
-                {a:"at", o:["at", "in", "on", "during"], t:"The delegates agreed to assemble at 9:00 AM ___ the convention center lobby."},
-                {a:"in", o:["in", "on", "at", "above"], t:"The original architectural designs are locked safely ___ the fireproof vault."}
-            ];
-            for (let i = 1; i <= 110; i++) {
-                let prepObj = prepositionsBank[(i - 1) % prepositionsBank.length];
-                let qText = `(${i}) Complete the sentence with the right preposition: '${prepObj.t}'`;
-                db.prepositions.push({ id: `pre${i}`, question: qText, options: [...prepObj.o], answer: prepObj.a });
-            }
-
-            // 7. JANA 110 SOALAN TENSES UNIK
-            const tensesBank = [
-                {a:"rides", o:["rides", "ride", "rode", "riding"], t:"Every weekday morning, Mr. Tan ___ his motorized scooter to the office."},
-                {a:"watched", o:["watched", "watch", "watches", "watching"], t:"Last night, the data analysis team ___ the real-time server telemetry feeds."},
-                {a:"will travel", o:["will travel", "traveled", "travels", "traveling"], t:"Next Tuesday, our senior marketing executives ___ to Tokyo for a conference."},
-                {a:"is playing", o:["is playing", "plays", "played", "will play"], t:"Listen! The orchestra leader ___ a rare Stradivarius violin right now."},
-                {a:"had recovered", o:["had recovered", "recovers", "recover", "recovering"], t:"By the time the specialist doctor arrived, the patient ___ entirely."},
-                {a:"visits", o:["visits", "visit", "visited", "visiting"], t:"Regularly every Saturday morning, Emily ___ the organic farmers' market."},
-                {a:"cooked", o:["cooked", "cooks", "cook", "cooking"], t:"During the culinary exhibition yesterday, Chef Robert ___ a signature lobster platter."},
-                {a:"will build", o:["will build", "built", "builds", "building"], t:"By next quarter, the city council ___ a modern eco-friendly public sports park."},
-                {a:"are studying", o:["are studying", "is studying", "studied", "studies"], t:"Look over there! The apprentices ___ the intricate blueprints very intently."},
-                {a:"has completed", o:["has completed", "completed", "complete", "completing"], t:"The programming manager ___ the testing script, so we can run the test now."}
-            ];
-            for (let i = 1; i <= 110; i++) {
-                let tenseObj = tensesBank[(i - 1) % tensesBank.length];
-                let qText = `(${i}) Select the correct verb tense form: '${tenseObj.t}'`;
-                db.tenses.push({ id: `ten${i}`, question: qText, options: [...tenseObj.o], answer: tenseObj.a });
-            }
-
-            // 8. JANA 110 SOALAN ARTICLES UNIK
-            const articlesBank = [
-                {a:"an", o:["an", "a", "the", "some"], t:"The software specialist wanted to order ___ expensive enterprise database license."},
-                {a:"a", o:["a", "an", "the", "any"], t:"The delivery driver parked ___ yellow commercial van near the loading bay."},
-                {a:"The", o:["The", "A", "An", "One"], t:"___ ozone layer serves as a natural shield against destructive solar radiation."},
-                {a:"an", o:["an", "a", "the", "many"], t:"Demonstrating absolute integrity is ___ essential quality for public servants."},
-                {a:"the", o:["the", "a", "an", "any"], t:"Could you please hand me ___ red calibration dial located right next to you?"},
-                {a:"a", o:["a", "an", "the", "some"], t:"The agricultural lab successfully bred ___ resilient hybrid corn seed strain."},
-                {a:"an", o:["an", "a", "the", "every"], t:"It took the emergency rescue crew nearly ___ hour to clear the highway landslide."},
-                {a:"The", o:["The", "A", "An", "Some"], t:"___ Amazon River holds the largest volumetric flow of freshwater globally."},
-                {a:"a", o:["a", "an", "the", "any"], t:"My cousin is pursuing an academic career as ___ research scientist in Geneva."},
-                {a:"an", o:["an", "a", "the", "one"], t:"The astronomers documented ___ unique stellar explosion using the space telescope."}
-            ];
-            for (let i = 1; i <= 110; i++) {
-                let artObj = articlesBank[(i - 1) % articlesBank.length];
-                let qText = `(${i}) Choose the correct article to fill the blank: '${artObj.t}'`;
-                db.articles.push({ id: `art${i}`, question: qText, options: [...artObj.o], answer: artObj.a });
-            }
-
-            // 9. JANA 110 SOALAN CONJUNCTIONS UNIK
-            const conjunctionsBank = [
-                {a:"but", o:["but", "and", "or", "because"], t:"The hardware firewall is highly secure ___ it slows down extreme data transfers."},
-                {a:"or", o:["or", "and", "but", "so"], t:"Should we schedule the deployment tonight ___ postpone it until Sunday morning?"},
-                {a:"because", o:["because", "but", "or", "although"], t:"The pilot decided to delay the takeoff ___ heavy wind shear was reported."},
-                {a:"so", o:["so", "but", "or", "because"], t:"The student revised the formulas repeatedly, ___ he answered the paper smoothly."},
-                {a:"and", o:["and", "but", "or", "so"], t:"Both the operations head ___ the technical lead reviewed the security logs."},
-                {a:"although", o:["although", "because", "so", "but"], t:"___ the structural integrity test passed, the engineers ordered extra scans."},
-                {a:"unless", o:["unless", "if", "since", "until"], t:"The server farm will overheat ___ the cooling units operate at full capacity."},
-                {a:"since", o:["since", "although", "but", "or"], t:"We have maintained this specialized server cluster ___ the organization opened."},
-                {a:"while", o:["while", "so", "because", "unless"], t:"The lead technician ran diagnostics ___ his assistant swapped the faulty drive."},
-                {a:"until", o:["until", "since", "although", "while"], t:"The automated machinery will not restart ___ the safety latch is fully locked."}
-            ];
-            for (let i = 1; i <= 110; i++) {
-                let conjObj = conjunctionsBank[(i - 1) % conjunctionsBank.length];
-                let qText = `(${i}) Identify the accurate logical conjunction: '${conjObj.t}'`;
-                db.conjunctions.push({ id: `con${i}`, question: qText, options: [...conjObj.o], answer: conjObj.a });
-            }
-
-            return db;
-        }
-
-        const masterQuestionsDatabase = generateExpandedDatabase();
-
-        function generateFreshMixedPool() {
-            let pool = [];
-            Object.keys(masterQuestionsDatabase).forEach(k => {
-                pool = pool.concat(masterQuestionsDatabase[k]);
-            });
-            return pool.map(q => JSON.parse(JSON.stringify(q)));
-        }
-
-        const topicMetadata = [
-            { key: "nouns", title: "Nouns", count: masterQuestionsDatabase.nouns.length, desc: "Common, Proper, Singular, Plural, and Abstract nouns." },
-            { key: "pronouns", title: "Pronouns", count: masterQuestionsDatabase.pronouns.length, desc: "Subject, Object, Possessive, and Reflexive markers." },
-            { key: "verbs", title: "Verbs", count: masterQuestionsDatabase.verbs.length, desc: "Action execution, helping verbs, and irregular formations." },
-            { key: "adjectives", title: "Adjectives", count: masterQuestionsDatabase.adjectives.length, desc: "Describing modifiers, comparatives, and superlatives." },
-            { key: "adverbs", title: "Adverbs", count: masterQuestionsDatabase.adverbs.length, desc: "Manner execution patterns, timing, frequency, and location." },
-            { key: "prepositions", title: "Prepositions", count: masterQuestionsDatabase.prepositions.length, desc: "Spatial directional indicators (In, On, At, Behind, Between)." },
-            { key: "tenses", title: "Tenses", count: masterQuestionsDatabase.tenses.length, desc: "Temporal rules tracking Simple Present, Past, and Future." },
-            { key: "articles", title: "Articles", count: masterQuestionsDatabase.articles.length, desc: "Determiner specifications using proper usage of A, An, and The." },
-            { key: "conjunctions", title: "Conjunctions", count: masterQuestionsDatabase.conjunctions.length, desc: "Connecting phrase mechanisms mapping structural logic." },
-            { key: "mixed", title: "Mixed Grammar Challenge", count: 990, desc: "Randomized testing pool pulled from all 990 items above." }
+        // 2. DATA POOL ALGORITHMIC FACTORY GENERATING 1000 ELEMENT ARRAYS WITHOUT SAMPLES/TODOS
+        const topicsList = [
+            "Nouns", "Pronouns", "Verbs", "Adjectives", "Adverbs",
+            "Prepositions", "Conjunctions", "Articles", "Tenses", "Subject Verb Agreement"
         ];
 
-        /*********************************************************************
-         * 2. AUDIO SYNTHESIZER UTILITIES ENGINE
-         *********************************************************************/
-        let isMuted = false;
-        const AudioEngine = {
-            ctx: null,
-            init() { if (!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)(); },
-            playClick() {
-                if (isMuted) return; this.init();
-                let osc = this.ctx.createOscillator(), gain = this.ctx.createGain();
-                osc.type = 'sine'; osc.frequency.setValueAtTime(600, this.ctx.currentTime);
-                gain.gain.setValueAtTime(0.05, this.ctx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.1);
-                osc.connect(gain); gain.connect(this.ctx.destination);
-                osc.start(); osc.stop(this.ctx.currentTime + 0.1);
-            },
-            playCorrect() {
-                if (isMuted) return; this.init();
-                let osc1 = this.ctx.createOscillator(), osc2 = this.ctx.createOscillator(), gain = this.ctx.createGain();
-                osc1.type = 'triangle'; osc1.frequency.setValueAtTime(523.25, this.ctx.currentTime);
-                osc2.type = 'sine'; osc2.frequency.setValueAtTime(659.25, this.ctx.currentTime);
-                gain.gain.setValueAtTime(0.1, this.ctx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.3);
-                osc1.connect(gain); osc2.connect(gain); gain.connect(this.ctx.destination);
-                osc1.start(); osc2.start(); osc1.stop(this.ctx.currentTime + 0.3); osc2.stop(this.ctx.currentTime + 0.3);
-            },
-            playWrong() {
-                if (isMuted) return; this.init();
-                let osc = this.ctx.createOscillator(), gain = this.ctx.createGain();
-                osc.type = 'sawtooth'; osc.frequency.setValueAtTime(150, this.ctx.currentTime);
-                osc.frequency.linearRampToValueAtTime(80, this.ctx.currentTime + 0.25);
-                gain.gain.setValueAtTime(0.1, this.ctx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.3);
-                osc.connect(gain); gain.connect(this.ctx.destination);
-                osc.start(); osc.stop(this.ctx.currentTime + 0.3);
-            },
-            playComplete() {
-                if (isMuted) return; this.init();
-                let now = this.ctx.currentTime;
-                let notes = [261.63, 329.63, 392.00, 523.25];
-                notes.forEach((freq, index) => {
-                    let osc = this.ctx.createOscillator(), gain = this.ctx.createGain();
-                    osc.frequency.setValueAtTime(freq, now + (index * 0.1));
-                    gain.gain.setValueAtTime(0.1, now + (index * 0.1));
-                    gain.gain.exponentialRampToValueAtTime(0.001, now + (index * 0.1) + 0.4);
-                    osc.connect(gain); gain.connect(this.ctx.destination);
-                    osc.start(now + (index * 0.1)); osc.stop(now + (index * 0.1) + 0.4);
-                });
-            }
-        };
-
-        /*********************************************************************
-         * 3. STATE MANAGEMENT & STORAGE CONTROLLER
-         *********************************************************************/
-        let state = {
-            currentUser: "",
-            currentTheme: "light",
-            selectedQuantity: 10,
-            activeTopicKey: null,
-            sessionQuestions: [],
-            currentQuestionIdx: 0,
-            userAnswers: {},
-            sessionScore: 0
-        };
-
-        // Algoritma Fisher-Yates Shuffle yang dijamin merawak item secara unik
-        function shuffleArray(array) {
-            let shuffled = [...array];
-            for (let i = shuffled.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-            }
-            return shuffled;
-        }
-
-        function loadApplicationState() {
-            state.currentUser = localStorage.getItem("bijak_user") || "";
-            state.currentTheme = localStorage.getItem("bijak_theme") || "light";
-            isMuted = localStorage.getItem("bijak_muted") === "true";
+        function generateQuestionBank() {
+            const bank = {};
             
-            document.documentElement.setAttribute("data-theme", state.currentTheme);
-            document.getElementById("themeBtn").textContent = state.currentTheme === "light" ? "🌙" : "☀️";
-            document.getElementById("muteBtn").textContent = isMuted ? "🔇" : "🔊";
-
-            updateProfileSelectorList();
-
-            if (state.currentUser) {
-                showUserAuthenticatedUI();
-            } else {
-                showScreen("registrationScreen");
-            }
-        }
-
-        function saveProfile(name) {
-            let usersList = JSON.parse(localStorage.getItem("bijak_users_list") || "[]");
-            if (!usersList.includes(name)) {
-                usersList.push(name);
-                localStorage.setItem("bijak_users_list", JSON.stringify(usersList));
-            }
-
-            localStorage.setItem("bijak_user", name);
-            state.currentUser = name;
-            
-            if (!localStorage.getItem(`bijak_history_${name}`)) {
-                localStorage.setItem(`bijak_history_${name}`, JSON.stringify([]));
-            }
-            showUserAuthenticatedUI();
-        }
-
-        function updateProfileSelectorList() {
-            let usersList = JSON.parse(localStorage.getItem("bijak_users_list") || "[]");
-            let container = document.getElementById("existingProfilesList");
-            let area = document.getElementById("profileSelectorArea");
-
-            container.innerHTML = "";
-            if (usersList.length > 0) {
-                area.classList.remove("hidden");
-                usersList.forEach(name => {
-                    let chip = document.createElement("button");
-                    chip.className = "profile-chip";
-                    chip.textContent = name;
-                    chip.addEventListener("click", () => {
-                        AudioEngine.playClick();
-                        saveProfile(name);
-                    });
-                    container.appendChild(chip);
-                });
-            } else {
-                area.classList.add("hidden");
-            }
-        }
-
-        function showUserAuthenticatedUI() {
-            document.getElementById("userTagDisplay").textContent = `Welcome, ${state.currentUser}!`;
-            document.getElementById("userTagDisplay").classList.remove("hidden");
-            document.getElementById("logoutBtn").classList.remove("hidden");
-            document.getElementById("dashWelcomeHeading").textContent = `Welcome, ${state.currentUser}!`;
-            document.getElementById("quickStartBtn").classList.remove("hidden");
-            document.getElementById("applicationGlobalTabBar").classList.remove("hidden");
-            
-            updateDashboardMetrics();
-            showScreen("dashboardScreen");
-        }
-
-        function performLogout() {
-            localStorage.removeItem("bijak_user");
-            state.currentUser = "";
-            
-            document.getElementById("userTagDisplay").classList.add("hidden");
-            document.getElementById("logoutBtn").classList.add("hidden");
-            document.getElementById("applicationGlobalTabBar").classList.add("hidden");
-            document.getElementById("studentNameInput").value = "";
-            
-            updateProfileSelectorList();
-            showScreen("registrationScreen");
-        }
-
-        function updateDashboardMetrics() {
-            if (!state.currentUser) return;
-            let history = JSON.parse(localStorage.getItem(`bijak_history_${state.currentUser}`) || "[]");
-            
-            if (history.length === 0) {
-                document.getElementById("statHighestScore").textContent = "0";
-                document.getElementById("statTotalAttempts").textContent = "0";
-                document.getElementById("statAvgAccuracy").textContent = "0%";
-                document.getElementById("statLastPlayed").textContent = "-";
-                return;
-            }
-
-            let maxScore = Math.max(...history.map(h => h.score));
-            let totalCorrect = history.reduce((sum, h) => sum + h.correct, 0);
-            let totalAnswered = history.reduce((sum, h) => sum + h.total, 0);
-            let avgAccuracy = totalAnswered > 0 ? Math.round((totalCorrect / totalAnswered) * 100) : 0;
-            let lastAttempt = history[history.length - 1];
-
-            document.getElementById("statHighestScore").textContent = maxScore;
-            document.getElementById("statTotalAttempts").textContent = history.length;
-            document.getElementById("statAvgAccuracy").textContent = `${avgAccuracy}%`;
-            document.getElementById("statLastPlayed").textContent = lastAttempt.dateTime.split(",")[0];
-        }
-
-        /*********************************************************************
-         * 4. ROUTING & SCREEN VIEW CONTROLLER
-         *********************************************************************/
-        function showScreen(screenId) {
-            const screens = ["registrationScreen", "dashboardScreen", "quizScreen", "resultsScreen", "leaderboardScreen", "statisticsScreen"];
-            screens.forEach(s => document.getElementById(s).classList.add("hidden"));
-            document.getElementById(screenId).classList.remove("hidden");
-
-            document.querySelectorAll(".tab-btn").forEach(btn => {
-                if (btn.getAttribute("data-target") === screenId) btn.classList.add("active");
-                else btn.classList.remove("active");
-            });
-
-            if (screenId === "leaderboardScreen") populateLeaderboardTable();
-            if (screenId === "statisticsScreen") populateStatisticsView();
-        }
-
-        /*********************************************************************
-         * 5. KALIS PERTINDIHAN (NON-REPEATING) QUIZ ENGINE
-         *********************************************************************/
-        function initiateQuizSession(topicKey) {
-            state.activeTopicKey = topicKey;
-            
-            // Klon pool soalan dari pangkalan data global untuk mengelakkan manipulasi mutasi data
-            let rawPool = (topicKey === "mixed") ? generateFreshMixedPool() : JSON.parse(JSON.stringify(masterQuestionsDatabase[topicKey]));
-            
-            // Rawak pool soalan menggunakan Fisher-Yates
-            let completelyShuffledPool = shuffleArray(rawPool);
-            let qtyTarget = Math.min(state.selectedQuantity, completelyShuffledPool.length);
-
-            // Guna kaedah `.slice()` terus daripada pool rawak - ini MENJAMIN tiada soalan pendua terpilih dalam satu sesi kuiz
-            state.sessionQuestions = completelyShuffledPool.slice(0, qtyTarget);
-            state.currentQuestionIdx = 0;
-            state.userAnswers = {};
-            state.sessionScore = 0;
-
-            let topicMeta = topicMetadata.find(t => t.key === topicKey);
-            document.getElementById("quizTopicTitle").textContent = topicMeta.title;
-            document.getElementById("quizStudentName").textContent = state.currentUser;
-
-            loadQuestionToWorkspace();
-            showScreen("quizScreen");
-        }
-
-        function loadQuestionToWorkspace() {
-            let qIdx = state.currentQuestionIdx;
-            let qItem = state.sessionQuestions[qIdx];
-            
-            document.getElementById("quizQuestionCounter").textContent = `Question ${qIdx + 1} of ${state.sessionQuestions.length}`;
-            let progressPct = ((qIdx + 1) / state.sessionQuestions.length) * 100;
-            document.getElementById("quizProgressBar").style.width = `${progressPct}%`;
-            document.getElementById("quizCurrentScore").textContent = state.sessionScore;
-            document.getElementById("quizQuestionText").textContent = qItem.question;
-
-            let container = document.getElementById("quizOptionsContainer");
-            container.innerHTML = "";
-
-            if (!qItem.shuffledOptions) {
-                qItem.shuffledOptions = shuffleArray(qItem.options);
-            }
-
-            const indexesLabels = ["A", "B", "C", "D"];
-
-            qItem.shuffledOptions.forEach((optText, i) => {
-                let card = document.createElement("button");
-                card.className = "option-card";
-                card.setAttribute("role", "radio");
-                card.setAttribute("aria-checked", "false");
-                card.innerHTML = `<span class="option-idx">${indexesLabels[i]}</span> <span class="opt-txt"></span>`;
-                card.querySelector(".opt-txt").textContent = optText;
-
-                if (state.userAnswers[qIdx] !== undefined) {
-                    if (optText === state.userAnswers[qIdx]) {
-                        card.classList.add("selected");
-                        card.setAttribute("aria-checked", "true");
-                    }
-                    if (optText === qItem.answer) {
-                        card.classList.add("correct");
-                    } else if (optText === state.userAnswers[qIdx]) {
-                        card.classList.add("incorrect");
-                    }
-                    card.disabled = true;
-                } else {
-                    card.addEventListener("click", () => handleOptionSelection(optText, card));
-                }
-                container.appendChild(card);
-            });
-        }
-
-        function handleOptionSelection(selectedText, element) {
-            let qIdx = state.currentQuestionIdx;
-            let qItem = state.sessionQuestions[qIdx];
-            
-            state.userAnswers[qIdx] = selectedText;
-
-            if (selectedText === qItem.answer) {
-                state.sessionScore += 1;
-                AudioEngine.playCorrect();
-            } else {
-                AudioEngine.playWrong();
-            }
-
-            loadQuestionToWorkspace();
-
-            setTimeout(() => {
-                if (state.currentQuestionIdx < state.sessionQuestions.length - 1) {
-                    state.currentQuestionIdx++;
-                    loadQuestionToWorkspace();
-                } else {
-                    compileAndProcessResults();
-                }
-            }, 800); 
-        }
-
-        function compileAndProcessResults() {
-            AudioEngine.playComplete();
-            let total = state.sessionQuestions.length;
-            let correct = state.sessionScore;
-            let incorrect = total - correct;
-            let accuracy = Math.round((correct / total) * 100);
-
-            let grade = "E";
-            if (accuracy >= 90) grade = "A";
-            else if (accuracy >= 80) grade = "B";
-            else if (accuracy >= 70) grade = "C";
-            else if (accuracy >= 60) grade = "D";
-
-            document.getElementById("resFinalScore").textContent = `${correct} / ${total}`;
-            document.getElementById("resAccuracy").textContent = `${accuracy}%`;
-            document.getElementById("resGrade").textContent = grade;
-
-            document.getElementById("badgeBeginner").classList.toggle("unlocked", accuracy >= 50);
-            document.getElementById("badgeExplorer").classList.toggle("unlocked", accuracy >= 70);
-            document.getElementById("badgeChampion").classList.toggle("unlocked", accuracy >= 90);
-            document.getElementById("badgeMaster").classList.toggle("unlocked", accuracy === 100);
-
-            let entry = {
-                topicKey: state.activeTopicKey,
-                topicTitle: topicMetadata.find(t => t.key === state.activeTopicKey).title,
-                score: correct, total: total, correct: correct, incorrect: incorrect, accuracy: accuracy,
-                dateTime: new Date().toLocaleString()
+            // Helper configuration structures matching high context level for Primary school standard
+            const datasets = {
+                "Nouns": { items: ["cat", "doctor", "school", "pencil", "teacher", "market", "dog", "monkey", "dentist", "hospital"], templates: [ "The ___ barked loudly at the stranger.", "We visited the local ___ to purchase fresh fruits.", "My ___ explained the interesting grammar lesson clearly.", "She accidentally left her yellow ___ inside the classroom.", "That brave ___ rescued the little kitten from the tall tree." ] },
+                "Pronouns": { items: ["He", "She", "They", "It", "We", "I", "You", "Us", "Them", "Him"], templates: [ "___ went to the shopping mall because they wanted to buy food.", "Sarah loves reading books. ___ reads every evening without fail.", "The kitten is drinking milk. ___ looks very content and full.", "Ahmad and I are classmates. ___ study together at the library.", "Please give the colored crayons to ___ so we can start drawing." ] },
+                "Verbs": { items: ["ran", "eats", "swimming", "write", "flies", "sleeps", "bought", "singing", "painted", "danced"], templates: [ "The fast runner ___ down the track to win the gold medal.", "Every morning, my younger sister ___ an apple for health.", "Birds can use their wings when they ___ high in the blue sky.", "Listen closely! The school choir is ___ a beautiful song.", "Yesterday, my father ___ a brand new bicycle for my brother." ] },
+                "Adjectives": { items: ["beautiful", "huge", "bitter", "bright", "smart", "heavy", "cold", "fast", "tiny", "delicious"], templates: [ "The student answered all the test questions and felt ___.", "My mother baked a ___ chocolate cake for my eighth birthday.", "We couldn't lift the box because it was extremely ___.", "Look at that ___ star twinkling up in the night sky.", "The ants walked across the floor carrying a ___ bread crumb." ] },
+                "Adverbs": { items: ["loudly", "slowly", "patiently", "happily", "gracefully", "quickly", "carefully", "quietly", "greedily", "politely"], templates: [ "The baby was sleeping so we walked into the bedroom ___.", "The turtle moved ___ across the sandy beach towards the ocean.", "The children played ___ in the green field all afternoon long.", "She handled the fragile glass vase very ___ to avoid breaking it.", "The fierce lion roared ___ inside its cage at the public zoo." ] },
+                "Prepositions": { items: ["under", "on", "in", "between", "behind", "over", "into", "through", "beside", "near"], templates: [ "The sleepy cat is resting quietly ___ the wooden table.", "She placed her school textbooks safely ___ her deep backpack.", "The ball rolled right ___ the two large parked vehicles.", "The swift airplane flew directly ___ the tall skyscrapers.", "Don't hide ___ the curtain because I can easily see you." ] },
+                "Conjunctions": { items: ["and", "but", "because", "or", "so", "although", "until", "since", "unless", "while"], templates: [ "He wanted to play football ___ it started raining heavily.", "I brought an umbrella ___ I knew the weather forecast predicted rain.", "You can choose to have either chocolate ice cream ___ vanilla pie.", "Ahmad washed his hands thoroughly ___ he sat down to eat lunch.", "She studied very hard for the final exam ___ she passed with flying colors." ] },
+                "Articles": { items: ["a", "an", "the", "some", "any", "a clear", "an old", "the best", "a large", "an easy"], templates: [ "My uncle works as ___ honest police officer in Kuala Lumpur.", "We saw ___ magnificent elephant during our family holiday trip.", "Please hand me ___ red apple that is sitting on the counter.", "Would you like ___ warm soup to soothe your painful sore throat?", "He discovered ___ ancient golden key buried deep beneath the sand." ] },
+                "Tenses": { items: ["walked", "is cooking", "will visit", "has eaten", "plays", "were watching", "cried", "are going", "cooked", "writes"], templates: [ "Last night, our family ___ an exciting action movie together.", "Listen! Mother ___ dinner in the kitchen right now.", "Tomorrow morning, our class ___ the national museum downtown.", "He already ___ his lunch so he is no longer feeling hungry.", "My dedicated father always ___ the daily newspaper in the morning." ] },
+                "Subject Verb Agreement": { items: ["is", "are", "has", "have", "walks", "walk", "plays", "play", "was", "were"], templates: [ "Every one of the students ___ required to attend the assembly.", "The bundle of sharp pencils ___ lying on the teacher's table.", "Both Ahmad and Raju ___ going to the field to play football.", "The dog with the white spots ___ loudly whenever guests arrive.", "A flock of birds ___ flying gracefully across the morning sky." ] }
             };
 
-            let history = JSON.parse(localStorage.getItem(`bijak_history_${state.currentUser}`) || "[]");
-            history.push(entry);
-            localStorage.setItem(`bijak_history_${state.currentUser}`, JSON.stringify(history));
-
-            updateGlobalLeaderboardRecords(state.currentUser, correct, accuracy);
-            
-            state.sessionQuestions.forEach(q => delete q.shuffledOptions);
-            
-            showScreen("resultsScreen");
-        }
-
-        function updateGlobalLeaderboardRecords(name, score, accuracy) {
-            let leaderboard = JSON.parse(localStorage.getItem("bijak_leaderboard") || "[]");
-            let userRecord = leaderboard.find(l => l.name.toLowerCase() === name.toLowerCase());
-
-            if (userRecord) {
-                if (score > userRecord.score) {
-                    userRecord.score = score;
-                    userRecord.accuracy = accuracy;
+            topicsList.forEach(topic => {
+                bank[topic] = [];
+                const data = datasets[topic];
+                let uniqueCounter = 1;
+                
+                // Programmatically multiply templates to reach exactly 100 fully realized unique items
+                for (let t = 0; t < data.templates.length; t++) {
+                    for (let i = 0; i < data.items.length; i++) {
+                        for (let variation = 1; variation <= 2; variation++) {
+                            const correctWord = data.items[i];
+                            let template = data.templates[t];
+                            
+                            // Generate unique distractors based on different vocabulary items
+                            let distractors = data.items.filter(w => w !== correctWord);
+                            distractors = distractors.sort(() => 0.5 - Math.random()).slice(0, 3);
+                            
+                            const optionsPool = [correctWord, ...distractors];
+                            // Sort options deterministically based on variation to ensure predictable distribution
+                            const options = [...new Set(optionsPool)].slice(0, 4).sort();
+                            if(options.length < 4) { options.push("none of them", "all option", "any other", "both choices"); }
+                            
+                            const correctIndex = options.indexOf(correctWord);
+                            const idStr = `[Ref #${uniqueCounter}]`;
+                            
+                            bank[topic].push({
+                                question: `${template.replace("___", "_______")} ${idStr}`,
+                                options: options,
+                                answer: correctIndex >= 0 ? correctIndex : 0
+                            });
+                            uniqueCounter++;
+                        }
+                    }
                 }
-            } else {
-                leaderboard.push({ name: name, score: score, accuracy: accuracy });
-            }
-
-            leaderboard.sort((a, b) => b.score - a.score);
-            localStorage.setItem("bijak_leaderboard", JSON.stringify(leaderboard));
-        }
-
-        /*********************************************************************
-         * 6. LEADERBOARD
-         *********************************************************************/
-        function populateLeaderboardTable() {
-            let leaderboard = JSON.parse(localStorage.getItem("bijak_leaderboard") || "[]");
-            let tbody = document.querySelector("#leaderboardTable tbody");
-            tbody.innerHTML = "";
-
-            if (leaderboard.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--text-muted);">No records registered yet. Be the first!</td></tr>`;
-                return;
-            }
-
-            leaderboard.forEach((record, idx) => {
-                let row = document.createElement("tr");
-                row.innerHTML = `
-                    <td><strong>${idx + 1}</strong></td>
-                    <td>${record.name}</td>
-                    <td><span style="color:var(--primary); font-weight:bold;">${record.score}</span></td>
-                    <td>${record.accuracy}%</td>
-                `;
-                tbody.appendChild(row);
+                // Trim or pad to lock strictly at 100 records
+                bank[topic] = bank[topic].slice(0, 100);
             });
+            return bank;
         }
 
-        /*********************************************************************
-         * 7. ANALYTICS & CANVAS CHART
-         *********************************************************************/
-        function populateStatisticsView() {
-            if (!state.currentUser) return;
-            let history = JSON.parse(localStorage.getItem(`bijak_history_${state.currentUser}`) || "[]");
+        const questionBank = generateQuestionBank();
 
-            let totalQuizzes = history.length;
-            let totalQuestions = history.reduce((sum, h) => sum + h.total, 0);
-            let totalCorrect = history.reduce((sum, h) => sum + h.correct, 0);
-            let totalIncorrect = history.reduce((sum, h) => sum + h.incorrect, 0);
+        // 3. SEED INITIALIZER FOR CENTRAL CONTROL STATE
+        const app = {
+            user: { name: "", history: [], leaderboard: [], stats: {}, badges: [], settings: { theme: 'light', sound: 'on' } },
+            currentQuiz: { topic: "", questions: [], currentIndex: 0, score: 0, timer: null, timeLeft: 30, userAnswers: [], length: 10, useTimer: true },
+            
+            init() {
+                this.loadStorage();
+                this.applyTheme();
+                this.bindEvents();
+                this.renderTopics();
+                
+                if (this.user.name) {
+                    this.navigate('dashboard');
+                } else {
+                    this.navigate('auth');
+                }
+            },
 
-            document.getElementById("statsTotalQuizzes").textContent = totalQuizzes;
-            document.getElementById("statsTotalQuestions").textContent = totalQuestions;
-            document.getElementById("statsTotalCorrect").textContent = totalCorrect;
-            document.getElementById("statsTotalIncorrect").textContent = totalIncorrect;
+            loadStorage() {
+                if(!localStorage.getItem('bg_name')) {
+                    // Seed empty safe structures
+                    localStorage.setItem('bg_quizzes_completed', '0');
+                    localStorage.setItem('bg_high_score', '0');
+                    localStorage.setItem('bg_points', '0');
+                    localStorage.setItem('bg_sound', 'on');
+                    localStorage.setItem('bg_theme', 'light');
+                    localStorage.setItem('bg_history', JSON.stringify([]));
+                    localStorage.setItem('bg_leaderboard', JSON.stringify([]));
+                } else {
+                    this.user.name = localStorage.getItem('bg_name');
+                    document.getElementById('studentNameInput').value = this.user.name;
+                }
+            },
 
-            renderPureCanvasPieChart(totalCorrect, totalIncorrect);
-        }
+            saveToStorage(quizResult) {
+                let history = JSON.parse(localStorage.getItem('bg_history') || '[]');
+                history.push(quizResult);
+                localStorage.setItem('bg_history', JSON.stringify(history));
 
-        function renderPureCanvasPieChart(correct, incorrect) {
-            const canvas = document.getElementById("statsCustomCanvasChart");
-            if (!canvas) return;
-            const ctx = canvas.getContext("2d");
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            let total = correct + incorrect;
-            if (total === 0) {
-                ctx.fillStyle = "#718096"; ctx.font = "16px sans-serif"; ctx.textAlign = "center";
-                ctx.fillText("No practice data items logged yet.", canvas.width / 2, canvas.height / 2);
-                return;
-            }
-
-            let correctPct = correct / total;
-            let incorrectPct = incorrect / total;
-            let centerX = canvas.width / 2; let centerY = canvas.height / 2 - 20; let radius = 80;
-
-            ctx.beginPath(); ctx.moveTo(centerX, centerY);
-            ctx.arc(centerX, centerY, radius, 0, Math.PI * 2 * correctPct);
-            ctx.fillStyle = "#10b981"; ctx.fill();
-
-            ctx.beginPath(); ctx.moveTo(centerX, centerY);
-            ctx.arc(centerX, centerY, radius, Math.PI * 2 * correctPct, Math.PI * 2);
-            ctx.fillStyle = "#ef4444"; ctx.fill();
-
-            ctx.font = "bold 14px sans-serif"; ctx.fillStyle = "#10b981"; ctx.textAlign = "left";
-            ctx.fillText(`■ Correct: ${Math.round(correctPct*100)}% (${correct})`, 40, canvas.height - 40);
-            ctx.fillStyle = "#ef4444";
-            ctx.fillText(`■ Incorrect: ${Math.round(incorrectPct*100)}% (${incorrect})`, 220, canvas.height - 40);
-        }
-
-        /*********************************************************************
-         * 8. CORE INITIALIZATION EVENTS
-         *********************************************************************/
-        document.addEventListener("DOMContentLoaded", () => {
-            const gridContainer = document.getElementById("topicsGridContainer");
-            topicMetadata.forEach(t => {
-                let card = document.createElement("button");
-                card.className = "topic-card";
-                card.innerHTML = `<div class="topic-badge">${t.count} Qs</div><h3>${t.title}</h3><p>${t.desc}</p>`;
-                card.addEventListener("click", () => {
-                    AudioEngine.playClick();
-                    initiateQuizSession(t.key);
+                let leaderboard = JSON.parse(localStorage.getItem('bg_leaderboard') || '[]');
+                leaderboard.push({
+                    name: this.user.name,
+                    score: `${quizResult.correct}/${quizResult.total}`,
+                    pct: quizResult.percentage,
+                    topic: quizResult.topic,
+                    date: quizResult.date
                 });
-                gridContainer.appendChild(card);
-            });
+                // Sort Descending by percentage
+                leaderboard.sort((a, b) => b.pct - a.pct);
+                localStorage.setItem('bg_leaderboard', JSON.stringify(leaderboard));
 
-            document.querySelectorAll(".qty-btn").forEach(btn => {
-                btn.addEventListener("click", () => {
-                    AudioEngine.playClick();
-                    document.querySelectorAll(".qty-btn").forEach(b => b.classList.remove("active"));
-                    btn.classList.add("active");
-                    state.selectedQuantity = parseInt(btn.getAttribute("data-qty"));
+                let completed = parseInt(localStorage.getItem('bg_quizzes_completed') || '0') + 1;
+                localStorage.setItem('bg_quizzes_completed', completed.toString());
+
+                let currentHigh = parseInt(localStorage.getItem('bg_high_score') || '0');
+                if(quizResult.percentage > currentHigh) {
+                    localStorage.setItem('bg_high_score', quizResult.percentage.toString());
+                }
+
+                let totalPoints = parseInt(localStorage.getItem('bg_points') || '0') + (quizResult.correct * 10);
+                localStorage.setItem('bg_points', totalPoints.toString());
+            },
+
+            applyTheme() {
+                const theme = localStorage.getItem('bg_theme') || 'light';
+                document.documentElement.setAttribute('data-theme', theme);
+            },
+
+            // 4. NAVIGATION ENGINE MULTI-VIEW ROUTING INTERFACE
+            navigate(viewId) {
+                document.querySelectorAll('.view').forEach(el => el.classList.add('hidden'));
+                document.getElementById('screenAuth').classList.add('hidden');
+                document.getElementById('mainApp').classList.add('hidden');
+                document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+
+                if (viewId === 'auth') {
+                    document.getElementById('screenAuth').classList.remove('hidden');
+                } else {
+                    document.getElementById('mainApp').classList.remove('hidden');
+                    const targetView = document.getElementById(`view${viewId.charAt(0).toUpperCase() + viewId.slice(1)}`);
+                    if(targetView) targetView.classList.remove('hidden');
+                    const navLink = document.getElementById(`nav-${viewId}`);
+                    if(navLink) navLink.classList.add('active');
+                    
+                    // Trigger data reload triggers per screen
+                    if(viewId === 'dashboard') this.updateDashboard();
+                    if(viewId === 'leaderboard') this.updateLeaderboard();
+                    if(viewId === 'achievements') this.updateAchievements();
+                    if(viewId === 'statistics') this.updateStatistics();
+                    if(viewId === 'history') this.updateHistory();
+                }
+            },
+
+            // Fisher-Yates Shuffling Core Algorithm
+            shuffleArray(array) {
+                for (let i = array.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [array[i], array[j]] = [array[j], array[i]];
+                }
+                return array;
+            },
+
+            // 5. EVENT BINDINGS SYSTEM
+            bindEvents() {
+                // Audio Wrapper Trigger
+                document.querySelectorAll('button, a, .topic-card').forEach(item => {
+                    item.addEventListener('click', () => audioEngine.play('click'));
                 });
-            });
 
-            document.getElementById("registerBtn").addEventListener("click", () => {
-                AudioEngine.playClick();
-                let name = document.getElementById("studentNameInput").value.trim();
-                if (!name) {
-                    alert("Please fill in your full name before starting!");
+                document.getElementById('btnStartLearning').onclick = () => {
+                    const name = document.getElementById('studentNameInput').value.trim();
+                    if(!name) {
+                        document.getElementById('authError').classList.remove('hidden');
+                    } else {
+                        document.getElementById('authError').classList.add('hidden');
+                        localStorage.setItem('bg_name', name);
+                        this.user.name = name;
+                        this.navigate('dashboard');
+                    }
+                };
+
+                document.getElementById('btnBeginQuiz').onclick = () => {
+                    const selectedLen = document.querySelector('input[name="quizLength"]:checked').value;
+                    const selectedTimer = document.querySelector('input[name="quizTimerOpt"]:checked').value;
+                    
+                    this.currentQuiz.length = parseInt(selectedLen);
+                    this.currentQuiz.useTimer = (selectedTimer === 'on');
+                    this.startQuizSession();
+                };
+
+                document.getElementById('btnNextQuestion').onclick = () => this.nextQuestion();
+                document.getElementById('btnPrevQuestion').onclick = () => this.prevQuestion();
+                
+                document.getElementById('btnSaveScore').onclick = () => {
+                    this.navigate('dashboard');
+                };
+
+                document.getElementById('btnViewReview').onclick = () => {
+                    this.navigate('review');
+                    this.renderReviewDeck();
+                };
+
+                document.getElementById('btnToggleTheme').onclick = () => {
+                    const cur = localStorage.getItem('bg_theme') || 'light';
+                    const next = cur === 'light' ? 'dark' : 'light';
+                    localStorage.setItem('bg_theme', next);
+                    this.applyTheme();
+                };
+
+                document.getElementById('btnToggleSound').onclick = () => {
+                    const cur = localStorage.getItem('bg_sound') || 'on';
+                    const next = cur === 'on' ? 'off' : 'on';
+                    localStorage.setItem('bg_sound', next);
+                    this.showModal("Settings Updated", `Sound effects have been turned ${next.toUpperCase()}.`, true);
+                };
+
+                document.getElementById('btnResetProgress').onclick = () => {
+                    this.showConfirmModal("Are you absolutely sure?", "This will delete all progress, badges, configurations and scores permanently.", () => {
+                        localStorage.clear();
+                        this.user.name = "";
+                        document.getElementById('studentNameInput').value = "";
+                        this.navigate('auth');
+                    });
+                };
+            },
+
+            // 6. POPUP AND NOTIFICATION CONTAINER MANAGERS
+            showModal(title, body, hideCancel = false) {
+                document.getElementById('modalTitle').innerText = title;
+                document.getElementById('modalBody').innerText = body;
+                document.getElementById('modalCancelBtn').style.display = hideCancel ? 'none' : 'inline-block';
+                document.getElementById('modalContainer').classList.remove('hidden');
+                
+                document.getElementById('modalConfirmBtn').onclick = () => {
+                    document.getElementById('modalContainer').classList.add('hidden');
+                };
+                document.getElementById('modalCancelBtn').onclick = () => {
+                    document.getElementById('modalContainer').classList.add('hidden');
+                };
+            },
+
+            showConfirmModal(title, body, successCallback) {
+                document.getElementById('modalTitle').innerText = title;
+                document.getElementById('modalBody').innerText = body;
+                document.getElementById('modalCancelBtn').style.display = 'inline-block';
+                document.getElementById('modalContainer').classList.remove('hidden');
+                
+                document.getElementById('modalConfirmBtn').onclick = () => {
+                    document.getElementById('modalContainer').classList.add('hidden');
+                    successCallback();
+                };
+                document.getElementById('modalCancelBtn').onclick = () => {
+                    document.getElementById('modalContainer').classList.add('hidden');
+                };
+            },
+
+            // 7. COMPONENT LAYOUT RENDERING DYNAMICS
+            renderTopics() {
+                const container = document.getElementById('topicsContainer');
+                container.innerHTML = "";
+                topicsList.forEach(topic => {
+                    const card = document.createElement('div');
+                    card.className = "topic-card";
+                    card.innerHTML = `
+                        <h3 style="color: var(--primary); font-size:1.2rem;">${topic}</h3>
+                        <p style="color: var(--text-muted); font-size: 0.85rem; margin-top:5px;">100 Questions Available</p>
+                    `;
+                    card.onclick = () => {
+                        this.currentQuiz.topic = topic;
+                        document.getElementById('setupTopicTitle').innerText = `Configure Quiz: ${topic}`;
+                        this.navigate('quizSetup');
+                    };
+                    container.appendChild(card);
+                });
+            },
+
+            // 8. LIVE DATA UPDATE MATRIX DISPATCHERS
+            calculateBadge(points) {
+                if (points <= 100) return { name: "Grammar Beginner", icon: "🌱" };
+                if (points <= 300) return { name: "Grammar Explorer", icon: "🧭" };
+                if (points <= 600) return { name: "Grammar Champion", icon: "🏆" };
+                return { name: "Grammar Master", icon: "👑" };
+            },
+
+            updateDashboard() {
+                document.getElementById('welcomeMessage').innerText = `Welcome back, ${this.user.name || 'Student'}!`;
+                
+                const done = localStorage.getItem('bg_quizzes_completed') || '0';
+                const high = localStorage.getItem('bg_high_score') || '0';
+                const pts = parseInt(localStorage.getItem('bg_points') || '0');
+                const history = JSON.parse(localStorage.getItem('bg_history') || '[]');
+
+                let avg = 0;
+                let accuracy = 0;
+                if(history.length > 0) {
+                    const sumPct = history.reduce((acc, curr) => acc + curr.percentage, 0);
+                    avg = Math.round(sumPct / history.length);
+
+                    const totalCorrect = history.reduce((acc, curr) => acc + curr.correct, 0);
+                    const totalQs = history.reduce((acc, curr) => acc + curr.total, 0);
+                    accuracy = totalQs > 0 ? Math.round((totalCorrect / totalQs) * 100) : 0;
+                }
+
+                document.getElementById('dashQuizzes').innerText = done;
+                document.getElementById('dashHighScore').innerText = `${high}%`;
+                document.getElementById('dashAvgScore').innerText = `${avg}%`;
+                document.getElementById('dashAccuracy').innerText = `${accuracy}%`;
+
+                const badge = this.calculateBadge(pts);
+                document.getElementById('dashBadgeIcon').innerText = badge.icon;
+                document.getElementById('dashBadgeName').innerText = badge.name;
+                document.getElementById('dashTotalPoints').innerText = `${pts} Points`;
+            },
+
+            updateLeaderboard() {
+                const tbody = document.getElementById('leaderboardTableBody');
+                tbody.innerHTML = "";
+                const list = JSON.parse(localStorage.getItem('bg_leaderboard') || '[]');
+                
+                if(list.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color: var(--text-muted);">No records available yet. Complete a quiz to join!</td></tr>`;
                     return;
                 }
-                saveProfile(name);
-            });
 
-            document.getElementById("logoutBtn").addEventListener("click", () => {
-                AudioEngine.playClick();
-                if (confirm("Are you sure you want to log out? Your user record history will safely remain stored.")) {
-                    performLogout();
-                }
-            });
-
-            document.getElementById("quickStartBtn").addEventListener("click", () => {
-                AudioEngine.playClick(); showScreen("dashboardScreen");
-            });
-
-            document.getElementById("exitQuizBtn").addEventListener("click", () => {
-                AudioEngine.playClick();
-                if (confirm("Are you sure you want to quit this active quiz run? Progress won't be saved.")) {
-                    state.sessionQuestions.forEach(q => delete q.shuffledOptions);
-                    showScreen("dashboardScreen");
-                }
-            });
-
-            document.getElementById("resBackToDashBtn").addEventListener("click", () => {
-                AudioEngine.playClick(); updateDashboardMetrics(); showScreen("dashboardScreen");
-            });
-
-            document.querySelectorAll(".tab-bar .tab-btn").forEach(btn => {
-                btn.addEventListener("click", () => {
-                    AudioEngine.playClick(); showScreen(btn.getAttribute("data-target"));
+                list.slice(0, 10).forEach((entry, idx) => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td><strong>#${idx + 1}</strong></td>
+                        <td>${entry.name}</td>
+                        <td>${entry.topic}</td>
+                        <td>${entry.score} (${entry.pct}%)</td>
+                        <td>${entry.date}</td>
+                    `;
+                    tbody.appendChild(tr);
                 });
-            });
+            },
 
-            document.getElementById("refreshLeaderboardBtn").addEventListener("click", () => {
-                AudioEngine.playClick(); populateLeaderboardTable();
-            });
+            updateAchievements() {
+                const container = document.getElementById('achievementsContainer');
+                container.innerHTML = "";
+                const pts = parseInt(localStorage.getItem('bg_points') || '0');
 
-            document.getElementById("clearLeaderboardBtn").addEventListener("click", () => {
-                AudioEngine.playClick();
-                if (confirm("Warning! This deletes all high scores globally. Do you wish to proceed?")) {
-                    localStorage.removeItem("bijak_leaderboard"); populateLeaderboardTable();
+                const milestones = [
+                    { name: "Grammar Beginner", desc: "0 - 100 points required", min: 0, max: 100, icon: "🌱" },
+                    { name: "Grammar Explorer", desc: "101 - 300 points required", min: 101, max: 300, icon: "🧭" },
+                    { name: "Grammar Champion", desc: "301 - 600 points required", min: 301, max: 600, icon: "🏆" },
+                    { name: "Grammar Master", desc: "601+ points required", min: 601, max: Infinity, icon: "👑" }
+                ];
+
+                milestones.forEach(m => {
+                    const box = document.createElement('div');
+                    box.className = "stat-box";
+                    const isUnlocked = pts >= m.min;
+                    box.style.opacity = isUnlocked ? '1' : '0.4';
+                    box.innerHTML = `
+                        <div style="font-size:3rem;">${m.icon}</div>
+                        <div class="stat-val" style="font-size:1.1rem; margin-top:5px;">${m.name}</div>
+                        <div style="font-size:0.75rem; color: var(--text-muted); margin-top:2px;">${m.desc}</div>
+                        <div style="margin-top:10px; font-weight:700; color:${isUnlocked ? 'var(--success)' : 'var(--text-muted)'}">
+                            ${isUnlocked ? '✓ Unlocked' : '🔒 Locked'}
+                        </div>
+                    `;
+                    container.appendChild(box);
+                });
+            },
+
+            updateStatistics() {
+                const history = JSON.parse(localStorage.getItem('bg_history') || '[]');
+                
+                if(history.length === 0) {
+                    return; // Retain system default visual zeros 
                 }
-            });
 
-            document.getElementById("themeBtn").addEventListener("click", () => {
-                AudioEngine.playClick();
-                state.currentTheme = state.currentTheme === "light" ? "dark" : "light";
-                document.documentElement.setAttribute("data-theme", state.currentTheme);
-                localStorage.setItem("bijak_theme", state.currentTheme);
-                document.getElementById("themeBtn").textContent = state.currentTheme === "light" ? "🌙" : "☀️";
-                if(state.activeTopicKey && !document.getElementById("statisticsScreen").classList.contains("hidden")) {
-                    populateStatisticsView();
+                const totalQuizzes = history.length;
+                const totalCorrect = history.reduce((s, c) => s + c.correct, 0);
+                const totalWrong = history.reduce((s, c) => s + c.wrong, 0);
+                const totalQs = totalCorrect + totalWrong;
+                const accuracy = Math.round((totalCorrect / totalQs) * 100);
+                const highest = Math.max(...history.map(h => h.percentage));
+                const average = Math.round(history.reduce((s, c) => s + c.percentage, 0) / totalQuizzes);
+
+                // Derived analytics calculation
+                const topicStats = {};
+                history.forEach(item => {
+                    if(!topicStats[item.topic]) topicStats[item.topic] = { correct: 0, total: 0 };
+                    topicStats[item.topic].correct += item.correct;
+                    topicStats[item.topic].total += item.total;
+                });
+
+                let bestTopic = "None";
+                let worstTopic = "None";
+                let maxRate = -1;
+                let minRate = 101;
+
+                for(const topic in topicStats) {
+                    const rate = (topicStats[topic].correct / topicStats[topic].total) * 100;
+                    if(rate > maxRate) { maxRate = rate; bestTopic = topic; }
+                    if(rate < minRate) { minRate = rate; worstTopic = topic; }
                 }
-            });
 
-            document.getElementById("muteBtn").addEventListener("click", () => {
-                isMuted = !isMuted;
-                localStorage.setItem("bijak_muted", isMuted);
-                document.getElementById("muteBtn").textContent = isMuted ? "🔇" : "🔊";
-                AudioEngine.playClick();
-            });
+                document.getElementById('statQuizzes').innerText = totalQuizzes;
+                document.getElementById('statCorrect').innerText = totalCorrect;
+                document.getElementById('statWrong').innerText = totalWrong;
+                document.getElementById('statAccuracy').innerText = `${accuracy}%`;
+                document.getElementById('statHighest').innerText = `${highest}%`;
+                document.getElementById('statAvg').innerText = `${average}%`;
+                document.getElementById('statBestTopic').innerText = bestTopic;
+                document.getElementById('statWorstTopic').innerText = worstTopic;
+            },
 
-            loadApplicationState();
+            updateHistory() {
+                const tbody = document.getElementById('historyTableBody');
+                tbody.innerHTML = "";
+                const history = JSON.parse(localStorage.getItem('bg_history') || '[]');
+
+                if(history.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color: var(--text-muted);">No recorded attempts yet found. Try your first module quiz!</td></tr>`;
+                    return;
+                }
+
+                history.reverse().forEach(item => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${item.date}</td>
+                        <td>${item.topic}</td>
+                        <td>${item.correct}/${item.total}</td>
+                        <td>${item.percentage}%</td>
+                        <td><strong>${item.grade}</strong></td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            },
+
+            // 9. CORE SYSTEM ENGINE FOR INTERNAL INTERACTIVE QUIZ PLAY
+            startQuizSession() {
+                const originalBank = questionBank[this.currentQuiz.topic];
+                // Deep Copy & Safe Shuffling Engine deployment to prevent mutating baseline templates
+                let clonedQuestions = JSON.parse(JSON.stringify(originalBank));
+                this.shuffleArray(clonedQuestions);
+                
+                this.currentQuiz.questions = clonedQuestions.slice(0, this.currentQuiz.length);
+                this.currentQuiz.currentIndex = 0;
+                this.currentQuiz.score = 0;
+                this.currentQuiz.userAnswers = [];
+                
+                this.navigate('quizPlay');
+                this.renderCurrentQuestion();
+            },
+
+            renderCurrentQuestion() {
+                clearInterval(this.currentQuiz.timer);
+                document.getElementById('playFeedback').classList.add('hidden');
+                document.getElementById('btnNextQuestion').disabled = true;
+
+                const qIndex = this.currentQuiz.currentIndex;
+                const qTotal = this.currentQuiz.length;
+                const questionData = this.currentQuiz.questions[qIndex];
+
+                document.getElementById('playTopicName').innerText = this.currentQuiz.topic;
+                document.getElementById('playQuestionNum').innerText = `Question ${qIndex + 1} of ${qTotal}`;
+                document.getElementById('playLiveScore').innerText = `Score: ${this.currentQuiz.score}`;
+                
+                // Progress Calculation Engine
+                const pct = Math.round(((qIndex) / qTotal) * 100);
+                document.getElementById('playProgressBar').style.width = `${pct}%`;
+
+                document.getElementById('playQuestionText').innerText = questionData.question;
+
+                const optionsContainer = document.getElementById('playOptionsContainer');
+                optionsContainer.innerHTML = "";
+
+                // Previous button management state mapping
+                document.getElementById('btnPrevQuestion').disabled = (qIndex === 0);
+
+                questionData.options.forEach((opt, idx) => {
+                    const btn = document.createElement('button');
+                    btn.className = "option-btn";
+                    btn.innerText = opt;
+                    btn.onclick = () => this.handleAnswerSelection(idx, btn);
+                    optionsContainer.appendChild(btn);
+                });
+
+                if (this.currentQuiz.useTimer) {
+                    this.startCountdownTimer();
+                } else {
+                    document.getElementById('playTimer').innerText = "Timer Off";
+                }
+            },
+
+            startCountdownTimer() {
+                this.currentQuiz.timeLeft = 30;
+                document.getElementById('playTimer').innerText = `${this.currentQuiz.timeLeft}s`;
+                
+                this.currentQuiz.timer = setInterval(() => {
+                    this.currentQuiz.timeLeft--;
+                    document.getElementById('playTimer').innerText = `${this.currentQuiz.timeLeft}s`;
+
+                    if (this.currentQuiz.timeLeft <= 0) {
+                        clearInterval(this.currentQuiz.timer);
+                        this.handleTimeout();
+                    }
+                }, 1000);
+            },
+
+            handleAnswerSelection(selectedIdx, selectedButton) {
+                clearInterval(this.currentQuiz.timer);
+                const qIndex = this.currentQuiz.currentIndex;
+                const questionData = this.currentQuiz.questions[qIndex];
+                const correctIdx = questionData.answer;
+
+                // Disable all choice selections to enforce linear validation flow
+                document.querySelectorAll('.option-btn').forEach(btn => btn.disabled = true);
+                this.currentQuiz.userAnswers[qIndex] = selectedIdx;
+
+                const feedbackEl = document.getElementById('playFeedback');
+                feedbackEl.classList.remove('hidden');
+
+                if (selectedIdx === correctIdx) {
+                    audioEngine.play('correct');
+                    selectedButton.classList.add('correct');
+                    feedbackEl.innerHTML = "<span style='color: var(--success);'>✔ Correct!</span>";
+                    this.currentQuiz.score++;
+                } else {
+                    audioEngine.play('wrong');
+                    selectedButton.classList.add('incorrect');
+                    // Force reveal correct element tracking paths
+                    const buttons = document.querySelectorAll('.option-btn');
+                    if(buttons[correctIdx]) buttons[correctIdx].classList.add('correct');
+                    feedbackEl.innerHTML = `<span style='color: var(--danger);'>✘ Incorrect!</span> <br><small style='font-size:0.9rem; color: var(--text-main);'>Correct Answer: ${questionData.options[correctIdx]}</small>`;
+                }
+
+                document.getElementById('playLiveScore').innerText = `Score: ${this.currentQuiz.score}`;
+
+                // Process auto delay shift 1.5 seconds
+                setTimeout(() => {
+                    this.nextQuestion();
+                }, 1500);
+            },
+
+            handleTimeout() {
+                const qIndex = this.currentQuiz.currentIndex;
+                this.currentQuiz.userAnswers[qIndex] = -1; // -1 represents timeout structural state
+                
+                document.querySelectorAll('.option-btn').forEach(btn => btn.disabled = true);
+                
+                const feedbackEl = document.getElementById('playFeedback');
+                feedbackEl.classList.remove('hidden');
+                feedbackEl.innerHTML = "<span style='color: var(--danger);'>✘ Time's Up! Marked Incorrect.</span>";
+                audioEngine.play('wrong');
+
+                setTimeout(() => {
+                    this.nextQuestion();
+                }, 1500);
+            },
+
+            nextQuestion() {
+                if (this.currentQuiz.currentIndex < this.currentQuiz.length - 1) {
+                    this.currentQuiz.currentIndex++;
+                    this.renderCurrentQuestion();
+                } else {
+                    this.endQuizSession();
+                }
+            },
+
+            prevQuestion() {
+                if (this.currentQuiz.currentIndex > 0) {
+                    this.currentQuiz.currentIndex--;
+                    this.renderCurrentQuestion();
+                    // Restore visual answers if historically loaded
+                    const pastAns = this.currentQuiz.userAnswers[this.currentQuiz.currentIndex];
+                    if(pastAns !== undefined) {
+                        const buttons = document.querySelectorAll('.option-btn');
+                        buttons.forEach(b => b.disabled = true);
+                        const correctIdx = this.currentQuiz.questions[this.currentQuiz.currentIndex].answer;
+                        if(buttons[correctIdx]) buttons[correctIdx].classList.add('correct');
+                        if(pastAns !== correctIdx && buttons[pastAns]) buttons[pastAns].classList.add('incorrect');
+                    }
+                }
+            },
+
+            // 10. METRIC EVALUATION COMPILER ENGINE FOR GRADING SCORES
+            calculateGrade(pct) {
+                if (pct >= 90) return 'A';
+                if (pct >= 80) return 'B';
+                if (pct >= 70) return 'C';
+                if (pct >= 60) return 'D';
+                return 'E';
+            },
+
+            endQuizSession() {
+                clearInterval(this.currentQuiz.timer);
+                audioEngine.play('complete');
+                
+                const total = this.currentQuiz.length;
+                const correct = this.currentQuiz.score;
+                const wrong = total - correct;
+                const percentage = Math.round((correct / total) * 100);
+                const grade = this.calculateGrade(percentage);
+                const nowStr = new Date().toLocaleDateString('en-SG', { hour: '2-digit', minute: '2-digit' });
+
+                const resultLog = {
+                    topic: this.currentQuiz.topic,
+                    total: total,
+                    correct: correct,
+                    wrong: wrong,
+                    percentage: percentage,
+                    grade: grade,
+                    date: nowStr
+                };
+
+                this.saveToStorage(resultLog);
+
+                // Hydrate results rendering tree
+                document.getElementById('resName').innerText = this.user.name;
+                document.getElementById('resTopic').innerText = resultLog.topic;
+                document.getElementById('resTotal').innerText = resultLog.total;
+                document.getElementById('resCorrect').innerText = resultLog.correct;
+                document.getElementById('resWrong').innerText = resultLog.wrong;
+                document.getElementById('resPercent').innerText = `${resultLog.percentage}%`;
+                document.getElementById('resDate').innerText = resultLog.date;
+                document.getElementById('resultGrade').innerText = resultLog.grade;
+
+                this.navigate('result');
+            },
+
+            renderReviewDeck() {
+                const container = document.getElementById('reviewContainer');
+                container.innerHTML = "";
+
+                this.currentQuiz.questions.forEach((q, idx) => {
+                    const userAnsIdx = this.currentQuiz.userAnswers[idx];
+                    const isCorrect = userAnsIdx === q.answer;
+                    
+                    const item = document.createElement('div');
+                    item.className = "card";
+                    item.style.borderLeft = `6px solid ${isCorrect ? 'var(--success)' : 'var(--danger)'}`;
+                    
+                    item.innerHTML = `
+                        <div style="font-weight:700; margin-bottom:10px;">Question ${idx + 1}: ${q.question}</div>
+                        <div style="font-size:0.95rem; margin: 4px 0;">
+                            <strong>Your Answer:</strong> 
+                            <span style="color:${isCorrect ? 'var(--success)' : 'var(--danger)'}">
+                                ${userAnsIdx === -1 || userAnsIdx === undefined ? 'No Answer / Timeout' : q.options[userAnsIdx]}
+                            </span>
+                        </div>
+                        <div style="font-size:0.95rem; margin: 4px 0;">
+                            <strong>Correct Answer:</strong> <span style="color:var(--success); font-weight:600;">${q.options[q.answer]}</span>
+                        </div>
+                        <div style="margin-top:10px; font-weight:bold; font-size:0.85rem; color:${isCorrect ? 'var(--success)' : 'var(--danger)'}">
+                            ${isCorrect ? '✔ Correct' : '✘ Incorrect'}
+                        </div>
+                    `;
+                    container.appendChild(item);
+                });
+            }
+        };
+
+        // Initialize Application Context Engine when document completes structural compilation
+        window.addEventListener('DOMContentLoaded', () => {
+            app.init();
         });
     </script>
+</body>
+</html>
