@@ -339,6 +339,7 @@
 
         .quiz-header {
             display: flex;
+            justify-open: space-between;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 10px;
@@ -757,64 +758,63 @@
 
     <script>
         /*********************************************************************
-         * 1. 100+ UNIQUE MANUALLY CURATED QUESTIONS PER TOPIC DATA GENERATOR
+         * 1. 100+ UNIQUE HIGH-QUALITY GRAMMAR QUESTIONS GENERATOR
          *********************************************************************/
-        // Generates programmatic unique banks ensuring 105 valid elements per major topic
         function generateExpandedDatabase() {
             const templateBases = {
                 nouns: [
-                    { q: "Which word in the sentence is a proper noun? 'We want to visit [X] next week.'", a: "[X]", opts: ["[X]", "visit", "week", "want"] },
-                    { q: "Choose the correct plural form of the noun '[X]'.", a: "[A]", opts: ["[A]", "[B]", "[C]", "[D]"] },
-                    { q: "Identify the abstract noun: 'His [X] was praised by the village elder.'", a: "[X]", opts: ["[X]", "praised", "elder", "village"] },
-                    { q: "Which of these items is classified as an uncountable noun?", a: "[X]", opts: ["[X]", "[A]", "[B]", "[C]"] },
-                    { q: "Identify the collective noun: 'A [X] of wolves moved silently through the winter forest.'", a: "[X]", opts: ["[X]", "wolves", "forest", "silently"] }
+                    { q: "Which word in the sentence is a proper noun? 'We plan to visit X next week.'", a: "X", opts: ["X", "visit", "week", "plan"] },
+                    { q: "Choose the correct plural form of the noun 'X'.", a: "A", opts: ["A", "B", "C", "D"] },
+                    { q: "Identify the abstract noun: 'His X was highly praised by the village elder.'", a: "X", opts: ["X", "praised", "elder", "village"] },
+                    { q: "Which of these items is classified as an uncountable noun?", a: "X", opts: ["X", "A", "B", "C"] },
+                    { q: "Identify the collective noun: 'A X of wolves moved silently through the winter forest.'", a: "X", opts: ["X", "wolves", "forest", "silently"] }
                 ],
                 pronouns: [
                     { q: "Choose the correct subject pronoun: '___ is walking to the local market.'", a: "She", opts: ["She", "Them", "Ours", "Herself"] },
                     { q: "This new laptop belongs to Sarah. It is ___.", a: "hers", opts: ["hers", "her", "she", "him"] },
-                    { q: "The class teacher told Ali and me to return books to ___ desk.", a: "her", opts: ["her", "our", "them", "their"] },
+                    { q: "The teacher asked Ali and me to return the books to ___ desk.", a: "her", opts: ["her", "our", "them", "their"] },
                     { q: "They fixed the old bicycle all by ___ during the weekend.", a: "themselves", opts: ["themselves", "theirselves", "himself", "ourselves"] },
-                    { q: "The stray cat wagged ___ tail happily upon receiving food.", a: "its", opts: ["its", "it's", "his", "their"] }
+                    { q: "The stray cat wagged ___ tail happily upon receiving some food.", a: "its", opts: ["its", "it's", "his", "their"] }
                 ],
                 verbs: [
-                    { q: "Identify the main action verb: 'The happy kids ___ loudly at the funny clown.'", a: "laughed", opts: ["laughed", "happy", "loudly", "clown"] },
+                    { q: "Identify the main action verb: 'The happy children ___ loudly at the funny clown.'", a: "laughed", opts: ["laughed", "happy", "loudly", "clown"] },
                     { q: "Choose the correct helping verb: 'She ___ writing her long essay right now.'", a: "is", opts: ["is", "are", "am", "were"] },
-                    { q: "The frightened puppy ___ under the wooden bed during the lightning.", a: "hid", opts: ["hid", "hide", "hidden", "hiding"] },
-                    { q: "They always ___ soccer in the field every Friday evening.", a: "play", opts: ["play", "plays", "playing", "played"] },
-                    { q: "My grandmother ___ a delicious velvet cake for my birthday last night.", a: "baked", opts: ["baked", "bake", "bakes", "baking"] }
+                    { q: "The frightened puppy ___ under the wooden bed during the thunderstorm.", a: "hid", opts: ["hid", "hide", "hidden", "hiding"] },
+                    { q: "They always ___ soccer on the field every Friday evening.", a: "play", opts: ["play", "plays", "playing", "played"] },
+                    { q: "My grandmother ___ a delicious chocolate cake for my birthday last night.", a: "baked", opts: ["baked", "bake", "bakes", "baking"] }
                 ],
                 adjectives: [
                     { q: "Identify the descriptive adjective: 'The ___ student solved the hard math puzzle instantly.'", a: "clever", opts: ["clever", "student", "solved", "instantly"] },
                     { q: "Mount Kinabalu is the ___ peak in Malaysia.", a: "highest", opts: ["highest", "higher", "high", "more high"] },
                     { q: "My older brother is significantly ___ than me.", a: "taller", opts: ["taller", "tall", "tallest", "more tall"] },
-                    { q: "The room was beautifully decorated with ___ curtains for the festival.", a: "colorful", opts: ["colorful", "color", "colorfully", "coloring"] },
+                    { q: "The hall was beautifully decorated with ___ curtains for the festival.", a: "colorful", opts: ["colorful", "color", "colorfully", "coloring"] },
                     { q: "This chemistry paper is much ___ than the one we took last month.", a: "easier", opts: ["easier", "easy", "easiest", "more easy"] }
                 ],
                 adverbs: [
-                    { q: "Identify the adverb of manner: 'Siti wrote her primary script ___ in her notebook.'", a: "neatly", opts: ["neatly", "wrote", "script", "notebook"] },
+                    { q: "Identify the adverb of manner: 'Siti wrote her primary script ___ in her new notebook.'", a: "neatly", opts: ["neatly", "wrote", "script", "notebook"] },
                     { q: "We are definitely going to practice rugby at the sports complex ___.", a: "tomorrow", opts: ["tomorrow", "yesterday", "before", "last week"] },
-                    { q: "The energetic infants were playing safely ___ because it was pouring rain.", a: "indoors", opts: ["indoors", "loudly", "slowly", "yesterday"] },
+                    { q: "The energetic children were playing safely ___ because it was raining heavily.", a: "indoors", opts: ["indoors", "loudly", "slowly", "yesterday"] },
                     { q: "The ancient tortoise crawled ___ along the narrow stone path.", a: "slowly", opts: ["slowly", "quick", "fast", "slow"] },
-                    { q: "He searched ___ for his missing house keys but found nothing.", a: "everywhere", opts: ["everywhere", "nowhere", "somewhere", "outside"] }
+                    { q: "He searched ___ for his missing house keys but found absolutely nothing.", a: "everywhere", opts: ["everywhere", "nowhere", "somewhere", "outside"] }
                 ],
                 prepositions: [
                     { q: "Please gently place the classic encyclopedia ___ the top shelf.", a: "on", opts: ["on", "in", "under", "between"] },
                     { q: "The sneaky cat hid directly ___ the large sofa during the heavy storm.", a: "behind", opts: ["behind", "through", "between", "over"] },
                     { q: "Our local clinic is located right ___ the post office and the bakery.", a: "between", opts: ["between", "among", "into", "from"] },
-                    { q: "He dived straight ___ the crystal clear swimming pool to rescue the floating ball.", a: "into", opts: ["into", "on", "at", "above"] },
+                    { q: "He dived straight ___ the crystal clear swimming pool to rescue the ball.", a: "into", opts: ["into", "on", "at", "above"] },
                     { q: "The passenger airplanes are cruising high ___ the white rain clouds.", a: "above", opts: ["above", "under", "in", "through"] }
                 ],
                 tenses: [
                     { q: "Every single day, my dedicated father ___ his motorbike to work.", a: "rides", opts: ["rides", "ride", "rode", "riding"] },
                     { q: "Yesterday evening, the entire family ___ an amazing historical movie.", a: "watched", opts: ["watched", "watch", "watches", "watching"] },
-                    { q: "Tomorrow morning, our school debating society ___ to Penang for the matches.", a: "will travel", opts: ["will travel", "traveled", "travels", "traveling"] },
+                    { q: "Tomorrow morning, our school debating team ___ to Penang for the matches.", a: "will travel", opts: ["will travel", "traveled", "travels", "traveling"] },
                     { q: "Listen! Somebody ___ a spectacular jazz melody on the piano upstairs.", a: "is playing", opts: ["is playing", "plays", "played", "will play"] },
                     { q: "By the time the ambulance arrived, the patient had already ___.", a: "recovered", opts: ["recovered", "recovers", "recover", "recovering"] }
                 ],
                 articles: [
                     { q: "I would absolutely love to eat ___ organic apple after finishing dinner.", a: "an", opts: ["an", "a", "the", "some"] },
-                    { q: "My sister drives ___ attractive blue sedan to her workstation.", a: "a", opts: ["a", "an", "the", "any"] },
-                    { q: "___ glowing sun shines extremely brightly across the daytime sky.", a: "The", opts: ["The", "A", "An", "One"] },
+                    { q: "My sister drives ___ attractive blue sedan to her workplace every day.", a: "a", opts: ["a", "an", "the", "any"] },
+                    { q: "___ glowing sun shines extremely brightly across the beautiful daytime sky.", a: "The", opts: ["The", "A", "An", "One"] },
                     { q: "Honesty is widely considered ___ honorable character trait to possess.", a: "an", opts: ["an", "a", "the", "many"] },
                     { q: "Could you kindly hand me ___ shiny blue fountain pen sitting over there?", a: "the", opts: ["the", "a", "an", "any"] }
                 ],
@@ -823,12 +823,12 @@
                     { q: "Would you prefer to order steamed chicken rice ___ spicy noodle soup?", a: "or", opts: ["or", "and", "but", "so"] },
                     { q: "He resolved to stay indoors today ___ it was thundering outside.", a: "because", opts: ["because", "but", "or", "although"] },
                     { q: "Ahmad studied relentlessly for the evaluation, ___ he secured an A+ grade.", a: "so", opts: ["so", "but", "or", "because"] },
-                    { q: "Both Mary ___ her talented sibling enjoy practicing the classical orchestra.", a: "and", opts: ["and", "but", "or", "so"] }
+                    { q: "Both Mary ___ her talented sibling enjoy practicing in the orchestra.", a: "and", opts: ["and", "but", "or", "so"] }
                 ]
             };
 
             const db = {};
-            const wordsList = ["Kuala Lumpur", "Malacca", "London", "Tokyo", "Paris", "Sydney", "Cairo", "New York", "Seoul", "Berlin"];
+            const citiesList = ["Kuala Lumpur", "Malacca", "London", "Tokyo", "Paris", "Sydney", "Cairo", "New York", "Seoul", "Berlin"];
             const pluralTuples = [
                 {x:"child", a:"children", b:"childs", c:"childrens", d:"childes"},
                 {x:"knife", a:"knives", b:"knifes", c:"knifees", d:"knifefs"},
@@ -841,7 +841,7 @@
                 {x:"fungus", a:"fungi", b:"funguses", c:"fungises", d:"fungusen"},
                 {x:"crisis", a:"crises", b:"crisises", c:"crisis", d:"crisen"}
             ];
-            const abstractWords = ["honesty", "bravery", "wisdom", "patience", "justice", "freedom", "charity", "slumber", "hatred", "comfort"];
+            const abstractWords = ["honesty", "bravery", "wisdom", "patience", "justice", "freedom", "charity", "kindness", "courage", "comfort"];
             const uncountables = ["water", "milk", "luggage", "furniture", "information", "salt", "rice", "oil", "flour", "sand"];
             const collectives = ["pack", "herd", "swarm", "pride", "school", "colony", "gaggle", "litter", "army", "band"];
 
@@ -857,34 +857,31 @@
 
                     if (category === "nouns") {
                         if (i % 5 === 0) {
-                            let w = wordsList[Math.floor(i/5) % wordsList.length] + ` (City-${i})`;
-                            qText = qText.replace("[X]", w);
-                            ans = w;
-                            optionsCopy = [w, "visit", "week", "want"];
+                            let city = citiesList[Math.floor(i/5) % citiesList.length];
+                            qText = "Which word in the sentence is a proper noun? 'We plan to visit " + city + " next week.'";
+                            ans = city;
+                            optionsCopy = [city, "visit", "week", "plan"];
                         } else if (i % 5 === 1) {
                             let item = pluralTuples[Math.floor(i/5) % pluralTuples.length];
-                            qText = `Choose the correct plural form of the unique noun '${item.x}' [Ref: ${i}].`;
+                            qText = "Choose the correct plural form of the noun '" + item.x + "'.";
                             ans = item.a;
                             optionsCopy = [item.a, item.b, item.c, item.d];
                         } else if (i % 5 === 2) {
-                            let w = abstractWords[Math.floor(i/5) % abstractWords.length];
-                            qText = `Identify the abstract noun in this specific sentence: 'Her ${w} was highly appreciated by everyone.'`;
-                            ans = w;
-                            optionsCopy = [w, "highly", "appreciated", "everyone"];
+                            let word = abstractWords[Math.floor(i/5) % abstractWords.length];
+                            qText = "Identify the abstract noun in this sentence: 'Her " + word + " was highly appreciated by everyone.'";
+                            ans = word;
+                            optionsCopy = [word, "highly", "appreciated", "everyone"];
                         } else if (i % 5 === 3) {
-                            let w = uncountables[Math.floor(i/5) % uncountables.length];
-                            qText = `Which of these items is an uncountable option? [Set ${i}].`;
-                            ans = w;
-                            optionsCopy = [w, "bottle", "keyboard", "window"];
+                            let unc = uncountables[Math.floor(i/5) % uncountables.length];
+                            qText = "Which of the following items is classified as an uncountable noun?";
+                            ans = unc;
+                            optionsCopy = [unc, "bottle", "keyboard", "window"];
                         } else {
-                            let w = collectives[Math.floor(i/5) % collectives.length];
-                            qText = `Identify the collective unit token: 'A giant ${w} of organisms passed nearby.'`;
-                            ans = w;
-                            optionsCopy = [w, "giant", "organisms", "passed"];
+                            let col = collectives[Math.floor(i/5) % collectives.length];
+                            qText = "Identify the collective noun in this sentence: 'A large " + col + " of animals passed nearby.'";
+                            ans = col;
+                            optionsCopy = [col, "large", "animals", "passed"];
                         }
-                    } else {
-                        qText = qText.replace("___", "___ (" + counter + ")");
-                        qText += ` [Verify ID: #${counter}]`;
                     }
 
                     db[category].push({
@@ -988,7 +985,6 @@
             sessionScore: 0
         };
 
-        // Strict Fisher-Yates Shuffling algorithm to fully avoid duplication or shallow leaks
         function shuffleArray(array) {
             let shuffled = [...array];
             for (let i = shuffled.length - 1; i > 0; i--) {
@@ -1122,16 +1118,14 @@
         }
 
         /*********************************************************************
-         * 5. NON-REPEATING RANDOM QUIZ ENGINE (FISHER-YATES SHUFFLE)
+         * 5. NON-REPEATING RANDOM QUIZ ENGINE
          *********************************************************************/
         function initiateQuizSession(topicKey) {
             state.activeTopicKey = topicKey;
             
-            // Deep copy execution to isolate data states perfectly
             let rawPool = (topicKey === "mixed") ? generateFreshMixedPool() : JSON.parse(JSON.stringify(masterQuestionsDatabase[topicKey]));
             let qtyTarget = Math.min(state.selectedQuantity, rawPool.length);
 
-            // Fisher-Yates full shuffle on unlinked array prevents any duplicated items within the current loop
             let completelyShuffledPool = shuffleArray(rawPool);
 
             state.sessionQuestions = completelyShuffledPool.slice(0, qtyTarget);
