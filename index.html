@@ -1,0 +1,1503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bijak Grammar - Improve Your English Grammar Skills</title>
+    <style>
+        :root {
+            --bg-primary: #f0f7ff;
+            --bg-card: #ffffff;
+            --text-main: #2d3748;
+            --text-muted: #718096;
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --secondary: #0ea5e9;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --border-color: #e2e8f0;
+            --radius-lg: 16px;
+            --radius-md: 12px;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+            --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #0f172a;
+            --bg-card: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --secondary: #38bdf8;
+            --border-color: #334155;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            padding-bottom: 70px;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 15px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        header {
+            background-color: var(--bg-card);
+            border-bottom: 2px solid var(--border-color);
+            padding: 12px 15px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo-area h1 {
+            font-size: 20px;
+            color: var(--primary);
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .logo-area p {
+            font-size: 11px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .controls-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-icon {
+            background: var(--bg-primary);
+            border: 2px solid var(--border-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .user-tag {
+            background-color: var(--primary);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .screen-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            box-shadow: var(--shadow);
+            border: 2px solid var(--border-color);
+            margin-top: 10px;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-bottom: 5px;
+            color: var(--primary);
+            text-align: center;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-md);
+            background: var(--bg-primary);
+            color: var(--text-main);
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        /* Profile Selector Styles */
+        .profile-selector {
+            margin-top: 15px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 15px;
+        }
+        .profile-list {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .profile-chip {
+            background: var(--bg-primary);
+            border: 2px solid var(--border-color);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            color: var(--text-main);
+        }
+        .profile-chip:hover {
+            border-color: var(--primary);
+            background: rgba(79, 70, 229, 0.05);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--primary-hover); }
+        .btn-secondary { background: var(--secondary); color: white; }
+        .btn-success { background: var(--success); color: white; }
+        .btn-danger { background: var(--danger); color: white; }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .dash-card {
+            background: var(--bg-primary);
+            border-radius: var(--radius-md);
+            padding: 12px;
+            text-align: center;
+            border: 2px solid var(--border-color);
+        }
+
+        .dash-card .val {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--primary);
+            margin-top: 5px;
+        }
+
+        .dash-card .lbl {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .topics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .topic-card {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 15px;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+            text-align: left;
+        }
+
+        .topic-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary);
+        }
+
+        .topic-card h3 {
+            font-size: 16px;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .topic-card p {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        .topic-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: var(--secondary);
+            color: white;
+            padding: 3px 8px;
+            font-size: 10px;
+            font-weight: bold;
+            border-bottom-left-radius: 8px;
+        }
+
+        .quantity-container {
+            text-align: center;
+            margin: 15px 0;
+            padding: 15px;
+            background: var(--bg-primary);
+            border-radius: var(--radius-md);
+            border: 2px dashed var(--border-color);
+        }
+
+        .qty-selector {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .qty-btn {
+            padding: 10px 20px;
+            border: 2px solid var(--border-color);
+            background: var(--bg-card);
+            color: var(--text-main);
+            border-radius: var(--radius-md);
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .qty-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            font-weight: bold;
+            font-size: 13px;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .progress-container {
+            background: var(--border-color);
+            border-radius: 10px;
+            height: 10px;
+            width: 100%;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, var(--secondary), var(--primary));
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .question-box {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            line-height: 1.4;
+            background: var(--bg-primary);
+            padding: 12px 15px;
+            border-radius: var(--radius-md);
+            border-left: 5px solid var(--primary);
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        @media (min-width: 600px) {
+            .options-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        .option-card {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            padding: 12px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-align: left;
+            width: 100%;
+        }
+
+        .option-card:hover:not(:disabled) {
+            border-color: var(--secondary);
+            background: var(--bg-primary);
+        }
+
+        .option-card.selected {
+            border-color: var(--primary);
+            background: rgba(79, 70, 229, 0.1);
+        }
+
+        .option-card.correct {
+            border-color: var(--success) !important;
+            background: rgba(16, 185, 129, 0.15) !important;
+            color: #065f46 !important;
+        }
+        [data-theme="dark"] .option-card.correct { color: #34d399 !important; }
+
+        .option-card.incorrect {
+            border-color: var(--danger) !important;
+            background: rgba(239, 68, 68, 0.15) !important;
+            color: #991b1b !important;
+        }
+        [data-theme="dark"] .option-card.incorrect { color: #f87171 !important; }
+
+        .option-idx {
+            background: var(--border-color);
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 11px;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            margin-top: 15px;
+            border-radius: var(--radius-md);
+            border: 2px solid var(--border-color);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: var(--bg-primary);
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .badges-row {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 15px 0;
+        }
+
+        .badge-pill {
+            background: var(--bg-primary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: bold;
+            font-size: 13px;
+            opacity: 0.3;
+        }
+
+        .badge-pill.unlocked {
+            opacity: 1;
+            border-color: var(--warning);
+            background: rgba(245, 158, 11, 0.08);
+            transform: scale(1.03);
+            box-shadow: var(--shadow);
+        }
+
+        .badge-icon { font-size: 20px; }
+
+        .chart-box {
+            max-width: 400px;
+            margin: 15px auto;
+            background: var(--bg-primary);
+            padding: 12px;
+            border-radius: var(--radius-md);
+            border: 2px solid var(--border-color);
+        }
+
+        canvas {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .tab-bar {
+            display: flex;
+            justify-content: center;
+            background: var(--bg-card);
+            border-top: 2px solid var(--border-color);
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 90;
+        }
+
+        .tab-btn {
+            flex: 1;
+            max-width: 150px;
+            padding: 10px 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-muted);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .tab-btn.active {
+            color: var(--primary);
+            border-top: 3px solid var(--primary);
+            padding-top: 7px;
+        }
+
+        .tab-btn-icon { font-size: 16px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-container">
+            <div class="logo-area">
+                <h1>Bijak Grammar</h1>
+                <p>Improve Your English Grammar Skills</p>
+            </div>
+            <div class="controls-area">
+                <div id="userTagDisplay" class="user-tag hidden">Welcome, Explorer</div>
+                <button id="logoutBtn" class="btn-icon hidden" title="Log Out" aria-label="Log Out">🚪</button>
+                <button id="muteBtn" class="btn-icon" title="Toggle Sound" aria-label="Toggle Sound">🔊</button>
+                <button id="themeBtn" class="btn-icon" title="Toggle Theme" aria-label="Toggle Theme">🌙</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <section id="registrationScreen" class="screen-card">
+            <h2>Welcome to Bijak Grammar!</h2>
+            <p class="subtitle">Let's build super strong English language foundations.</p>
+            <div class="form-group">
+                <label for="studentNameInput">Enter Your Full Name:</label>
+                <input type="text" id="studentNameInput" placeholder="e.g., Ahmad Bin Ali" autocomplete="name">
+            </div>
+            <div class="btn-group">
+                <button id="registerBtn" class="btn btn-primary">Register Profile</button>
+                <button id="quickStartBtn" class="btn btn-success hidden">Start Learning &rarr;</button>
+            </div>
+
+            <div id="profileSelectorArea" class="profile-selector hidden">
+                <p style="text-align: center; font-weight: 600; font-size: 14px; color: var(--text-muted);">Or log back into an existing account:</p>
+                <div id="existingProfilesList" class="profile-list"></div>
+            </div>
+        </section>
+
+        <section id="dashboardScreen" class="screen-card hidden">
+            <h2 id="dashWelcomeHeading">Welcome Back!</h2>
+            <p class="subtitle">Select your preferred study focus zone below.</p>
+
+            <div class="dashboard-grid">
+                <div class="dash-card">
+                    <div class="lbl">Highest Score</div>
+                    <div id="statHighestScore" class="val">0</div>
+                </div>
+                <div class="dash-card">
+                    <div class="lbl">Total Attempts</div>
+                    <div id="statTotalAttempts" class="val">0</div>
+                </div>
+                <div class="dash-card">
+                    <div class="lbl">Avg Accuracy</div>
+                    <div id="statAvgAccuracy" class="val">0%</div>
+                </div>
+                <div class="dash-card">
+                    <div class="lbl">Last Played Date</div>
+                    <div id="statLastPlayed" class="val">-</div>
+                </div>
+            </div>
+
+            <div class="quantity-container">
+                <p style="font-weight: 700; font-size: 15px;">Step 1: Choose Number of Quiz Questions</p>
+                <div class="qty-selector">
+                    <button class="qty-btn active" data-qty="10">10 Questions</button>
+                    <button class="qty-btn" data-qty="20">20 Questions</button>
+                    <button class="qty-btn" data-qty="50">50 Questions</button>
+                </div>
+            </div>
+
+            <p style="font-weight: 700; font-size: 15px; margin-top: 15px; text-align: center;">Step 2: Click a Grammar Focus Arena Topic Card to Begin</p>
+            
+            <div class="topics-grid" id="topicsGridContainer"></div>
+        </section>
+
+        <section id="quizScreen" class="screen-card hidden">
+            <div class="quiz-header">
+                <div>Topic: <span id="quizTopicTitle" style="color:var(--primary);">Nouns</span></div>
+                <div>User: <span id="quizStudentName" style="color:var(--secondary);">Student</span></div>
+                <div>Score Track: <span id="quizCurrentScore" style="color:var(--success);">0</span></div>
+            </div>
+
+            <div class="progress-container">
+                <div id="quizProgressBar" class="progress-bar"></div>
+            </div>
+
+            <div style="font-weight: bold; margin-bottom: 8px; font-size: 13px; color: var(--text-muted);" id="quizQuestionCounter">
+                Question 1 of 10
+            </div>
+
+            <div id="quizQuestionText" class="question-box">Loading query sentence...</div>
+
+            <div class="options-grid" id="quizOptionsContainer"></div>
+
+            <div class="btn-group" style="margin-top: 10px;">
+                <button id="exitQuizBtn" class="btn btn-danger" style="padding: 10px 20px; font-size: 14px;">Exit Quiz</button>
+            </div>
+        </section>
+
+        <section id="resultsScreen" class="screen-card hidden">
+            <h2>Quiz Results Session Summary!</h2>
+            <p class="subtitle">Here is how well you performed in this topic run.</p>
+
+            <div class="dashboard-grid">
+                <div class="dash-card">
+                    <div class="lbl">Final Score</div>
+                    <div id="resFinalScore" class="val">0 / 0</div>
+                </div>
+                <div class="dash-card">
+                    <div class="lbl">Accuracy Rate</div>
+                    <div id="resAccuracy" class="val">0%</div>
+                </div>
+                <div class="dash-card">
+                    <div class="lbl">Performance Grade</div>
+                    <div id="resGrade" class="val">E</div>
+                </div>
+            </div>
+
+            <h3 style="text-align: center; margin-top: 15px; font-size:18px;">Earned Achievement Badges</h3>
+            <div class="badges-row">
+                <div id="badgeBeginner" class="badge-pill">
+                    <span class="badge-icon">🥉</span>
+                    <div>Grammar Beginner<br><small>Score 50%+</small></div>
+                </div>
+                <div id="badgeExplorer" class="badge-pill">
+                    <span class="badge-icon">🥈</span>
+                    <div>Grammar Explorer<br><small>Score 70%+</small></div>
+                </div>
+                <div id="badgeChampion" class="badge-pill">
+                    <span class="badge-icon">🥇</span>
+                    <div>Grammar Champion<br><small>Score 90%+</small></div>
+                </div>
+                <div id="badgeMaster" class="badge-pill">
+                    <span class="badge-icon">🏆</span>
+                    <div>Grammar Master<br><small>Score 100%</small></div>
+                </div>
+            </div>
+
+            <div class="btn-group" style="margin-top: 20px;">
+                <button id="resBackToDashBtn" class="btn btn-primary">Back to Dashboard</button>
+            </div>
+        </section>
+
+        <section id="leaderboardScreen" class="screen-card hidden">
+            <h2>Global High Score Leaderboard</h2>
+            <p class="subtitle">Rankings based on the highest total scores achieved.</p>
+
+            <div class="btn-group" style="justify-content: flex-end; margin-bottom: 12px;">
+                <button id="refreshLeaderboardBtn" class="btn btn-secondary" style="padding: 6px 12px; font-size:13px;">Refresh</button>
+                <button id="clearLeaderboardBtn" class="btn btn-danger" style="padding: 6px 12px; font-size:13px;">Clear Records</button>
+            </div>
+
+            <div class="table-wrapper">
+                <table id="leaderboardTable">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Student Name</th>
+                            <th>Highest Score</th>
+                            <th>Accuracy</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="statisticsScreen" class="screen-card hidden">
+            <h2>Detailed Profile Learning Statistics</h2>
+            <p class="subtitle">Visual performance report across history logs.</p>
+
+            <div class="dashboard-grid">
+                <div class="dash-card">
+                    <div class="lbl">Quizzes Played</div>
+                    <div id="statsTotalQuizzes" class="val">0</div>
+                </div>
+                <div class="dash-card">
+                    <div class="lbl">Questions Solved</div>
+                    <div id="statsTotalQuestions" class="val">0</div>
+                </div>
+                <div class="dash-card">
+                    <div class="lbl">Correct Options</div>
+                    <div id="statsTotalCorrect" class="val">0</div>
+                </div>
+                <div class="dash-card">
+                    <div class="lbl">Incorrect Options</div>
+                    <div id="statsTotalIncorrect" class="val">0</div>
+                </div>
+            </div>
+
+            <div class="dashboard-grid" style="grid-template-columns: 1fr 1fr;">
+                <div class="dash-card">
+                    <div class="lbl">Best Subject Area</div>
+                    <div id="statsBestTopic" class="val" style="font-size:16px; color:var(--success);">-</div>
+                </div>
+                <div class="dash-card">
+                    <div class="lbl">Needs Practice Area</div>
+                    <div id="statsWorstTopic" class="val" style="font-size:16px; color:var(--danger);">-</div>
+                </div>
+            </div>
+
+            <div class="chart-box">
+                <h3 style="text-align: center; margin-bottom: 8px; font-size: 14px;">Answer Breakdown Ratio</h3>
+                <canvas id="statsCustomCanvasChart" width="400" height="300"></canvas>
+            </div>
+        </section>
+
+    </main>
+
+    <nav class="tab-bar hidden" id="applicationGlobalTabBar">
+        <button class="tab-btn active" data-target="dashboardScreen">
+            <span class="tab-btn-icon">🏠</span>Dashboard
+        </button>
+        <button class="tab-btn" data-target="leaderboardScreen">
+            <span class="tab-btn-icon">🏆</span>Leaderboard
+        </button>
+        <button class="tab-btn" data-target="statisticsScreen">
+            <span class="tab-btn-icon">📈</span>Statistics
+        </button>
+    </nav>
+
+    <script>
+        /*********************************************************************
+         * 1. BANK INJECTION MATRIX (WITHOUT CONTEXT TAGS)
+         *********************************************************************/
+        const nounsQuestions = [];
+        const pronounsQuestions = [];
+        const verbsQuestions = [];
+        const adjectivesQuestions = [];
+        const adverbsQuestions = [];
+        const prepositionsQuestions = [];
+        const tensesQuestions = [];
+        const articlesQuestions = [];
+        const conjunctionsQuestions = [];
+        const mixedQuestions = [];
+
+        const structures = {
+            nouns: [
+                { q: "Which word in this sentence is a common noun? 'The [target] ran fast.'", type: "Common Noun" },
+                { q: "Identify the proper noun: 'We love visiting [target] during holidays.'", type: "Proper Noun" },
+                { q: "What is the plural form of '[target]'?", type: "Plural Noun" },
+                { q: "Choose the correct singular form of '[target]'.", type: "Singular Noun" }
+            ],
+            pronouns: [
+                { q: "[target] am planning to read a new book tonight.", type: "Subject Pronoun" },
+                { q: "The bicycle belongs to Ali. It is [target].", type: "Possessive Pronoun" },
+                { q: "Aisha called out to Ahmed and asked [target] to help.", type: "Personal Pronoun" }
+            ],
+            verbs: [
+                { q: "Find the main action verb: 'The kids [target] in the field.'", type: "Action Verb" },
+                { q: "Select the correct helping verb: 'She [target] studying right now.'", type: "Helping Verb" },
+                { q: "Complete the sentence with the correct verb form: 'They always [target] early.'", type: "Verb Form" }
+            ],
+            adjectives: [
+                { q: "Identify the describing word: 'The teacher gave us a [target] puzzle.'", type: "Describing Word" },
+                { q: "Fill the blank with a comparative adjective: 'My brother is [target] than me.'", type: "Comparative Adjective" },
+                { q: "Choose the superlative adjective: 'This is the [target] day ever!'", type: "Superlative Adjective" }
+            ],
+            adverbs: [
+                { q: "Which word tells us how? 'Siti wrote the essay [target].'", type: "Adverbs of Manner" },
+                { q: "Identify the time adverbial: 'We are going to play football [target].'", type: "Adverbs of Time" },
+                { q: "Find the place adverbial: 'The students stood [target] to watch.'", type: "Adverbs of Place" }
+            ],
+            prepositions: [
+                { q: "Put the books [target] the shelf where they belong.", type: "In/On/Under/Behind/Between" },
+                { q: "The playful cat hid [target] the large sofa.", type: "In/On/Under/Behind/Between" },
+                { q: "Our school is located [target] the post office and the mosque.", type: "In/On/Under/Behind/Between" }
+            ],
+            tenses: [
+                { q: "Identify the simple present tense: 'Every day, he [target] to school.'", type: "Simple Present" },
+                { q: "Identify the simple past tense: 'Yesterday, they [target] a movie.'", type: "Simple Past" },
+                { q: "Identify the simple future tense: 'Tomorrow, we [target] Kuala Lumpur.'", type: "Simple Future" }
+            ],
+            articles: [
+                { q: "I would love to eat [target] apple right now.", type: "A / An / The" },
+                { q: "My father drives [target] blue car to his office.", type: "A / An / The" },
+                { q: "[target] sun shines brightly in the sky.", type: "A / An / The" }
+            ],
+            conjunctions: [
+                { q: "I like coffee [target] I do not like strong tea.", type: "And / But / Or / Because" },
+                { q: "Would you like to have chicken rice [target] noodles for lunch?", type: "And / But / Or / Because" },
+                { q: "He stayed at home [target] it was raining heavily outside.", type: "And / But / Or / Because" }
+            ]
+        };
+
+        const lexicons = {
+            nouns: [
+                { target: "cat", ok: ["cat", "run", "happy", "softly"] },
+                { target: "Malaysia", ok: ["Malaysia", "country", "beautiful", "live"] },
+                { target: "boxes", ok: ["boxes", "boxs", "boxies", "boxing"] },
+                { target: "child", ok: ["child", "children", "childs", "childrens"] },
+                { target: "teacher", ok: ["teacher", "teach", "cleverly", "tall"] },
+                { target: "Kuala Lumpur", ok: ["Kuala Lumpur", "city", "busy", "visit"] },
+                { target: "puppies", ok: ["puppies", "puppys", "puppis", "puppy"] },
+                { target: "mouse", ok: ["mouse", "mouses", "mice", "mices"] }
+            ],
+            pronouns: [
+                { target: "I", ok: ["I", "Me", "Mine", "Myself"] },
+                { target: "his", ok: ["his", "him", "he", "himself"] },
+                { target: "him", ok: ["him", "he", "his", "himself"] },
+                { target: "She", ok: ["She", "Her", "Hers", "Herself"] },
+                { target: "theirs", ok: ["theirs", "them", "they", "their"] },
+                { target: "us", ok: ["us", "we", "our", "ours"] }
+            ],
+            verbs: [
+                { target: "danced", ok: ["danced", "dance", "dancing", "dancer"] },
+                { target: "is", ok: ["is", "are", "am", "be"] },
+                { target: "wake up", ok: ["wake up", "wakes up", "woke up", "waking up"] },
+                { target: "shouted", ok: ["shouted", "shout", "shouting", "loud"] },
+                { target: "has", ok: ["has", "have", "having", "had"] }
+            ],
+            adjectives: [
+                { target: "difficult", ok: ["difficult", "difficulty", "difficultly", "differ"] },
+                { target: "taller", ok: ["taller", "tall", "tallest", "tally"] },
+                { target: "best", ok: ["best", "good", "better", "well"] },
+                { target: "colorful", ok: ["colorful", "color", "colorfully", "coloring"] }
+            ],
+            adverbs: [
+                { target: "neatly", ok: ["neatly", "neat", "neatness", "tidy"] },
+                { target: "tomorrow", ok: ["tomorrow", "yesterday", "now", "always"] },
+                { target: "outside", ok: ["outside", "in", "under", "where"] },
+                { target: "gracefully", ok: ["gracefully", "grace", "graceful", "gracious"] }
+            ],
+            prepositions: [
+                { target: "on", ok: ["on", "in", "under", "at"] },
+                { target: "behind", ok: ["behind", "between", "through", "over"] },
+                { target: "between", ok: ["between", "among", "into", "from"] },
+                { target: "under", ok: ["under", "above", "on", "next to"] }
+            ],
+            tenses: [
+                { target: "walks", ok: ["walks", "walked", "walking", "will walk"] },
+                { target: "watched", ok: ["watched", "watches", "watching", "will watch"] },
+                { target: "will travel", ok: ["will travel", "traveled", "travels", "traveling"] }
+            ],
+            articles: [
+                { target: "an", ok: ["an", "a", "the", "some"] },
+                { target: "a", ok: ["a", "an", "the", "any"] },
+                { target: "the", ok: ["the", "a", "an", "one"] }
+            ],
+            conjunctions: [
+                { target: "but", ok: ["but", "and", "or", "because"] },
+                { target: "or", ok: ["or", "and", "but", "so"] },
+                { target: "because", ok: ["because", "but", "or", "although"] }
+            ]
+        };
+
+        function synthesizeBank(topicKey, outputArr, displayTopicName) {
+            let idCounter = outputArr.length + 1;
+            const itemTemplates = structures[topicKey];
+            const wordPool = lexicons[topicKey];
+
+            for (let i = 0; i < 105; i++) {
+                let template = itemTemplates[i % itemTemplates.length];
+                let wordInfo = wordPool[i % wordPool.length];
+                let processedText = template.q.replace("[target]", wordInfo.target);
+
+                outputArr.push({
+                    id: `${topicKey.substring(0,3)}_${idCounter++}`,
+                    topic: displayTopicName,
+                    question: processedText,
+                    options: [...wordInfo.ok], 
+                    answer: wordInfo.ok[0]
+                });
+            }
+        }
+
+        synthesizeBank("nouns", nounsQuestions, "Nouns");
+        synthesizeBank("pronouns", pronounsQuestions, "Pronouns");
+        synthesizeBank("verbs", verbsQuestions, "Verbs");
+        synthesizeBank("adjectives", adjectivesQuestions, "Adjectives");
+        synthesizeBank("adverbs", adverbsQuestions, "Adverbs");
+        synthesizeBank("prepositions", prepositionsQuestions, "Prepositions");
+        synthesizeBank("tenses", tensesQuestions, "Tenses");
+        synthesizeBank("articles", articlesQuestions, "Articles");
+        synthesizeBank("conjunctions", conjunctionsQuestions, "Conjunctions");
+
+        let combinedPool = [
+            ...nounsQuestions, ...pronounsQuestions, ...verbsQuestions, 
+            ...adjectivesQuestions, ...adverbsQuestions, ...prepositionsQuestions, 
+            ...tensesQuestions, ...articlesQuestions, ...conjunctionsQuestions
+        ];
+        
+        for (let j = 0; j < 210; j++) {
+            let baseQuest = combinedPool[j % combinedPool.length];
+            mixedQuestions.push({
+                id: `mix_${j+1}`,
+                topic: "Mixed Grammar Challenge",
+                question: baseQuest.question,
+                options: [...baseQuest.options],
+                answer: baseQuest.answer
+            });
+        }
+
+        const masterTopicRegistry = {
+            "nouns": nounsQuestions, "pronouns": pronounsQuestions, "verbs": verbsQuestions,
+            "adjectives": adjectivesQuestions, "adverbs": adverbsQuestions, "prepositions": prepositionsQuestions,
+            "tenses": tensesQuestions, "articles": articlesQuestions, "conjunctions": conjunctionsQuestions, "mixed": mixedQuestions
+        };
+
+        const topicMetadata = [
+            { key: "nouns", title: "Nouns", count: nounsQuestions.length, desc: "Common, Proper, Singular, Plural markers." },
+            { key: "pronouns", title: "Pronouns", count: pronounsQuestions.length, desc: "Subject, Personal, and Possessive replacement words." },
+            { key: "verbs", title: "Verbs", count: verbsQuestions.length, desc: "Action executioners, helping modals, and verb forms." },
+            { key: "adjectives", title: "Adjectives", count: adjectivesQuestions.length, desc: "Describing components, comparatives, and superlatives." },
+            { key: "adverbs", title: "Adverbs", count: adverbsQuestions.length, desc: "Manner execution patterns, timing, and spatial locations." },
+            { key: "prepositions", title: "Prepositions", count: prepositionsQuestions.length, desc: "Directional tags (In, On, Under, Behind, Between)." },
+            { key: "tenses", title: "Tenses", count: tensesQuestions.length, desc: "Temporal expressions tracking Present, Past, and Future." },
+            { key: "articles", title: "Articles", count: articlesQuestions.length, desc: "Determiner specifications utilizing A, An, and The." },
+            { key: "conjunctions", title: "Conjunctions", count: conjunctionsQuestions.length, desc: "Connecting phrase mechanisms mapping And, But, Or, Because." },
+            { key: "mixed", title: "Mixed Grammar Challenge", count: mixedQuestions.length, desc: "Randomized entries from all sets." }
+        ];
+
+        /*********************************************************************
+         * 2. AUDIO SYNTHESIZER UTILITIES ENGINE
+         *********************************************************************/
+        let isMuted = false;
+        const AudioEngine = {
+            ctx: null,
+            init() { if (!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)(); },
+            playClick() {
+                if (isMuted) return; this.init();
+                let osc = this.ctx.createOscillator(), gain = this.ctx.createGain();
+                osc.type = 'sine'; osc.frequency.setValueAtTime(600, this.ctx.currentTime);
+                gain.gain.setValueAtTime(0.05, this.ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.1);
+                osc.connect(gain); gain.connect(this.ctx.destination);
+                osc.start(); osc.stop(this.ctx.currentTime + 0.1);
+            },
+            playCorrect() {
+                if (isMuted) return; this.init();
+                let osc1 = this.ctx.createOscillator(), osc2 = this.ctx.createOscillator(), gain = this.ctx.createGain();
+                osc1.type = 'triangle'; osc1.frequency.setValueAtTime(523.25, this.ctx.currentTime);
+                osc2.type = 'sine'; osc2.frequency.setValueAtTime(659.25, this.ctx.currentTime);
+                gain.gain.setValueAtTime(0.1, this.ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.3);
+                osc1.connect(gain); osc2.connect(gain); gain.connect(this.ctx.destination);
+                osc1.start(); osc2.start(); osc1.stop(this.ctx.currentTime + 0.3); osc2.stop(this.ctx.currentTime + 0.3);
+            },
+            playWrong() {
+                if (isMuted) return; this.init();
+                let osc = this.ctx.createOscillator(), gain = this.ctx.createGain();
+                osc.type = 'sawtooth'; osc.frequency.setValueAtTime(150, this.ctx.currentTime);
+                osc.frequency.linearRampToValueAtTime(80, this.ctx.currentTime + 0.25);
+                gain.gain.setValueAtTime(0.1, this.ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.3);
+                osc.connect(gain); gain.connect(this.ctx.destination);
+                osc.start(); osc.stop(this.ctx.currentTime + 0.3);
+            },
+            playComplete() {
+                if (isMuted) return; this.init();
+                let now = this.ctx.currentTime;
+                let notes = [261.63, 329.63, 392.00, 523.25];
+                notes.forEach((freq, index) => {
+                    let osc = this.ctx.createOscillator(), gain = this.ctx.createGain();
+                    osc.frequency.setValueAtTime(freq, now + (index * 0.1));
+                    gain.gain.setValueAtTime(0.1, now + (index * 0.1));
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + (index * 0.1) + 0.4);
+                    osc.connect(gain); gain.connect(this.ctx.destination);
+                    osc.start(now + (index * 0.1)); osc.stop(now + (index * 0.1) + 0.4);
+                });
+            }
+        };
+
+        /*********************************************************************
+         * 3. STATE MANAGEMENT & STORAGE CONTROLLER
+         *********************************************************************/
+        let state = {
+            currentUser: "",
+            currentTheme: "light",
+            selectedQuantity: 10,
+            activeTopicKey: null,
+            sessionQuestions: [],
+            currentQuestionIdx: 0,
+            userAnswers: {},
+            sessionScore: 0
+        };
+
+        // Helper untuk perayauan rawak (Shuffle)
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function loadApplicationState() {
+            state.currentUser = localStorage.getItem("bijak_user") || "";
+            state.currentTheme = localStorage.getItem("bijak_theme") || "light";
+            isMuted = localStorage.getItem("bijak_muted") === "true";
+            
+            document.documentElement.setAttribute("data-theme", state.currentTheme);
+            document.getElementById("themeBtn").textContent = state.currentTheme === "light" ? "🌙" : "☀️";
+            document.getElementById("muteBtn").textContent = isMuted ? "🔇" : "🔊";
+
+            updateProfileSelectorList();
+
+            if (state.currentUser) {
+                showUserAuthenticatedUI();
+            } else {
+                showScreen("registrationScreen");
+            }
+        }
+
+        function saveProfile(name) {
+            let usersList = JSON.parse(localStorage.getItem("bijak_users_list") || "[]");
+            if (!usersList.includes(name)) {
+                usersList.push(name);
+                localStorage.setItem("bijak_users_list", JSON.stringify(usersList));
+            }
+
+            localStorage.setItem("bijak_user", name);
+            state.currentUser = name;
+            
+            if (!localStorage.getItem(`bijak_history_${name}`)) {
+                localStorage.setItem(`bijak_history_${name}`, JSON.stringify([]));
+            }
+            showUserAuthenticatedUI();
+        }
+
+        function updateProfileSelectorList() {
+            let usersList = JSON.parse(localStorage.getItem("bijak_users_list") || "[]");
+            let container = document.getElementById("existingProfilesList");
+            let area = document.getElementById("profileSelectorArea");
+
+            container.innerHTML = "";
+            if (usersList.length > 0) {
+                area.classList.remove("hidden");
+                usersList.forEach(name => {
+                    let chip = document.createElement("button");
+                    chip.className = "profile-chip";
+                    chip.textContent = name;
+                    chip.addEventListener("click", () => {
+                        AudioEngine.playClick();
+                        saveProfile(name);
+                    });
+                    container.appendChild(chip);
+                });
+            } else {
+                area.classList.add("hidden");
+            }
+        }
+
+        function showUserAuthenticatedUI() {
+            document.getElementById("userTagDisplay").textContent = `Welcome, ${state.currentUser}!`;
+            document.getElementById("userTagDisplay").classList.remove("hidden");
+            document.getElementById("logoutBtn").classList.remove("hidden");
+            document.getElementById("dashWelcomeHeading").textContent = `Welcome, ${state.currentUser}!`;
+            document.getElementById("quickStartBtn").classList.remove("hidden");
+            document.getElementById("applicationGlobalTabBar").classList.remove("hidden");
+            
+            updateDashboardMetrics();
+            showScreen("dashboardScreen");
+        }
+
+        function performLogout() {
+            localStorage.removeItem("bijak_user");
+            state.currentUser = "";
+            
+            document.getElementById("userTagDisplay").classList.add("hidden");
+            document.getElementById("logoutBtn").classList.add("hidden");
+            document.getElementById("applicationGlobalTabBar").classList.add("hidden");
+            document.getElementById("studentNameInput").value = "";
+            
+            updateProfileSelectorList();
+            showScreen("registrationScreen");
+        }
+
+        function updateDashboardMetrics() {
+            if (!state.currentUser) return;
+            let history = JSON.parse(localStorage.getItem(`bijak_history_${state.currentUser}`) || "[]");
+            
+            if (history.length === 0) {
+                document.getElementById("statHighestScore").textContent = "0";
+                document.getElementById("statTotalAttempts").textContent = "0";
+                document.getElementById("statAvgAccuracy").textContent = "0%";
+                document.getElementById("statLastPlayed").textContent = "-";
+                return;
+            }
+
+            let maxScore = Math.max(...history.map(h => h.score));
+            let totalCorrect = history.reduce((sum, h) => sum + h.correct, 0);
+            let totalAnswered = history.reduce((sum, h) => sum + h.total, 0);
+            let avgAccuracy = totalAnswered > 0 ? Math.round((totalCorrect / totalAnswered) * 100) : 0;
+            let lastAttempt = history[history.length - 1];
+
+            document.getElementById("statHighestScore").textContent = maxScore;
+            document.getElementById("statTotalAttempts").textContent = history.length;
+            document.getElementById("statAvgAccuracy").textContent = `${avgAccuracy}%`;
+            document.getElementById("statLastPlayed").textContent = lastAttempt.dateTime.split(",")[0];
+        }
+
+        /*********************************************************************
+         * 4. ROUTING & SCREEN VIEW CONTROLLER
+         *********************************************************************/
+        function showScreen(screenId) {
+            const screens = ["registrationScreen", "dashboardScreen", "quizScreen", "resultsScreen", "leaderboardScreen", "statisticsScreen"];
+            screens.forEach(s => document.getElementById(s).classList.add("hidden"));
+            document.getElementById(screenId).classList.remove("hidden");
+
+            document.querySelectorAll(".tab-btn").forEach(btn => {
+                if (btn.getAttribute("data-target") === screenId) btn.classList.add("active");
+                else btn.classList.remove("active");
+            });
+
+            if (screenId === "leaderboardScreen") populateLeaderboardTable();
+            if (screenId === "statisticsScreen") populateStatisticsView();
+        }
+
+        /*********************************************************************
+         * 5. NON-REPEATING RANDOM QUIZ ENGINE
+         *********************************************************************/
+        function initiateQuizSession(topicKey) {
+            state.activeTopicKey = topicKey;
+            let rawPool = masterTopicRegistry[topicKey];
+            let qtyTarget = state.selectedQuantity;
+
+            // Klon dan rawak keseluruhan soalan (Satu sesi dijamin tiada soalan berulang)
+            let randomClonedPool = shuffleArray([...rawPool]);
+
+            state.sessionQuestions = randomClonedPool.slice(0, qtyTarget);
+            state.currentQuestionIdx = 0;
+            state.userAnswers = {};
+            state.sessionScore = 0;
+
+            let topicMeta = topicMetadata.find(t => t.key === topicKey);
+            document.getElementById("quizTopicTitle").textContent = topicMeta.title;
+            document.getElementById("quizStudentName").textContent = state.currentUser;
+
+            loadQuestionToWorkspace();
+            showScreen("quizScreen");
+        }
+
+        function loadQuestionToWorkspace() {
+            let qIdx = state.currentQuestionIdx;
+            let qItem = state.sessionQuestions[qIdx];
+            
+            document.getElementById("quizQuestionCounter").textContent = `Question ${qIdx + 1} of ${state.sessionQuestions.length}`;
+            let progressPct = ((qIdx + 1) / state.sessionQuestions.length) * 100;
+            document.getElementById("quizProgressBar").style.width = `${progressPct}%`;
+            document.getElementById("quizCurrentScore").textContent = state.sessionScore;
+            document.getElementById("quizQuestionText").textContent = qItem.question;
+
+            let container = document.getElementById("quizOptionsContainer");
+            container.innerHTML = "";
+
+            // RAWAKKAN PILIHAN JAWAPAN (Supaya jawapan betul tidak stick di satu huruf/pilihan sahaja)
+            if (!qItem.shuffledOptions) {
+                qItem.shuffledOptions = shuffleArray([...qItem.options]);
+            }
+
+            const indexesLabels = ["A", "B", "C", "D"];
+
+            qItem.shuffledOptions.forEach((optText, i) => {
+                let card = document.createElement("button");
+                card.className = "option-card";
+                card.setAttribute("role", "radio");
+                card.setAttribute("aria-checked", "false");
+                card.innerHTML = `<span class="option-idx">${indexesLabels[i]}</span> <span class="opt-txt"></span>`;
+                card.querySelector(".opt-txt").textContent = optText;
+
+                if (state.userAnswers[qIdx] !== undefined) {
+                    if (optText === state.userAnswers[qIdx]) {
+                        card.classList.add("selected");
+                        card.setAttribute("aria-checked", "true");
+                    }
+                    if (optText === qItem.answer) {
+                        card.classList.add("correct");
+                    } else if (optText === state.userAnswers[qIdx]) {
+                        card.classList.add("incorrect");
+                    }
+                    card.disabled = true;
+                } else {
+                    card.addEventListener("click", () => handleOptionSelection(optText, card));
+                }
+                container.appendChild(card);
+            });
+        }
+
+        function handleOptionSelection(selectedText, element) {
+            let qIdx = state.currentQuestionIdx;
+            let qItem = state.sessionQuestions[qIdx];
+            
+            state.userAnswers[qIdx] = selectedText;
+
+            if (selectedText === qItem.answer) {
+                state.sessionScore += 1;
+                AudioEngine.playCorrect();
+            } else {
+                AudioEngine.playWrong();
+            }
+
+            loadQuestionToWorkspace();
+
+            // AUTO ADVANCE
+            setTimeout(() => {
+                if (state.currentQuestionIdx < state.sessionQuestions.length - 1) {
+                    state.currentQuestionIdx++;
+                    loadQuestionToWorkspace();
+                } else {
+                    compileAndProcessResults();
+                }
+            }, 800); 
+        }
+
+        function compileAndProcessResults() {
+            AudioEngine.playComplete();
+            let total = state.sessionQuestions.length;
+            let correct = state.sessionScore;
+            let incorrect = total - correct;
+            let accuracy = Math.round((correct / total) * 100);
+
+            let grade = "E";
+            if (accuracy >= 90) grade = "A";
+            else if (accuracy >= 80) grade = "B";
+            else if (accuracy >= 70) grade = "C";
+            else if (accuracy >= 60) grade = "D";
+
+            document.getElementById("resFinalScore").textContent = `${correct} / ${total}`;
+            document.getElementById("resAccuracy").textContent = `${accuracy}%`;
+            document.getElementById("resGrade").textContent = grade;
+
+            document.getElementById("badgeBeginner").classList.toggle("unlocked", accuracy >= 50);
+            document.getElementById("badgeExplorer").classList.toggle("unlocked", accuracy >= 70);
+            document.getElementById("badgeChampion").classList.toggle("unlocked", accuracy >= 90);
+            document.getElementById("badgeMaster").classList.toggle("unlocked", accuracy === 100);
+
+            let entry = {
+                topicKey: state.activeTopicKey,
+                topicTitle: topicMetadata.find(t => t.key === state.activeTopicKey).title,
+                score: correct, total: total, correct: correct, incorrect: incorrect, accuracy: accuracy,
+                dateTime: new Date().toLocaleString()
+            };
+
+            let history = JSON.parse(localStorage.getItem(`bijak_history_${state.currentUser}`) || "[]");
+            history.push(entry);
+            localStorage.setItem(`bijak_history_${state.currentUser}`, JSON.stringify(history));
+
+            updateGlobalLeaderboardRecords(state.currentUser, correct, accuracy);
+            
+            // Padam semula tetapan rawak pilihan jawapan untuk persediaan kuiz akan datang
+            state.sessionQuestions.forEach(q => delete q.shuffledOptions);
+            
+            showScreen("resultsScreen");
+        }
+
+        function updateGlobalLeaderboardRecords(name, score, accuracy) {
+            let leaderboard = JSON.parse(localStorage.getItem("bijak_leaderboard") || "[]");
+            let userRecord = leaderboard.find(l => l.name.toLowerCase() === name.toLowerCase());
+
+            if (userRecord) {
+                if (score > userRecord.score) {
+                    userRecord.score = score;
+                    userRecord.accuracy = accuracy;
+                }
+            } else {
+                leaderboard.push({ name: name, score: score, accuracy: accuracy });
+            }
+
+            leaderboard.sort((a, b) => b.score - a.score);
+            localStorage.setItem("bijak_leaderboard", JSON.stringify(leaderboard));
+        }
+
+        /*********************************************************************
+         * 6. LEADERBOARD
+         *********************************************************************/
+        function populateLeaderboardTable() {
+            let leaderboard = JSON.parse(localStorage.getItem("bijak_leaderboard") || "[]");
+            let tbody = document.querySelector("#leaderboardTable tbody");
+            tbody.innerHTML = "";
+
+            if (leaderboard.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--text-muted);">No records registered yet. Be the first!</td></tr>`;
+                return;
+            }
+
+            leaderboard.forEach((record, idx) => {
+                let row = document.createElement("tr");
+                row.innerHTML = `
+                    <td><strong>#${idx + 1}</strong></td>
+                    <td>${record.name}</td>
+                    <td><span style="color:var(--primary); font-weight:bold;">${record.score}</span></td>
+                    <td>${record.accuracy}%</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        /*********************************************************************
+         * 7. ANALYTICS & CANVAS CHART
+         *********************************************************************/
+        function populateStatisticsView() {
+            if (!state.currentUser) return;
+            let history = JSON.parse(localStorage.getItem(`bijak_history_${state.currentUser}`) || "[]");
+
+            let totalQuizzes = history.length;
+            let totalQuestions = history.reduce((sum, h) => sum + h.total, 0);
+            let totalCorrect = history.reduce((sum, h) => sum + h.correct, 0);
+            let totalIncorrect = history.reduce((sum, h) => sum + h.incorrect, 0);
+
+            document.getElementById("statsTotalQuizzes").textContent = totalQuizzes;
+            document.getElementById("statsTotalQuestions").textContent = totalQuestions;
+            document.getElementById("statsTotalCorrect").textContent = totalCorrect;
+            document.getElementById("statsTotalIncorrect").textContent = totalIncorrect;
+
+            let topicStats = {};
+            history.forEach(h => {
+                if (!topicStats[h.topicTitle]) topicStats[h.topicTitle] = { correct: 0, total: 0 };
+                topicStats[h.topicTitle].correct += h.correct;
+                topicStats[h.topicTitle].total += h.total;
+            });
+
+            let bestTopic = "-"; let worstTopic = "-"; let maxAcc = -1; let minAcc = 101;
+
+            Object.keys(topicStats).forEach(title => {
+                let acc = (topicStats[title].correct / topicStats[title].total) * 100;
+                if (acc > maxAcc) { maxAcc = acc; bestTopic = title; }
+                if (acc < minAcc) { minAcc = acc; worstTopic = title; }
+            });
+
+            document.getElementById("statsBestTopic").textContent = bestTopic;
+            document.getElementById("statsWorstTopic").textContent = worstTopic;
+
+            renderPureCanvasPieChart(totalCorrect, totalIncorrect);
+        }
+
+        function renderPureCanvasPieChart(correct, incorrect) {
+            const canvas = document.getElementById("statsCustomCanvasChart");
+            if (!canvas) return;
+            const ctx = canvas.getContext("2d");
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            let total = correct + incorrect;
+            if (total === 0) {
+                ctx.fillStyle = "#718096"; ctx.font = "16px sans-serif"; ctx.textAlign = "center";
+                ctx.fillText("No practice data items logged yet.", canvas.width / 2, canvas.height / 2);
+                return;
+            }
+
+            let correctPct = correct / total;
+            let incorrectPct = incorrect / total;
+            let centerX = canvas.width / 2; let centerY = canvas.height / 2 - 20; let radius = 80;
+
+            ctx.beginPath(); ctx.moveTo(centerX, centerY);
+            ctx.arc(centerX, centerY, radius, 0, Math.PI * 2 * correctPct);
+            ctx.fillStyle = "#10b981"; ctx.fill();
+
+            ctx.beginPath(); ctx.moveTo(centerX, centerY);
+            ctx.arc(centerX, centerY, radius, Math.PI * 2 * correctPct, Math.PI * 2);
+            ctx.fillStyle = "#ef4444"; ctx.fill();
+
+            ctx.font = "bold 14px sans-serif"; ctx.fillStyle = "#10b981"; ctx.textAlign = "left";
+            ctx.fillText(`■ Correct: ${Math.round(correctPct*100)}% (${correct})`, 40, canvas.height - 40);
+            ctx.fillStyle = "#ef4444";
+            ctx.fillText(`■ Incorrect: ${Math.round(incorrectPct*100)}% (${incorrect})`, 220, canvas.height - 40);
+        }
+
+        /*********************************************************************
+         * 8. CORE EVENTS
+         *********************************************************************/
+        document.addEventListener("DOMContentLoaded", () => {
+            const gridContainer = document.getElementById("topicsGridContainer");
+            topicMetadata.forEach(t => {
+                let card = document.createElement("button");
+                card.className = "topic-card";
+                card.innerHTML = `<div class="topic-badge">${t.count} Qs</div><h3>${t.title}</h3><p>${t.desc}</p>`;
+                card.addEventListener("click", () => {
+                    AudioEngine.playClick();
+                    initiateQuizSession(t.key);
+                });
+                gridContainer.appendChild(card);
+            });
+
+            document.querySelectorAll(".qty-btn").forEach(btn => {
+                btn.addEventListener("click", () => {
+                    AudioEngine.playClick();
+                    document.querySelectorAll(".qty-btn").forEach(b => b.classList.remove("active"));
+                    btn.classList.add("active");
+                    state.selectedQuantity = parseInt(btn.getAttribute("data-qty"));
+                });
+            });
+
+            document.getElementById("registerBtn").addEventListener("click", () => {
+                AudioEngine.playClick();
+                let name = document.getElementById("studentNameInput").value.trim();
+                if (!name) {
+                    alert("Please fill in your full name before starting!");
+                    return;
+                }
+                saveProfile(name);
+            });
+
+            document.getElementById("logoutBtn").addEventListener("click", () => {
+                AudioEngine.playClick();
+                if (confirm("Are you sure you want to log out? Your user record history will safely remain stored.")) {
+                    performLogout();
+                }
+            });
+
+            document.getElementById("quickStartBtn").addEventListener("click", () => {
+                AudioEngine.playClick(); showScreen("dashboardScreen");
+            });
+
+            document.getElementById("exitQuizBtn").addEventListener("click", () => {
+                AudioEngine.playClick();
+                if (confirm("Are you sure you want to quit this active quiz run? Progress won't be saved.")) {
+                    state.sessionQuestions.forEach(q => delete q.shuffledOptions);
+                    showScreen("dashboardScreen");
+                }
+            });
+
+            document.getElementById("resBackToDashBtn").addEventListener("click", () => {
+                AudioEngine.playClick(); updateDashboardMetrics(); showScreen("dashboardScreen");
+            });
+
+            document.querySelectorAll(".tab-bar .tab-btn").forEach(btn => {
+                btn.addEventListener("click", () => {
+                    AudioEngine.playClick(); showScreen(btn.getAttribute("data-target"));
+                });
+            });
+
+            document.getElementById("refreshLeaderboardBtn").addEventListener("click", () => {
+                AudioEngine.playClick(); populateLeaderboardTable();
+            });
+
+            document.getElementById("clearLeaderboardBtn").addEventListener("click", () => {
+                AudioEngine.playClick();
+                if (confirm("Warning! This deletes all high scores globally. Do you wish to proceed?")) {
+                    localStorage.removeItem("bijak_leaderboard"); populateLeaderboardTable();
+                }
+            });
+
+            document.getElementById("themeBtn").addEventListener("click", () => {
+                AudioEngine.playClick();
+                state.currentTheme = state.currentTheme === "light" ? "dark" : "light";
+                document.documentElement.setAttribute("data-theme", state.currentTheme);
+                localStorage.setItem("bijak_theme", state.currentTheme);
+                document.getElementById("themeBtn").textContent = state.currentTheme === "light" ? "🌙" : "☀️";
+                if(state.activeTopicKey && !document.getElementById("statisticsScreen").classList.contains("hidden")) {
+                    populateStatisticsView();
+                }
+            });
+
+            document.getElementById("muteBtn").addEventListener("click", () => {
+                isMuted = !isMuted;
+                localStorage.setItem("bijak_muted", isMuted);
+                document.getElementById("muteBtn").textContent = isMuted ? "🔇" : "🔊";
+                AudioEngine.playClick();
+            });
+
+            loadApplicationState();
+        });
+    </script>
+</body>
+</html>
