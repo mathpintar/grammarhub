@@ -783,7 +783,7 @@
                 { id: "p7", question: "___ are going to the zoo tomorrow as a family.", options: ["We", "He", "She", "I"], answer: "We" },
                 { id: "p8", question: "This room is messy. Please clean it up ___.", options: ["yourself", "yourselves", "himself", "herself"], answer: "yourself" },
                 { id: "p9", question: "Whose book is this? Is it ___?", options: ["yours", "your", "you", "him"], answer: "yours" },
-                { id: "p10", location: "Jane and Aminah are good friends. ___ always study together at the school library.", options: ["They", "We", "Them", "Their"], answer: "They" },
+                { id: "p10", question: "Jane and Aminah are good friends. ___ always study together at the school library.", options: ["They", "We", "Them", "Their"], answer: "They" },
                 { id: "p11", question: "I cannot find my keys. Have you seen ___?", options: ["them", "it", "they", "their"], answer: "them" },
                 { id: "p12", question: "He hurt ___ while playing football in the field yesterday.", options: ["himself", "themselves", "myself", "oneself"], answer: "himself" }
             ],
@@ -887,7 +887,6 @@
             ]
         };
 
-        // Rekonstruksi kategori Mixed secara dinamik agar tiada isu perkongsian rujukan objek asal
         function generateFreshMixedPool() {
             return [
                 ...masterQuestionsDatabase.nouns,
@@ -899,7 +898,7 @@
                 ...masterQuestionsDatabase.tenses,
                 ...masterQuestionsDatabase.articles,
                 ...masterQuestionsDatabase.conjunctions
-            ].map(q => JSON.parse(JSON.stringify(q))); // Deep copy untuk mengelakkan pencemaran metadata item soalan
+            ].map(q => JSON.parse(JSON.stringify(q)));
         }
 
         const topicMetadata = [
@@ -1118,14 +1117,15 @@
         function initiateQuizSession(topicKey) {
             state.activeTopicKey = topicKey;
             
-            // Atasi masalah rawakan bercampur rujukan objek (shallow-copy leak)
             let rawPool = (topicKey === "mixed") ? generateFreshMixedPool() : JSON.parse(JSON.stringify(masterQuestionsDatabase[topicKey]));
-            let qtyTarget = Math.min(state.selectedQuantity, rawPool.length);
-
-            // Guna Fisher-Yates untuk merawak keseluruhan pool item terklon.
+            
+            // Rawak seluruh database pool terlebih dahulu untuk mengelakkan corak berulang
             let completelyShuffledPool = shuffleArray(rawPool);
-
+            
+            // Ambil sub-sampel mengikut had bilangan soalan kuiz selepas selesai dirawakkan
+            let qtyTarget = Math.min(state.selectedQuantity, completelyShuffledPool.length);
             state.sessionQuestions = completelyShuffledPool.slice(0, qtyTarget);
+            
             state.currentQuestionIdx = 0;
             state.userAnswers = {};
             state.sessionScore = 0;
@@ -1151,7 +1151,6 @@
             let container = document.getElementById("quizOptionsContainer");
             container.innerHTML = "";
 
-            // RAWAKKAN JAWAPAN SECARA BERSIH
             if (!qItem.shuffledOptions) {
                 qItem.shuffledOptions = shuffleArray(qItem.options);
             }
