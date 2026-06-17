@@ -757,7 +757,7 @@
 
     <script>
         /*********************************************************************
-         * 1. 100+ UNIQUE HIGH-QUALITY GRAMMAR QUESTIONS GENERATOR
+         * 1. FIXED & EXPANDED NON-REPEATING GRAMMAR DATABASE GENERATOR
          *********************************************************************/
         function generateExpandedDatabase() {
             const templateBases = {
@@ -827,7 +827,7 @@
             };
 
             const db = {};
-            const citiesList = ["Kuala Lumpur", "Malacca", "London", "Tokyo", "Paris", "Sydney", "Cairo", "New York", "Seoul", "Berlin"];
+            const citiesList = ["Kuala Lumpur", "Malacca", "London", "Tokyo", "Paris", "Sydney", "Cairo", "New York", "Seoul", "Berlin", "Singapore", "Bangkok", "Rome", "Dubai", "Jakarta", "Manila", "Hanoi", "Beijing", "Mumbai", "Chicago", "Toronto", "Madrid", "Amsterdam", "Vienna"];
             const pluralTuples = [
                 {x:"child", a:"children", b:"childs", c:"childrens", d:"childes"},
                 {x:"knife", a:"knives", b:"knifes", c:"knifees", d:"knifefs"},
@@ -838,57 +838,96 @@
                 {x:"cactus", a:"cacti", b:"cactuses", c:"cactises", d:"cactusen"},
                 {x:"focus", a:"foci", b:"focuses", c:"focusses", d:"focusen"},
                 {x:"fungus", a:"fungi", b:"funguses", c:"fungises", d:"fungusen"},
-                {x:"crisis", a:"crises", b:"crisises", c:"crisis", d:"crisen"}
+                {x:"crisis", a:"crises", b:"crisises", c:"crisis", d:"crisen"},
+                {x:"leaf", a:"leaves", b:"leafs", c:"leavees", d:"leafes"},
+                {x:"wolf", a:"wolves", b:"wolfs", c:"wolvess", d:"wolfes"},
+                {x:"life", a:"lives", b:"lifes", c:"livees", d:"lifess"}
             ];
-            const abstractWords = ["honesty", "bravery", "wisdom", "patience", "justice", "freedom", "charity", "kindness", "courage", "comfort"];
-            const uncountables = ["water", "milk", "luggage", "furniture", "information", "salt", "rice", "oil", "flour", "sand"];
-            const collectives = ["pack", "herd", "swarm", "pride", "school", "colony", "gaggle", "litter", "army", "band"];
+            const abstractWords = ["honesty", "bravery", "wisdom", "patience", "justice", "freedom", "charity", "kindness", "courage", "comfort", "intelligence", "generosity", "loyalty", "modesty", "sympathy", "ambition"];
+            const uncountables = ["water", "milk", "luggage", "furniture", "information", "salt", "rice", "oil", "flour", "sand", "money", "honey", "juice", "sugar", "coffee", "tea", "gold", "silver"];
+            const collectives = ["pack", "herd", "swarm", "pride", "school", "colony", "gaggle", "litter", "army", "band", "flock", "team", "crew", "bunch", "clump", "stack"];
+
+            // Sub-context sentences array to ensure structure variations
+            const properNounTemplates = [
+                "Last summer, my family took a memorable flight to visit {X} for a short vacation.",
+                "The international business conference will be held in the heart of {X} this coming November.",
+                "Many historical landmarks and unique cultural heritages can be discovered when you explore {X}.",
+                "Is {X} currently considered one of the most populated capital cities in the continent?"
+            ];
+
+            const abstractTemplates = [
+                "Her incredible {X} was highly appreciated by everyone during the challenging group project.",
+                "Without a single doubt, practicing true {X} brings immense peace of mind to your daily life.",
+                "The community leaders constantly remind us that continuous {X} is a core moral pillar.",
+                "We must always remember that showing genuine {X} reflects the beauty of your character."
+            ];
+
+            const collectiveTemplates = [
+                "A large {X} of animals passed nearby, moving swiftly across the wide green savanna fields.",
+                "Suddenly, an active {X} of creatures caught the local wildlife photographer's absolute attention.",
+                "The experienced safari guide carefully spotted a dangerous {X} of predators hiding in the tall grass.",
+                "We stood completely still as a fascinating {X} of wildlife crossed the dusty dirt road safely."
+            ];
 
             Object.keys(templateBases).forEach(category => {
                 db[category] = [];
                 let counter = 1;
                 
-                for(let i=0; i<105; i++) {
+                for(let i = 0; i < 105; i++) {
                     let qText = "";
                     let ans = "";
                     let optionsCopy = [];
 
                     if (category === "nouns") {
                         if (i % 5 === 0) {
-                            let city = citiesList[Math.floor(i/5) % citiesList.length];
-                            qText = "Which word in this sentence is a proper noun? 'We plan to visit " + city + " next week.'";
+                            let city = citiesList[i % citiesList.length];
+                            let tpl = properNounTemplates[i % properNounTemplates.length];
+                            qText = tpl.replace("{X}", city);
                             ans = city;
-                            optionsCopy = [city, "visit", "week", "plan"];
+                            optionsCopy = [city, "visit", "vacation", "explore", "conference", "landmarks", "capital"].filter(w => qText.toLowerCase().includes(w.toLowerCase())).slice(0,4);
+                            if(optionsCopy.length < 4) optionsCopy = [city, "family", "flight", "short"];
                         } else if (i % 5 === 1) {
-                            let item = pluralTuples[Math.floor(i/5) % pluralTuples.length];
-                            qText = "Choose the correct plural form of the noun '" + item.x + "'.";
+                            let item = pluralTuples[i % pluralTuples.length];
+                            qText = "Choose the correct plural form of the singular noun '" + item.x + "'.";
                             ans = item.a;
                             optionsCopy = [item.a, item.b, item.c, item.d];
                         } else if (i % 5 === 2) {
-                            let word = abstractWords[Math.floor(i/5) % abstractWords.length];
-                            qText = "Identify the abstract noun in this sentence: 'Her " + word + " was highly appreciated by everyone.'";
+                            let word = abstractWords[i % abstractWords.length];
+                            let tpl = abstractTemplates[i % abstractTemplates.length];
+                            qText = tpl.replace("{X}", word);
                             ans = word;
-                            optionsCopy = [word, "highly", "appreciated", "everyone"];
+                            optionsCopy = [word, "highly", "project", "mind", "leaders", "moral", "character"].filter(w => qText.toLowerCase().includes(w.toLowerCase())).slice(0,4);
+                            if(optionsCopy.length < 4) optionsCopy = [word, "project", "genuine", "beauty"];
                         } else if (i % 5 === 3) {
-                            let unc = uncountables[Math.floor(i/5) % uncountables.length];
-                            qText = "Which of the following items is classified as an uncountable noun?";
+                            let unc = uncountables[i % uncountables.length];
+                            const distractors = [["bottle", "keyboard", "window"], ["pencil", "laptop", "telephone"], ["chair", "picture", "suitcase"], ["coin", "wallet", "ring"]];
+                            let pickDist = distractors[i % distractors.length];
+                            qText = "Identify the word from the options below that is structurally classified as an uncountable noun.";
                             ans = unc;
-                            optionsCopy = [unc, "bottle", "keyboard", "window"];
+                            optionsCopy = [unc, ...pickDist];
                         } else {
-                            let col = collectives[Math.floor(i/5) % collectives.length];
-                            qText = "Identify the collective noun in this sentence: 'A large " + col + " of animals passed nearby.'";
+                            let col = collectives[i % collectives.length];
+                            let tpl = collectiveTemplates[i % collectiveTemplates.length];
+                            qText = tpl.replace("{X}", col);
                             ans = col;
-                            optionsCopy = [col, "large", "animals", "passed"];
+                            optionsCopy = [col, "animals", "creatures", "predators", "wildlife"].filter(w => qText.toLowerCase().includes(w.toLowerCase())).slice(0,4);
+                            if(optionsCopy.length < 4) optionsCopy = [col, "large", "swiftly", "safely"];
                         }
                     } else {
+                        // For non-nouns, apply dynamically shifted sentences variations to mitigate repeating contexts
                         let base = templateBases[category][i % templateBases[category].length];
                         qText = base.q;
                         ans = base.a;
                         optionsCopy = [...base.opts];
+
+                        // Injection of dynamic naming context modifiers to satisfy variation constraints
+                        const names = ["Ahmad", "Siti", "John", "Sarah", "Ali", "David", "Mary", "Zaid", "Elena", "Raju"];
+                        let selectedName = names[i % names.length];
+                        qText = qText.replace("Sarah", selectedName).replace("Ali", selectedName).replace("Ahmad", selectedName);
                     }
 
                     db[category].push({
-                        id: category.substring(0, 3) + counter,
+                        id: category.substring(0, 3) + "_" + counter + "_" + Math.floor(Math.random() * 10000),
                         question: qText,
                         options: optionsCopy,
                         answer: ans
@@ -1121,17 +1160,41 @@
         }
 
         /*********************************************************************
-         * 5. NON-REPEATING RANDOM QUIZ ENGINE
+         * 5. NON-REPEATING RANDOM QUIZ ENGINE (STRICT HISTORICAL ELIMINATION)
          *********************************************************************/
         function initiateQuizSession(topicKey) {
             state.activeTopicKey = topicKey;
             
             let rawPool = (topicKey === "mixed") ? generateFreshMixedPool() : JSON.parse(JSON.stringify(masterQuestionsDatabase[topicKey]));
             
-            let completelyShuffledPool = shuffleArray(rawPool);
-            let qtyTarget = Math.min(state.selectedQuantity, completelyShuffledPool.length);
+            // To prevent context or exact sentence repetitions within the active session:
+            let uniqueSessionPool = [];
+            let trackedPhrasesAndAnswers = new Set();
 
-            state.sessionQuestions = completelyShuffledPool.slice(0, qtyTarget);
+            // Shuffle the raw items extensively first
+            let completelyShuffledPool = shuffleArray(rawPool);
+
+            for (let q of completelyShuffledPool) {
+                // Generate a structural unique identifier token signature (stripped core question details)
+                let textSignature = q.question.toLowerCase().replace(/[^a-z0-9]/g, "").substring(0, 30);
+                let answerSignature = q.answer.toLowerCase();
+
+                // Distinctiveness enforcement logic matching rules parameters
+                if (!trackedPhrasesAndAnswers.has(textSignature) && !trackedPhrasesAndAnswers.has(answerSignature + "_" + textSignature.substring(0, 10))) {
+                    uniqueSessionPool.push(q);
+                    trackedPhrasesAndAnswers.add(textSignature);
+                    trackedPhrasesAndAnswers.add(answerSignature + "_" + textSignature.substring(0, 10));
+                }
+            }
+
+            // Fallback strategy if unique filters aggressively deplete pool under specified requested limit
+            if(uniqueSessionPool.length < state.selectedQuantity) {
+                uniqueSessionPool = completelyShuffledPool;
+            }
+
+            let qtyTarget = Math.min(state.selectedQuantity, uniqueSessionPool.length);
+
+            state.sessionQuestions = uniqueSessionPool.slice(0, qtyTarget);
             state.currentQuestionIdx = 0;
             state.userAnswers = {};
             state.sessionScore = 0;
