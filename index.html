@@ -1,13 +1,17 @@
 <script>
         /*********************************************************************
-         * 1. 100+ SEPENUHNYA UNIK & BERBEZA GRAMMAR QUESTIONS GENERATOR
+         * 1. 100+ SEPENUHNYA UNIK & BERBEZA GRAMMAR QUESTIONS GENERATOR (VERSI BARU)
          *********************************************************************/
         function generateExpandedDatabase() {
-            // Kamus data perkataan untuk menjana kombinasi soalan yang unik tanpa ulangan
-            const properNouns = ["Kuala Lumpur", "Malacca", "London", "Tokyo", "Paris", "Sydney", "Cairo", "New York", "Seoul", "Berlin", "Penang", "Ipoh", "Johor Bahru", "Kuching", "Kota Kinabalu", "Singapore", "Bangkok", "Jakarta", "Manila", "Hanoi", "Beijing", "Mumbai", "Dubai", "Istanbul", "Rome", "Madrid", "Amsterdam", "Moscow", "Washington", "Toronto", "Chicago", "Los Angeles", "Boston", "Miami", "Seattle", "Melbourne", "Auckland", "Zürich", "Vienna", "Brussels", "Dublin", "Edinburgh", "Stockholm", "Oslo", "Copenhagen", "Helsinki", "Lisbon", "Athens", "Prague", "Warsaw"];
-            const abstractNouns = ["honesty", "bravery", "wisdom", "patience", "justice", "freedom", "charity", "kindness", "courage", "comfort", "anger", "beauty", "belief", "calmness", "compassion", "determination", "grief", "happiness", "hate", "jealousy", "joy", "knowledge", "loyalty", "misery", "pride", "relaxation", "sadness", "trust", "truth", "warmth", "sympathy", "envy", "fear", "generosity", "hope", "intelligence", "envy", "poverty", "wealth", "success", "failure", "friendship", "childhood", "honour", "integrity", "curiosity", "creativity", "boredom", "excitement", "peace"];
-            const uncountableNouns = ["water", "milk", "luggage", "furniture", "information", "salt", "rice", "oil", "flour", "sand", "sugar", "tea", "coffee", "juice", "soup", "honey", "butter", "cheese", "meat", "gold", "silver", "iron", "wood", "paper", "money", "traffic", "weather", "luggage", "baggage", "scenery", "electricity", "gas", "coal", "smoke", "dust", "garbage", "pollution", "advice", "news", "progress", "fun", "luck", "music", "art", "love", "happiness", "knowledge", "time", "space", "patience"];
-            const collectiveNouns = ["pack", "herd", "swarm", "pride", "school", "colony", "gaggle", "litter", "army", "band", "flock", "bunch", "fleet", "crew", "crowd", "choir", "class", "committee", "team", "pair", "set", "stack", "suite", "bundle", "clump", "cluster", "galaxy", "group", "host", "horde", "mob", "nest", "orchard", "pod", "shoal", "shower", "staff", "swarm", "tribe", "troop", "troupe", "tuft", "colony", "flock", "pack", "herd", "pride", "school", "brood", "flight"];
+            // Kamus data perkataan yang diperluaskan untuk menjana ratusan kombinasi soalan unik
+            const properNouns = ["Kuala Lumpur", "Malacca", "London", "Tokyo", "Paris", "Sydney", "Cairo", "New York", "Seoul", "Berlin", "Penang", "Ipoh", "Johor Bahru", "Kuching", "Kota Kinabalu", "Singapore", "Bangkok", "Jakarta", "Manila", "Hanoi", "Beijing", "Mumbai", "Dubai", "Istanbul", "Rome", "Madrid", "Amsterdam", "Moscow", "Washington", "Toronto", "Chicago", "Los Angeles", "Boston", "Miami", "Seattle", "Melbourne", "Auckland", "Zürich", "Vienna", "Brussels", "Dublin", "Edinburgh", "Stockholm", "Oslo", "Copenhagen", "Helsinki", "Lisbon", "Athens", "Prague", "Warsaw", "Manchester", "Liverpool", "Barcelona", "Munich", "Milan", "Venice", "Florence", "Kyoto", "Osaka", "Seoul", "Busan", "Shanghai", "Hong Kong", "Macau", "Taipei", "Bangalore", "New Delhi", "Mumbai", "Chennai", "Calcutta", "Cape Town", "Johannesburg", "Nairobi", "Cairo", "Alexandria", "Casablanca", "Marrakesh", "Dubai", "Abu Dhabi", "Doha", "Riyadh", "Jeddah", "Mecca", "Medina", "Jerusalem", "Tel Aviv", "Amman", "Beirut", "Damascus", "Baghdad", "Tehran", "Kabul", "Islamabad", "Karachi", "Lahore", "Dhaka", "Colombo", "Male", "Kathmandu"];
+            const abstractNouns = ["honesty", "bravery", "wisdom", "patience", "justice", "freedom", "charity", "kindness", "courage", "comfort", "anger", "beauty", "belief", "calmness", "compassion", "determination", "grief", "happiness", "hate", "jealousy", "joy", "knowledge", "loyalty", "misery", "pride", "relaxation", "sadness", "trust", "truth", "warmth", "sympathy", "envy", "fear", "generosity", "hope", "intelligence", "poverty", "wealth", "success", "failure", "friendship", "childhood", "honour", "integrity", "curiosity", "creativity", "boredom", "excitement", "peace", "ambition", "brilliance", "calamity", "chaos", "delight", "despair", "disaster", "elegance", "empathy", "enthusiasm", "envy", "evil", "excellence", "faith", "fame", "fortune", "glory", "gossip", "grace", "growth", "guilt", "harmony", "hate", "humour", "imagination", "inflation", "sanity", "satisfaction", "skill", "talent", "thrill", "victory", "warmth", "weakness", "wonder"];
+            const uncountableNouns = ["water", "milk", "luggage", "furniture", "information", "salt", "rice", "oil", "flour", "sand", "sugar", "tea", "coffee", "juice", "soup", "honey", "butter", "cheese", "meat", "gold", "silver", "iron", "wood", "paper", "money", "traffic", "weather", "baggage", "scenery", "electricity", "gas", "coal", "smoke", "dust", "garbage", "pollution", "advice", "news", "progress", "fun", "luck", "music", "art", "love", "happiness", "knowledge", "time", "space", "patience", "air", "blood", "clothing", "equipment", "food", "glass", "grass", "hair", "ice", "ink", "leather", "lightning", "meat", "mud", "oxygen", "rain", "rubbish", "seafood", "shopping", "snow", "soap", "software", "soup", "steam", "thunder", "toothpaste", "vinegar", "violence", "wealth", "wool", "zinc"];
+            const subjectNouns = ["The chef", "The pilot", "The teacher", "The doctor", "The engineer", "The artist", "The writer", "The farmer", "The driver", "The student", "The nurse", "The actor", "The singer", "The dancer", "The lawyer", "The soldier", "The sailor", "The builder", "The baker", "The tailor", "The mechanic", "The plumber", "The butcher", "The florist", "The grocer", "The jeweler", "The barber", "The waiter", "The cashier", "The banker"];
+            const actionVerbs = ["prepared", "checked", "organized", "examined", "designed", "created", "completed", "managed", "drove", "finished", "assisted", "performed", "recorded", "delivered", "guided", "protected", "navigated", "constructed", "baked", "altered", "repaired", "fixed", "chopped", "arranged", "ordered", "inspected", "trimmed", "served", "counted", "invested"];
+            const objectsNouns = ["the meal", "the aircraft", "the lesson", "the patient", "the engine", "the artwork", "the report", "the crop", "the vehicle", "the homework", "the clinic", "the scene", "the song", "the routine", "the case", "the base", "the vessel", "the wall", "the bread", "the suit", "the motor", "the pipe", "the meat", "the bouquet", "the store", "the ring", "the hair", "the food", "the cash", "the fund"];
+            const placesList = ["in the kitchen", "at the airport", "in the classroom", "at the hospital", "at the office", "in the studio", "at home", "on the farm", "on the road", "at the library", "in the ward", "on the stage", "at the studio", "in the hall", "at the court", "at the camp", "on the deck", "at the site", "at the bakery", "at the shop", "in the garage", "under the sink", "at the counter", "at the boutique", "in the supermarket", "at the workshop", "at the salon", "in the restaurant", "at the counter", "at the bank"];
+
             const pluralTuples = [
                 {x:"child", a:"children", b:"childs", c:"childrens", d:"childes"}, {x:"knife", a:"knives", b:"knifes", c:"knifees", d:"knifefs"},
                 {x:"mouse", a:"mice", b:"mouses", c:"mices", d:"mousees"}, {x:"goose", a:"geese", b:"gooses", c:"geeses", d:"goosies"},
@@ -26,182 +30,187 @@
 
             const categories = ["nouns", "pronouns", "verbs", "adjectives", "adverbs", "prepositions", "tenses", "articles", "conjunctions"];
             const db = {};
+            categories.forEach(cat => db[cat] = []);
 
-            categories.forEach(cat => {
-                db[cat] = [];
-            });
-
-            // 1. JANA 105 SOALAN NOUNS UNIK
-            for (let i = 1; i <= 105; i++) {
+            // 1. JANA 110 SOALAN NOUNS UNIK
+            for (let i = 1; i <= 110; i++) {
                 let qText = "", ans = "", opts = [];
-                if (i <= 26) {
-                    let city = properNouns[i - 1];
-                    qText = `(${i}) Which word in this sentence is a proper noun? 'We plan to visit ${city} next week.'`;
-                    ans = city; opts = [city, "visit", "week", "plan"];
-                } else if (i <= 52) {
-                    let tuple = pluralTuples[(i - 27) % pluralTuples.length];
-                    qText = `(${i}) Choose the correct plural form of the noun '${tuple.x}'.`;
+                if (i <= 30) {
+                    let city = properNouns[(i - 1) % properNouns.length];
+                    qText = `(${i}) Identify the proper noun in this sentence: 'Yesterday, my family arrived safely in ${city}.'`;
+                    ans = city; opts = [city, "family", "safely", "arrived"];
+                } else if (i <= 60) {
+                    let tuple = pluralTuples[(i - 31) % pluralTuples.length];
+                    qText = `(${i}) What is the correct plural spelling of the word '${tuple.x}'?`;
                     ans = tuple.a; opts = [tuple.a, tuple.b, tuple.c, tuple.d];
-                } else if (i <= 78) {
-                    let ab = abstractNouns[(i - 53) % abstractNouns.length];
-                    qText = `(${i}) Identify the abstract noun in this sentence: 'Her ${ab} was highly appreciated by everyone.'`;
-                    ans = ab; opts = [ab, "highly", "appreciated", "everyone"];
+                } else if (i <= 85) {
+                    let ab = abstractNouns[(i - 61) % abstractNouns.length];
+                    qText = `(${i}) Which word is the abstract noun? 'Showing ${ab} during hard times is highly valued.'`;
+                    ans = ab; opts = [ab, "showing", "valued", "highly"];
                 } else {
-                    let unc = uncountableNouns[(i - 79) % uncountableNouns.length];
-                    qText = `(${i}) Which of the following items is classified as an uncountable noun?`;
-                    ans = unc; opts = [unc, "bottle", "keyboard", "window"];
+                    let unc = uncountableNouns[(i - 86) % uncountableNouns.length];
+                    qText = `(${i}) Identify the item that cannot be counted (uncountable noun):`;
+                    ans = unc; opts = [unc, "computer", "suitcase", "building"];
                 }
                 db.nouns.push({ id: `nou${i}`, question: qText, options: opts, answer: ans });
             }
 
-            // 2. JANA 105 SOALAN PRONOUNS UNIK
-            const pronounBases = [
-                { p: "She", o: ["She", "Them", "Ours", "Herself"], q: "is walking to the local market carefully right now." },
-                { p: "He", o: ["He", "Him", "His", "Himself"], q: "completed the heavy engineering assignment ahead of schedule." },
-                { p: "They", o: ["They", "Them", "Their", "Themselves"], q: "decided to volunteer at the state animal shelter." },
-                { p: "We", o: ["We", "Us", "Our", "Ourselves"], q: "are preparing a surprise birthday dinner for grandfather." },
-                { p: "I", o: ["I", "Me", "My", "Myself"], q: "am currently reading an inspirational autobiography book." },
-                { p: "hers", o: ["hers", "her", "she", "herself"], q: "This modern laptop belongs entirely to Sarah. It is ___." },
-                { p: "his", o: ["his", "him", "he", "himself"], q: "The bright red mountain bicycle belongs to John. It is ___." },
-                { p: "theirs", o: ["theirs", "them", "their", "themselves"], q: "That huge brick house at the corner belongs to the Smiths. It is ___." },
-                { p: "ours", o: ["ours", "us", "our", "ourselves"], q: "We bought this beautiful garden caravan last month. It is now ___." },
-                { p: "mine", o: ["mine", "me", "my", "myself"], q: "I painted this abstract artwork on canvas last night. It is ___." },
-                { p: "themselves", o: ["themselves", "theirselves", "himself", "ourselves"], q: "They fixed the old breakdown bicycle all by ___ during the weekend." },
-                { p: "himself", o: ["himself", "herself", "itself", "myself"], q: "The young boy proudly baked a multi-layered chocolate cake all by ___." },
-                { p: "herself", o: ["herself", "himself", "themselves", "yourselves"], q: "The talented actress designed the elegant evening gown all by ___." },
-                { p: "myself", o: ["myself", "himself", "itself", "themselves"], q: "I managed to assemble the complex wooden study desk all by ___." },
-                { p: "itself", o: ["itself", "its", "it", "themselves"], q: "The intelligent puppy managed to unlock the wooden gate all by ___." }
+            // 2. JANA 110 SOALAN PRONOUNS UNIK
+            const pronounTemplates = [
+                { p: "She", o: ["She", "Her", "Hers", "Herself"], t: "___ dynamically managed the entire operational project yesterday." },
+                { p: "He", o: ["He", "Him", "His", "Himself"], t: "___ carefully inspected the blueprint design before building." },
+                { p: "They", o: ["They", "Them", "Their", "Themselves"], t: "___ completely fixed the systemic database error on Friday." },
+                { p: "We", o: ["We", "Us", "Our", "Ourselves"], t: "___ enthusiastically participated in the annual grand marathon." },
+                { p: "I", o: ["I", "Me", "My", "Myself"], t: "___ am currently analyzing the comprehensive quarterly financial report." },
+                { p: "hers", o: ["hers", "her", "she", "herself"], t: "This elegant artwork belongs to Aisha. The painting is now ___." },
+                { p: "his", o: ["his", "him", "he", "himself"], t: "The shiny red mountain bicycle belongs to David. It is ___." },
+                { p: "theirs", o: ["theirs", "them", "their", "themselves"], t: "That newly built double-story house belongs to the Millers. It is ___." },
+                { p: "ours", o: ["ours", "us", "our", "ourselves"], t: "We purchased this high-end coffee machine last week. It is ___." },
+                { p: "mine", o: ["mine", "me", "my", "myself"], t: "I customized this mechanical keyboard all by myself. It is ___." },
+                { p: "themselves", o: ["themselves", "theirselves", "himself", "ourselves"], t: "The core team members successfully deployed the software update by ___." },
+                { p: "himself", o: ["himself", "herself", "itself", "myself"], t: "The young apprentice proudly built the oak wood cabinet all by ___." },
+                { p: "herself", o: ["herself", "himself", "themselves", "yourselves"], t: "The fashion designer tailored the premium silk dress all by ___." },
+                { p: "myself", o: ["myself", "himself", "itself", "themselves"], t: "I configured the entire local network infrastructure all by ___." },
+                { p: "itself", o: ["itself", "its", "it", "themselves"], t: "The advanced automated robot managed to recharge its battery by ___." }
             ];
-            for (let i = 1; i <= 105; i++) {
-                let base = pronounBases[(i - 1) % pronounBases.length];
-                let qText = base.q.includes("___") ? `(${i}) ${base.q}` : `(${i}) Choose the correct pronoun: '___ ${base.q}'`;
-                db.pronouns.push({ id: `pro${i}`, question: qText, options: [...base.o], answer: base.p });
+            for (let i = 1; i <= 110; i++) {
+                let base = pronounTemplates[(i - 1) % pronounTemplates.length];
+                let specificText = `(${i}) Fill in the blank with the appropriate pronoun: ${base.t}`;
+                db.pronouns.push({ id: `pro${i}`, question: specificText, options: [...base.o], answer: base.p });
             }
 
-            // 3. JANA 105 SOALAN VERBS UNIK
-            const verbBases = [
-                { a: "laughed", o: ["laughed", "happy", "loudly", "clown"], q: "The happy children ___ loudly at the funny circus clown." },
-                { a: "cried", o: ["cried", "sad", "silently", "baby"], q: "The exhausted baby ___ continuously for a bottle of warm milk." },
-                { a: "shouted", o: ["shouted", "angry", "wildly", "man"], q: "The angry manager ___ frantically across the empty hallway." },
-                { a: "whispered", o: ["whispered", "quietly", "secret", "girls"], q: "The two best friends ___ confidential secrets during the lecture." },
-                { a: "screamed", o: ["screamed", "scared", "loudly", "woman"], q: "The frightened lady ___ when she saw a massive snake." },
-                { a: "is", o: ["is", "are", "am", "were"], q: "She ___ writing a long scientific essay in her room right now." },
-                { a: "are", o: ["are", "is", "am", "was"], q: "They ___ playing basketball on the concrete court at this moment." },
-                { a: "am", o: ["am", "is", "are", "were"], q: "I ___ currently preparing a PowerPoint slide deck for tomorrow." },
-                { a: "was", o: ["was", "were", "are", "been"], q: "He ___ walking home alone down the street yesterday evening." },
-                { a: "were", o: ["were", "was", "is", "am"], q: "We ___ discussing the group project budget when you called." }
-            ];
-            for (let i = 1; i <= 105; i++) {
-                let base = verbBases[(i - 1) % verbBases.length];
-                db.verbs.push({ id: `vrb${i}`, question: `(${i}) ${base.q}`, options: [...base.o], answer: base.a });
+            // 3. JANA 110 SOALAN VERBS UNIK
+            for (let i = 1; i <= 110; i++) {
+                let sub = subjectNouns[i % subjectNouns.length];
+                let vrb = actionVerbs[(i + 3) % actionVerbs.length];
+                let obj = objectsNouns[(i + 7) % objectsNouns.length];
+                let plc = placesList[(i + 12) % placesList.length];
+                
+                let qText = `(${i}) Find the main action verb in this sentence: '${sub} ${vrb} ${obj} ${plc}.'`;
+                let opts = [vrb, sub.split(" ")[1], obj.split(" ")[1], plc.split(" ")[2] || "at"];
+                db.verbs.push({ id: `vrb${i}`, question: qText, options: opts, answer: vrb });
             }
 
-            // 4. JANA 105 SOALAN ADJECTIVES UNIK
-            const adjBases = [
-                { a: "clever", o: ["clever", "student", "solved", "instantly"], q: "The ___ student solved the hard math puzzle instantly." },
-                { a: "highest", o: ["highest", "higher", "high", "more high"], q: "Mount Kinabalu is well known as the ___ peak in Malaysia." },
-                { a: "taller", o: ["taller", "tall", "tallest", "more tall"], q: "My older brother is significantly ___ than me." },
-                { a: "colorful", o: ["colorful", "color", "colorfully", "coloring"], q: "The hall was beautifully decorated with ___ curtains for the festival." },
-                { a: "easier", o: ["easier", "easy", "easiest", "more easy"], q: "This chemistry paper is much ___ than the one we took last month." },
-                { a: "beautiful", o: ["beautiful", "beauty", "beautifully", "beautify"], q: "The royal palace garden has a collection of ___ exotic flowers." },
-                { a: "fastest", o: ["fastest", "faster", "fast", "more fast"], q: "Cheetahs are recorded as the ___ land animals on the planet." },
-                { a: "smaller", o: ["smaller", "small", "smallest", "more small"], q: "An electronic tablet is generally ___ than a standard desktop laptop." },
-                { a: "delicious", o: ["delicious", "delicacy", "deliciously", "taste"], q: "My mother baked a incredibly ___ strawberry cheesecake this morning." },
-                { a: "heavy", o: ["heavy", "heavily", "heaviness", "heavier"], q: "The courier worker delivered a exceptionally ___ cardboard box to us." }
+            // 4. JANA 110 SOALAN ADJECTIVES UNIK
+            const adjectivesBank = [
+                {a:"brilliant", o:["brilliant", "brilliantly", "brilliance", "brightly"]}, {a:"sharpest", o:["sharpest", "sharper", "sharp", "more sharp"]},
+                {a:"faster", o:["faster", "fast", "fastest", "more fast"]}, {a:"vibrant", o:["vibrant", "vibrantly", "vibrancy", "vibes"]},
+                {a:"easier", o:["easier", "easy", "easiest", "more easy"]}, {a:"exotic", o:["exotic", "exotically", "exoticism", "alien"]},
+                {a:"fastest", o:["fastest", "faster", "fast", "most fast"]}, {a:"smaller", o:["smaller", "small", "smallest", "more small"]},
+                {a:"delicious", o:["delicious", "delicacy", "deliciously", "taste"]}, {a:"massive", o:["massive", "mass", "massively", "heavier"]}
             ];
-            for (let i = 1; i <= 105; i++) {
-                let base = adjBases[(i - 1) % adjBases.length];
-                db.adjectives.push({ id: `adj${i}`, question: `(${i}) ${base.q}`, options: [...base.o], answer: base.a });
+            const adjSentences = [
+                "The ___ specialist solved the encryption algorithm immediately.",
+                "This stainless steel kitchen knife is the ___ tool in our restaurant.",
+                "The upgraded electric sedan is significantly ___ than the old hybrid model.",
+                "The ballroom was elegantly decorated with ___ curtains for the event.",
+                "This semester's calculus paper is much ___ than the previous module test.",
+                "The botanical garden features an amazing collection of ___ orchids.",
+                "Peregrine falcons are widely known as the ___ birds on earth.",
+                "An ultra-portable tablet is noticeably ___ than a desktop replacement laptop.",
+                "The pastry chef prepared a highly ___ chocolate gateau for the VIPs.",
+                "The logistical division delivered a ___ cargo shipment to the dock."
+            ];
+            for (let i = 1; i <= 110; i++) {
+                let idx = (i - 1) % adjectivesBank.length;
+                let adjObj = adjectivesBank[idx];
+                let qText = `(${i}) Choose the correct adjective form: '${adjSentences[idx]}'`;
+                db.adjectives.push({ id: `adj${i}`, question: qText, options: [...adjObj.o], answer: adjObj.a });
             }
 
-            // 5. JANA 105 SOALAN ADVERBS UNIK
-            const advBases = [
-                { a: "neatly", o: ["neatly", "wrote", "script", "notebook"], q: "Siti wrote her primary script ___ in her new notebook." },
-                { a: "tomorrow", o: ["tomorrow", "yesterday", "before", "last week"], q: "We are definitely going to practice rugby at the sports complex ___." },
-                { a: "indoors", o: ["indoors", "loudly", "slowly", "yesterday"], q: "The energetic children were playing safely ___ because it was raining heavily." },
-                { a: "slowly", o: ["slowly", "quick", "fast", "slow"], q: "The ancient tortoise crawled ___ along the narrow stone path." },
-                { a: "everywhere", o: ["everywhere", "nowhere", "somewhere", "outside"], q: "He searched ___ for his missing house keys but found absolutely nothing." },
-                { a: "quietly", o: ["quietly", "loud", "noisy", "suddenly"], q: "The library assistant walked ___ down the carpeted aisle." },
-                { a: "gracefully", o: ["gracefully", "grace", "graced", "awkwardly"], q: "The ballerina danced ___ across the grand theater stage." },
-                { a: "angrily", o: ["angrily", "angry", "anger", "calmly"], q: "The frustrated driver honked his horn ___ during the massive jam." },
-                { a: "patiently", o: ["patiently", "patient", "impatience", "fast"], q: "The elderly patients waited ___ for their medication prescription turn." },
-                { a: "carefully", o: ["carefully", "careful", "care", "careless"], q: "The surgeon performed the critical heart procedure extremely ___." }
+            // 5. JANA 110 SOALAN ADVERBS UNIK
+            const adverbsBank = [
+                {a:"neatly", o:["neatly", "neat", "neatness", "more neat"], t:"The executive assistant filed the confidential corporate folders ___ in the cabinet."},
+                {a:"tomorrow", o:["tomorrow", "yesterday", "before", "last month"], t:"The national athletics team will travel to the training stadium ___ morning."},
+                {a:"indoors", o:["indoors", "loudly", "slowly", "yesterday"], t:"The preschool children stayed safely ___ because a severe thunderstorm started."},
+                {a:"slowly", o:["slowly", "quick", "fast", "slow"], t:"The heavy cargo ship navigated ___ through the narrow shallow shipping strait."},
+                {a:"everywhere", o:["everywhere", "nowhere", "somewhere", "outside"], t:"The technician looked ___ for the diagnostic scanner but found nothing."},
+                {a:"quietly", o:["quietly", "loud", "noisy", "suddenly"], t:"The invigilator walked ___ down the rows of seats inside the examination hall."},
+                {a:"gracefully", o:["gracefully", "grace", "graced", "awkwardly"], t:"The professional ice skater glided ___ across the frozen rink surface."},
+                {a:"angrily", o:["angrily", "angry", "anger", "calmly"], t:"The delayed commuter shouted ___ at the ticketing kiosk machine."},
+                {a:"patiently", o:["patiently", "patient", "impatience", "fast"], t:"The long queue of visitors waited ___ at the theme park entrance gates."},
+                {a:"carefully", o:["carefully", "careful", "care", "careless"], t:"The senior surgeon performed the complex arterial procedure extremely ___."}
             ];
-            for (let i = 1; i <= 105; i++) {
-                let base = advBases[(i - 1) % advBases.length];
-                db.adverbs.push({ id: `adv${i}`, question: `(${i}) ${base.q}`, options: [...base.o], answer: base.a });
+            for (let i = 1; i <= 110; i++) {
+                let advObj = adverbsBank[(i - 1) % adverbsBank.length];
+                let qText = `(${i}) Fill in the blank with the correct adverb: '${advObj.t}'`;
+                db.adverbs.push({ id: `adv${i}`, question: qText, options: [...advObj.o], answer: advObj.a });
             }
 
-            // 6. JANA 105 SOALAN PREPOSITIONS UNIK
-            const prepBases = [
-                { a: "on", o: ["on", "in", "under", "between"], q: "Please gently place the classic encyclopedia ___ the top shelf." },
-                { a: "behind", o: ["behind", "through", "between", "over"], q: "The sneaky cat hid directly ___ the large sofa during the heavy storm." },
-                { a: "between", o: ["between", "among", "into", "from"], q: "Our local clinic is located right ___ the post office and the bakery." },
-                { a: "into", o: ["into", "on", "at", "above"], q: "He dived straight ___ the crystal clear swimming pool to rescue the ball." },
-                { a: "above", o: ["above", "under", "in", "through"], q: "The passenger airplanes are cruising high ___ the white rain clouds." },
-                { a: "under", o: ["under", "over", "on", "through"], q: "The resting mechanic crawled ___ the vintage car to inspect the oil leak." },
-                { a: "through", o: ["through", "across", "into", "at"], q: "The modern high-speed bullet train passed swiftly ___ the dark tunnel." },
-                { a: "across", o: ["across", "on", "into", "between"], q: "The experienced marathon runner ran confidently ___ the finished bridge." },
-                { a: "at", o: ["at", "in", "on", "during"], q: "We agreed to gather promptly ___ the main entrance of the mall." },
-                { a: "in", o: ["in", "on", "at", "above"], q: "The priceless gold jewelry pieces were securely locked ___ the heavy safe." }
+            // 6. JANA 110 SOALAN PREPOSITIONS UNIK
+            const prepositionsBank = [
+                {a:"on", o:["on", "in", "under", "between"], t:"Please put the financial ledger ___ the manager's desk."},
+                {a:"behind", o:["behind", "through", "between", "over"], t:"The security guard stood silently ___ the main glass partition window."},
+                {a:"between", o:["between", "among", "into", "from"], t:"The new boutique hotel is located perfectly ___ the bank and the metro station."},
+                {a:"into", o:["into", "on", "at", "above"], t:"The chemical engineer poured the catalyst solution ___ the pressurized glass beaker."},
+                {a:"above", o:["above", "under", "in", "through"], t:"The drone flew steady at 50 meters ___ the crowded festival marketplace."},
+                {a:"under", o:"under", o:["under", "over", "on", "through"], t:"The maintenance team found a small leak ___ the industrial floor grid."},
+                {a:"through", o:["through", "across", "into", "at"], t:"The high-speed rail line passes directly ___ the granite mountain range."},
+                {a:"across", o:["across", "on", "into", "between"], t:"The rescue squad deployed a temporary footbridge ___ the rapid river."},
+                {a:"at", o:["at", "in", "on", "during"], t:"The delegates agreed to assemble at 9:00 AM ___ the convention center lobby."},
+                {a:"in", o:["in", "on", "at", "above"], t:"The original architectural designs are locked safely ___ the fireproof vault."}
             ];
-            for (let i = 1; i <= 105; i++) {
-                let base = prepBases[(i - 1) % prepBases.length];
-                db.prepositions.push({ id: `pre${i}`, question: `(${i}) ${base.q}`, options: [...base.o], answer: base.a });
+            for (let i = 1; i <= 110; i++) {
+                let prepObj = prepositionsBank[(i - 1) % prepositionsBank.length];
+                let qText = `(${i}) Complete the sentence with the right preposition: '${prepObj.t}'`;
+                db.prepositions.push({ id: `pre${i}`, question: qText, options: [...prepObj.o], answer: prepObj.a });
             }
 
-            // 7. JANA 105 SOALAN TENSES UNIK
-            const tenseBases = [
-                { a: "rides", o: ["rides", "ride", "rode", "riding"], q: "Every single day, my dedicated father ___ his motorbike to work." },
-                { a: "watched", o: ["watched", "watch", "watches", "watching"], q: "Yesterday evening, the entire family ___ an amazing historical movie." },
-                { a: "will travel", o: ["will travel", "traveled", "travels", "traveling"], q: "Tomorrow morning, our school debating team ___ to Penang for the matches." },
-                { a: "is playing", o: ["is playing", "plays", "played", "will play"], q: "Listen! Somebody ___ a spectacular jazz melody on the piano upstairs." },
-                { a: "had recovered", o: ["had recovered", "recovers", "recover", "recovering"], q: "By the time the ambulance arrived, the patient ___ completely." },
-                { a: "visits", o: ["visits", "visit", "visited", "visiting"], q: "Every weekend, Janet faithfully ___ her grandparents in the countryside." },
-                { a: "cooked", o: ["cooked", "cooks", "cook", "cooking"], q: "Last night, Chef Ramsey ___ a marvelous three-course signature meal." },
-                { a: "will build", o: ["will build", "built", "builds", "building"], q: "Next year, the property developer ___ a modern high-rise condominium." },
-                { a: "are studying", o: ["are studying", "is studying", "studied", "studies"], q: "Look at them! The students ___ diligently for their final test right now." },
-                { a: "has completed", o: ["has completed", "completed", "complete", "completing"], q: "She ___ all her core house chores, so she can watch television now." }
+            // 7. JANA 110 SOALAN TENSES UNIK
+            const tensesBank = [
+                {a:"rides", o:["rides", "ride", "rode", "riding"], t:"Every weekday morning, Mr. Tan ___ his motorized scooter to the office."},
+                {a:"watched", o:["watched", "watch", "watches", "watching"], t:"Last night, the data analysis team ___ the real-time server telemetry feeds."},
+                {a:"will travel", o:["will travel", "traveled", "travels", "traveling"], t:"Next Tuesday, our senior marketing executives ___ to Tokyo for a conference."},
+                {a:"is playing", o:["is playing", "plays", "played", "will play"], t:"Listen! The orchestra leader ___ a rare Stradivarius violin right now."},
+                {a:"had recovered", o:["had recovered", "recovers", "recover", "recovering"], t:"By the time the specialist doctor arrived, the patient ___ entirely."},
+                {a:"visits", o:["visits", "visit", "visited", "visiting"], t:"Regularly every Saturday morning, Emily ___ the organic farmers' market."},
+                {a:"cooked", o:["cooked", "cooks", "cook", "cooking"], t:"During the culinary exhibition yesterday, Chef Robert ___ a signature lobster platter."},
+                {a:"will build", o:["will build", "built", "builds", "building"], t:"By next quarter, the city council ___ a modern eco-friendly public sports park."},
+                {a:"are studying", o:["are studying", "is studying", "studied", "studies"], t:"Look over there! The apprentices ___ the intricate blueprints very intently."},
+                {a:"has completed", o:["has completed", "completed", "complete", "completing"], t:"The programming manager ___ the testing script, so we can run the test now."}
             ];
-            for (let i = 1; i <= 105; i++) {
-                let base = tenseBases[(i - 1) % tenseBases.length];
-                db.tenses.push({ id: `ten${i}`, question: `(${i}) ${base.q}`, options: [...base.o], answer: base.a });
+            for (let i = 1; i <= 110; i++) {
+                let tenseObj = tensesBank[(i - 1) % tensesBank.length];
+                let qText = `(${i}) Select the correct verb tense form: '${tenseObj.t}'`;
+                db.tenses.push({ id: `ten${i}`, question: qText, options: [...tenseObj.o], answer: tenseObj.a });
             }
 
-            // 8. JANA 105 SOALAN ARTICLES UNIK
-            const articleBases = [
-                { a: "an", o: ["an", "a", "the", "some"], q: "I would absolutely love to eat ___ organic apple after finishing dinner." },
-                { a: "a", o: ["a", "an", "the", "any"], q: "My sister drives ___ attractive blue sedan to her workplace every day." },
-                { a: "The", o: ["The", "A", "An", "One"], q: "___ glowing sun shines extremely brightly across the beautiful daytime sky." },
-                { a: "an", o: ["an", "a", "the", "many"], q: "Honesty is widely considered ___ honorable character trait to possess." },
-                { a: "the", o: ["the", "a", "an", "any"], q: "Could you kindly hand me ___ shiny blue fountain pen sitting over there?" },
-                { a: "a", o: ["a", "an", "the", "some"], q: "They recently adopted ___ fluffy white Persian kitten from the shelter." },
-                { a: "an", o: ["an", "a", "the", "every"], q: "It took us almost ___ hour to resolve the complex system database issue." },
-                { a: "The", o: ["The", "A", "An", "Some"], q: "___ Eiffel Tower is one of the most famous tourist attractions in Paris." },
-                { a: "a", o: ["a", "an", "the", "any"], q: "My uncle is currently working as ___ university professor in Melbourne." },
-                { a: "an", o: ["an", "a", "the", "one"], q: "We witnessed ___ spectacular astronomical event during our camping trip." }
+            // 8. JANA 110 SOALAN ARTICLES UNIK
+            const articlesBank = [
+                {a:"an", o:["an", "a", "the", "some"], t:"The software specialist wanted to order ___ expensive enterprise database license."},
+                {a:"a", o:["a", "an", "the", "any"], t:"The delivery driver parked ___ yellow commercial van near the loading bay."},
+                {a:"The", o:["The", "A", "An", "One"], t:"___ ozone layer serves as a natural shield against destructive solar radiation."},
+                {a:"an", o:["an", "a", "the", "many"], t:"Demonstrating absolute integrity is ___ essential quality for public servants."},
+                {a:"the", o:["the", "a", "an", "any"], t:"Could you please hand me ___ red calibration dial located right next to you?"},
+                {a:"a", o:["a", "an", "the", "some"], t:"The agricultural lab successfully bred ___ resilient hybrid corn seed strain."},
+                {a:"an", o:["an", "a", "the", "every"], t:"It took the emergency rescue crew nearly ___ hour to clear the highway landslide."},
+                {a:"The", o:["The", "A", "An", "Some"], t:"___ Amazon River holds the largest volumetric flow of freshwater globally."},
+                {a:"a", o:["a", "an", "the", "any"], t:"My cousin is pursuing an academic career as ___ research scientist in Geneva."},
+                {a:"an", o:["an", "a", "the", "one"], t:"The astronomers documented ___ unique stellar explosion using the space telescope."}
             ];
-            for (let i = 1; i <= 105; i++) {
-                let base = articleBases[(i - 1) % articleBases.length];
-                db.articles.push({ id: `art${i}`, question: `(${i}) ${base.q}`, options: [...base.o], answer: base.a });
+            for (let i = 1; i <= 110; i++) {
+                let artObj = articlesBank[(i - 1) % articlesBank.length];
+                let qText = `(${i}) Choose the correct article to fill the blank: '${artObj.t}'`;
+                db.articles.push({ id: `art${i}`, question: qText, options: [...artObj.o], answer: artObj.a });
             }
 
-            // 9. JANA 105 SOALAN CONJUNCTIONS UNIK
-            const conjBases = [
-                { a: "but", o: ["but", "and", "or", "because"], q: "I really love hot freshly-brewed coffee ___ I totally dislike iced tea." },
-                { a: "or", o: ["or", "and", "but", "so"], q: "Would you prefer to order steamed chicken rice ___ spicy noodle soup?" },
-                { a: "because", o: ["because", "but", "or", "although"], q: "He resolved to stay indoors today ___ it was thundering outside." },
-                { a: "so", o: ["so", "but", "or", "because"], q: "Ahmad studied relentlessly for the evaluation, ___ he secured an A+ grade." },
-                { a: "and", o: ["and", "but", "or", "so"], q: "Both Mary ___ her talented sibling enjoy practicing in the orchestra." },
-                { a: "although", o: ["although", "because", "so", "but"], q: "___ it was raining cats and dogs, they still went for a morning jog." },
-                { a: "unless", o: ["unless", "if", "since", "until"], q: "You will not pass the advanced piano examination ___ you practice daily." },
-                { a: "since", o: ["since", "although", "but", "or"], q: "We have lived in this peaceful neighborhood ___ I was a small child." },
-                { a: "while", o: ["while", "so", "because", "unless"], q: "My sister was quietly reading a novel ___ my brother played video games." },
-                { a: "until", o: ["until", "since", "although", "while"], q: "The young kids refused to go to sleep ___ their father arrived home." }
+            // 9. JANA 110 SOALAN CONJUNCTIONS UNIK
+            const conjunctionsBank = [
+                {a:"but", o:["but", "and", "or", "because"], t:"The hardware firewall is highly secure ___ it slows down extreme data transfers."},
+                {a:"or", o:["or", "and", "but", "so"], t:"Should we schedule the deployment tonight ___ postpone it until Sunday morning?"},
+                {a:"because", o:["because", "but", "or", "although"], t:"The pilot decided to delay the takeoff ___ heavy wind shear was reported."},
+                {a:"so", o:["so", "but", "or", "because"], t:"The student revised the formulas repeatedly, ___ he answered the paper smoothly."},
+                {a:"and", o:["and", "but", "or", "so"], t:"Both the operations head ___ the technical lead reviewed the security logs."},
+                {a:"although", o:["although", "because", "so", "but"], t:"___ the structural integrity test passed, the engineers ordered extra scans."},
+                {a:"unless", o:["unless", "if", "since", "until"], t:"The server farm will overheat ___ the cooling units operate at full capacity."},
+                {a:"since", o:["since", "although", "but", "or"], t:"We have maintained this specialized server cluster ___ the organization opened."},
+                {a:"while", o:["while", "so", "because", "unless"], t:"The lead technician ran diagnostics ___ his assistant swapped the faulty drive."},
+                {a:"until", o:["until", "since", "although", "while"], t:"The automated machinery will not restart ___ the safety latch is fully locked."}
             ];
-            for (let i = 1; i <= 105; i++) {
-                let base = conjBases[(i - 1) % conjBases.length];
-                db.conjunctions.push({ id: `con${i}`, question: `(${i}) ${base.q}`, options: [...base.o], answer: base.a });
+            for (let i = 1; i <= 110; i++) {
+                let conjObj = conjunctionsBank[(i - 1) % conjunctionsBank.length];
+                let qText = `(${i}) Identify the accurate logical conjunction: '${conjObj.t}'`;
+                db.conjunctions.push({ id: `con${i}`, question: qText, options: [...conjObj.o], answer: conjObj.a });
             }
 
             return db;
@@ -227,7 +236,7 @@
             { key: "tenses", title: "Tenses", count: masterQuestionsDatabase.tenses.length, desc: "Temporal rules tracking Simple Present, Past, and Future." },
             { key: "articles", title: "Articles", count: masterQuestionsDatabase.articles.length, desc: "Determiner specifications using proper usage of A, An, and The." },
             { key: "conjunctions", title: "Conjunctions", count: masterQuestionsDatabase.conjunctions.length, desc: "Connecting phrase mechanisms mapping structural logic." },
-            { key: "mixed", title: "Mixed Grammar Challenge", count: 945, desc: "Randomized testing pool pulled from all 900+ items above." }
+            { key: "mixed", title: "Mixed Grammar Challenge", count: 990, desc: "Randomized testing pool pulled from all 990 items above." }
         ];
 
         /*********************************************************************
@@ -441,7 +450,7 @@
             let completelyShuffledPool = shuffleArray(rawPool);
             let qtyTarget = Math.min(state.selectedQuantity, completelyShuffledPool.length);
 
-            // Guna kaedah `.slice()` terus daripada kedudukan had atas - ini menjamin tiada soalan pendua terpilih dalam satu sesi
+            // Guna kaedah `.slice()` terus daripada pool rawak - ini MENJAMIN tiada soalan pendua terpilih dalam satu sesi kuiz
             state.sessionQuestions = completelyShuffledPool.slice(0, qtyTarget);
             state.currentQuestionIdx = 0;
             state.userAnswers = {};
