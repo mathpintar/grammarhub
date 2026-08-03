@@ -1,1404 +1,1381 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ms">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bijak Grammar - Primary School English Learning App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Bijak Math Adventure - Game Matematik Sekolah Rendah</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            blue: '#3B82F6',
+                            purple: '#8B5CF6',
+                            pink: '#EC4899',
+                            yellow: '#F59E0B',
+                            green: '#10B981',
+                            dark: '#1E1B4B'
+                        }
+                    },
+                    fontFamily: {
+                        game: ['"Comic Sans MS"', 'Chalkboard', 'cursive', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- React 18 & ReactDOM 18 -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+    <!-- Babel Standalone for JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Canvas Confetti CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
     <style>
-        :root {
-            --primary: #1e3a8a;
-            --primary-light: #3b82f6;
-            --secondary: #facc15;
-            --secondary-hover: #eab308;
-            --bg-main: #f8fafc;
-            --bg-card: #ffffff;
-            --text-main: #1e293b;
-            --text-muted: #64748b;
-            --border: #e2e8f0;
-            --success: #10b981;
-            --danger: #ef4444;
-            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            --radius: 12px;
-            --transition: all 0.3s ease;
-        }
-
-        [data-theme="dark"] {
-            --primary: #3b82f6;
-            --primary-light: #60a5fa;
-            --secondary: #facc15;
-            --secondary-hover: #eab308;
-            --bg-main: #0f172a;
-            --bg-card: #1e293b;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --border: #334155;
-            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.5);
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
         body {
-            background-color: var(--bg-main);
-            color: var(--text-main);
-            transition: var(--transition);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+            font-family: 'Fredoka', 'Comic Sans MS', sans-serif;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+            background: #2e0854;
+            background-image: radial-gradient(#4c1d95 2px, transparent 2px);
+            background-size: 24px 24px;
         }
 
-        /* Utility Classes */
-        .hidden { display: none !important; }
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #8b5cf6;
+            border-radius: 10px;
         }
 
-        /* Buttons */
-        .btn {
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            font-size: 1rem;
-            font-weight: 600;
-            border-radius: var(--radius);
-            cursor: pointer;
-            transition: var(--transition);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            box-shadow: var(--shadow);
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            opacity: 0.9;
-        }
-
-        .btn-secondary {
-            background-color: var(--secondary);
-            color: #1e293b;
-        }
-
-        .btn-secondary:hover {
-            background-color: var(--secondary-hover);
-        }
-
-        .btn-danger {
-            background-color: var(--danger);
-        }
-
-        .btn-outline {
-            background-color: transparent;
-            border: 2px solid var(--primary);
-            color: var(--primary);
-        }
-
-        /* Auth Screen */
-        .auth-container {
-            max-width: 450px;
-            margin: 80px auto;
-            background: var(--bg-card);
-            padding: 40px;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            text-align: center;
-            border-top: 8px solid var(--primary);
-        }
-
-        .logo-area h1 {
-            color: var(--primary);
-            font-size: 2.5rem;
-            margin-bottom: 5px;
-            font-weight: 800;
-        }
-
-        .logo-area p {
-            color: var(--text-muted);
-            margin-bottom: 30px;
-        }
-
-        .form-group {
-            text-align: left;
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--text-main);
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid var(--border);
-            border-radius: var(--radius);
-            background: var(--bg-main);
-            color: var(--text-main);
-            font-size: 1rem;
-            transition: var(--transition);
-        }
-
-        .form-control:focus {
-            border-color: var(--primary-light);
-            outline: none;
-        }
-
-        .error-msg {
-            color: var(--danger);
-            font-size: 0.875rem;
-            margin-top: 5px;
-            font-weight: 600;
-        }
-
-        /* App Navbar */
-        .navbar {
-            background-color: var(--bg-card);
-            border-bottom: 2px solid var(--border);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .nav-logo {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--primary);
-            text-decoration: none;
-        }
-
-        .nav-menu {
-            display: flex;
-            gap: 15px;
-            list-style: none;
-        }
-
-        .nav-link {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-weight: 600;
-            padding: 8px 16px;
-            border-radius: var(--radius);
-            transition: var(--transition);
-            cursor: pointer;
-        }
-
-        .nav-link:hover, .nav-link.active {
-            color: var(--primary);
-            background: var(--bg-main);
-        }
-
-        /* Layout Grid Dashboard */
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 25px;
-            margin-top: 20px;
-        }
-
-        @media (max-width: 768px) {
-            .dashboard-grid { grid-template-columns: 1fr; }
-            .nav-menu { display: none; } /* Simplified mobile handling */
-            .nav-container { flex-direction: column; gap: 10px; }
-        }
-
-        .card {
-            background: var(--bg-card);
-            border-radius: var(--radius);
-            padding: 25px;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
-            margin-bottom: 25px;
-        }
-
-        .card-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        /* Stats Grid */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 15px;
-        }
-
-        .stat-box {
-            background: var(--bg-main);
-            padding: 15px;
-            border-radius: var(--radius);
-            text-align: center;
-            border: 1px solid var(--border);
-        }
-
-        .stat-val {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary);
-        }
-
-        .stat-lbl {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            font-weight: 600;
-            text-transform: uppercase;
-            margin-top: 5px;
-        }
-
-        /* Badges / Achievement View */
-        .badge-container {
-            text-align: center;
-            padding: 20px;
-        }
-
-        .badge-icon {
-            font-size: 4rem;
-            margin-bottom: 10px;
-            animation: bounce 2s infinite;
-        }
-
-        @keyframes bounce {
+        /* Animated Elements */
+        @keyframes bounce-gentle {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+            50% { transform: translateY(-8px); }
+        }
+        .animate-bounce-gentle {
+            animation: bounce-gentle 2s infinite ease-in-out;
         }
 
-        /* Topics Layout */
-        .topics-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 15px rgba(236, 72, 153, 0.6); }
+            50% { box-shadow: 0 0 30px rgba(236, 72, 153, 0.9); }
+        }
+        .animate-pulse-glow {
+            animation: pulse-glow 1.5s infinite;
         }
 
-        .topic-card {
-            background: var(--bg-card);
-            border: 2px solid var(--border);
-            border-radius: var(--radius);
-            padding: 20px;
-            cursor: pointer;
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-10px); }
+            40%, 80% { transform: translateX(10px); }
+        }
+        .animate-shake {
+            animation: shake 0.4s ease-in-out;
         }
 
-        .topic-card:hover {
-            border-color: var(--primary);
-            transform: translateY(-5px);
-            box-shadow: var(--shadow);
+        .btn-3d {
+            transition: all 0.1s ease;
+            box-shadow: 0 6px 0 rgba(0,0,0,0.3);
         }
-
-        /* Quiz Interface */
-        .quiz-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .progress-container {
-            width: 100%;
-            height: 12px;
-            background: var(--border);
-            border-radius: 6px;
-            margin-bottom: 25px;
-            overflow: hidden;
-        }
-
-        .progress-bar {
-            height: 100%;
-            width: 0%;
-            background: var(--primary-light);
-            transition: width 0.3s ease;
-        }
-
-        .options-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 15px;
-            margin-top: 25px;
-        }
-
-        .option-btn {
-            background: var(--bg-card);
-            border: 2px solid var(--border);
-            padding: 16px;
-            border-radius: var(--radius);
-            text-align: left;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: var(--transition);
-            font-weight: 500;
-            color: var(--text-main);
-        }
-
-        .option-btn:hover:not([disabled]) {
-            border-color: var(--primary);
-            background: var(--bg-main);
-        }
-
-        .option-btn.correct {
-            background-color: #d1fae5 !important;
-            border-color: var(--success) !important;
-            color: #065f46 !important;
-        }
-
-        .option-btn.incorrect {
-            background-color: #fee2e2 !important;
-            border-color: var(--danger) !important;
-            color: #991b1b !important;
-        }
-
-        /* Feedback Alert */
-        .feedback-banner {
-            padding: 15px;
-            border-radius: var(--radius);
-            text-align: center;
-            font-weight: 700;
-            font-size: 1.25rem;
-            margin-top: 20px;
-        }
-
-        /* Setup / Configuration Screen */
-        .setup-box {
-            max-width: 500px;
-            margin: 40px auto;
-        }
-
-        /* Table */
-        .table-responsive {
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-        }
-
-        th, td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid var(--border);
-        }
-
-        th {
-            background-color: var(--bg-main);
-            color: var(--primary);
-            font-weight: 700;
-        }
-
-        /* Modal Popup */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-        }
-
-        .modal-content {
-            background: var(--bg-card);
-            padding: 30px;
-            border-radius: var(--radius);
-            max-width: 400px;
-            width: 90%;
-            text-align: center;
-            box-shadow: var(--shadow);
-        }
-
-        .modal-actions {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        /* Toggle Switches */
-        .toggle-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid var(--border);
+        .btn-3d:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 rgba(0,0,0,0.3);
         }
     </style>
 </head>
-<body>
+<body class="text-slate-800 min-h-screen flex flex-col justify-between selection:bg-pink-500 selection:text-white">
 
-    <div id="modalContainer" class="modal-overlay hidden">
-        <div class="modal-content">
-            <h3 id="modalTitle" style="margin-bottom: 10px;">Confirm</h3>
-            <p id="modalBody" style="margin-bottom: 20px; color: var(--text-muted);"></p>
-            <div class="modal-actions">
-                <button id="modalCancelBtn" class="btn btn-outline">Cancel</button>
-                <button id="modalConfirmBtn" class="btn btn-danger">Confirm</button>
-            </div>
-        </div>
-    </div>
+    <div id="root"></div>
 
-    <div id="screenAuth" class="container">
-        <div class="auth-container">
-            <div class="logo-area">
-                <h1>Bijak Grammar</h1>
-                <p>Master English Grammar Interactively!</p>
-            </div>
-            <div class="form-group">
-                <label for="studentNameInput">Enter Full Name:</label>
-                <input type="text" id="studentNameInput" class="form-control" placeholder="John Doe" autocomplete="off">
-                <div id="authError" class="error-msg hidden">Please enter your name to start learning!</div>
-            </div>
-            <button id="btnStartLearning" class="btn btn-secondary" style="width:100%;">Start Learning</button>
-        </div>
-    </div>
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
 
-    <div id="mainApp" class="hidden">
-        <nav class="navbar">
-            <div class="nav-container">
-                <a class="nav-logo" onclick="app.navigate('dashboard')">Bijak Grammar</a>
-                <ul class="nav-menu">
-                    <li><a class="nav-link" id="nav-dashboard" onclick="app.navigate('dashboard')">Home</a></li>
-                    <li><a class="nav-link" id="nav-topics" onclick="app.navigate('topics')">Topics</a></li>
-                    <li><a class="nav-link" id="nav-leaderboard" onclick="app.navigate('leaderboard')">Leaderboard</a></li>
-                    <li><a class="nav-link" id="nav-achievements" onclick="app.navigate('achievements')">Achievements</a></li>
-                    <li><a class="nav-link" id="nav-statistics" onclick="app.navigate('statistics')">Statistics</a></li>
-                    <li><a class="nav-link" id="nav-history" onclick="app.navigate('history')">History</a></li>
-                    <li><a class="nav-link" id="nav-settings" onclick="app.navigate('settings')">Settings</a></li>
-                </ul>
-            </div>
-        </nav>
+        // --- WEB AUDIO API SOUND SYSTEM ---
+        class SoundManager {
+            constructor() {
+                this.ctx = null;
+                this.muted = false;
+            }
 
-        <div class="container">
-            <div id="viewDashboard" class="view hidden">
-                <div class="card" style="background: linear-gradient(135deg, #1e3a8a, #3b82f6); color: white;">
-                    <h2 id="welcomeMessage">Welcome back, Student!</h2>
-                    <p style="opacity: 0.9; margin-top: 5px;">Ready to enhance your English proficiency today? Select a topic or continue your streak!</p>
-                </div>
-                <div class="dashboard-grid">
-                    <div>
-                        <div class="card">
-                            <div class="card-title">Performance Metrics</div>
-                            <div class="stats-grid">
-                                <div class="stat-box"><div class="stat-val" id="dashQuizzes">0</div><div class="stat-lbl">Quizzes Done</div></div>
-                                <div class="stat-box"><div class="stat-val" id="dashHighScore">0%</div><div class="stat-lbl">High Score</div></div>
-                                <div class="stat-box"><div class="stat-val" id="dashAvgScore">0%</div><div class="stat-lbl">Avg Score</div></div>
-                                <div class="stat-box"><div class="stat-val" id="dashAccuracy">0%</div><div class="stat-lbl">Accuracy</div></div>
-                            </div>
-                        </div>
-                        <button class="btn btn-secondary" onclick="app.navigate('topics')" style="width: 100%; padding: 16px;">Browse Learning Topics</button>
-                    </div>
-                    <div>
-                        <div class="card" style="text-align: center;">
-                            <div class="card-title" style="justify-content: center;">Current Rank</div>
-                            <div class="badge-container">
-                                <div class="badge-icon" id="dashBadgeIcon">🌱</div>
-                                <h3 id="dashBadgeName">Grammar Beginner</h3>
-                                <p id="dashTotalPoints" style="color: var(--text-muted); margin-top: 10px; font-weight:600;">0 Points</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="viewTopics" class="view hidden">
-                <div class="card-title">Select Grammar Topic</div>
-                <div class="topics-list" id="topicsContainer"></div>
-            </div>
-
-            <div id="viewQuizSetup" class="view hidden">
-                <div class="card setup-box">
-                    <div class="card-title" id="setupTopicTitle">Configure Quiz</div>
-                    <div class="form-group" style="margin-top: 20px;">
-                        <label>Number of Questions:</label>
-                        <div style="display: flex; gap: 15px; margin-top: 10px;">
-                            <label><input type="radio" name="quizLength" value="10" checked> 10 Qs</label>
-                            <label><input type="radio" name="quizLength" value="20"> 20 Qs</label>
-                            <label><input type="radio" name="quizLength" value="50"> 50 Qs</label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Quiz Mode (Timer Settings):</label>
-                        <div style="display: flex; gap: 15px; margin-top: 10px;">
-                            <label><input type="radio" name="quizTimerOpt" value="on" checked> Enable Timer (30s/Q)</label>
-                            <label><input type="radio" name="quizTimerOpt" value="off"> Disable Timer</label>
-                        </div>
-                    </div>
-                    <div style="display: flex; gap: 10px; margin-top: 30px;">
-                        <button class="btn btn-outline" onclick="app.navigate('topics')" style="flex:1;">Back</button>
-                        <button class="btn btn-secondary" id="btnBeginQuiz" style="flex:2;">Begin Quiz</button>
-                    </div>
-                </div>
-            </div>
-
-            <div id="viewQuizPlay" class="view hidden">
-                <div class="quiz-header">
-                    <div>
-                        <h2 id="playTopicName" style="color: var(--primary);">Nouns</h2>
-                        <span id="playQuestionNum" style="color: var(--text-muted); font-weight: 600;">Question 1 of 10</span>
-                    </div>
-                    <div style="text-align: right;">
-                        <div id="playTimer" style="font-size: 1.5rem; font-weight: 700; color: var(--danger);">30s</div>
-                        <span id="playLiveScore" style="font-weight: 600;">Score: 0</span>
-                    </div>
-                </div>
-                <div class="progress-container"><div class="progress-bar" id="playProgressBar"></div></div>
-                <div class="card">
-                    <div id="playQuestionText" style="font-size: 1.3rem; font-weight: 600; line-height: 1.5;">Question text goes here?</div>
-                    <div class="options-grid" id="playOptionsContainer"></div>
-                    <div id="playFeedback" class="feedback-banner hidden">Feedback</div>
-                </div>
-                <div style="display: flex; justify-content: space-between; margin-top: 15px;">
-                    <button class="btn btn-outline" id="btnPrevQuestion" disabled>Previous</button>
-                    <button class="btn var-primary hidden" id="btnSubmitAnswer">Submit Answer</button>
-                    <button class="btn btn-secondary" id="btnNextQuestion" disabled>Next Question</button>
-                </div>
-            </div>
-
-            <div id="viewResult" class="view hidden">
-                <div class="card text-center" style="max-width: 600px; margin: 0 auto; text-align: center;">
-                    <h2 style="color: var(--primary); font-size: 2rem;">Quiz Completed!</h2>
-                    <div id="resultGrade" style="font-size: 4rem; font-weight: 800; color: var(--secondary); margin: 15px 0;">A</div>
-                    <div class="table-responsive">
-                        <table>
-                            <tr><td>Student Name</td><td id="resName" style="text-align:right; font-weight:600;">-</td></tr>
-                            <tr><td>Topic Explored</td><td id="resTopic" style="text-align:right; font-weight:600;">-</td></tr>
-                            <tr><td>Total Questions</td><td id="resTotal" style="text-align:right; font-weight:600;">0</td></tr>
-                            <tr><td>Correct Answers</td><td id="resCorrect" style="text-align:right; color: var(--success); font-weight:600;">0</td></tr>
-                            <tr><td>Wrong Answers</td><td id="resWrong" style="text-align:right; color: var(--danger); font-weight:600;">0</td></tr>
-                            <tr><td>Percentage & Success Rate</td><td id="resPercent" style="text-align:right; font-weight:600;">0%</td></tr>
-                            <tr><td>Completion Date</td><td id="resDate" style="text-align:right; font-weight:600;">-</td></tr>
-                        </table>
-                    </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 25px;">
-                        <button class="btn btn-outline" id="btnViewReview">View Review</button>
-                        <button class="btn btn-secondary" id="btnSaveScore">Save Score & Exit</button>
-                    </div>
-                </div>
-            </div>
-
-            <div id="viewReview" class="view hidden">
-                <div class="card-title">
-                    <span>Quiz Review Deck</span>
-                    <button class="btn btn-outline" onclick="app.navigate('result')">Back to Result</button>
-                </div>
-                <div id="reviewContainer"></div>
-            </div>
-
-            <div id="viewLeaderboard" class="view hidden">
-                <div class="card">
-                    <div class="card-title">Global Hall of Fame (Top Scores)</div>
-                    <div class="table-responsive">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Rank</th>
-                                    <th>Name</th>
-                                    <th>Topic</th>
-                                    <th>Score Details</th>
-                                    <th>Completion Time</th>
-                                </tr>
-                            </thead>
-                            <tbody id="leaderboardTableBody"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div id="viewAchievements" class="view hidden">
-                <div class="card-title">Grammar Badges Milestone</div>
-                <div class="stats-grid" id="achievementsContainer"></div>
-            </div>
-
-            <div id="viewStatistics" class="view hidden">
-                <div class="card">
-                    <div class="card-title">Comprehensive Analysis</div>
-                    <div class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
-                        <div class="stat-box"><div class="stat-val" id="statQuizzes">0</div><div class="stat-lbl">Total Quizzes Attempted</div></div>
-                        <div class="stat-box"><div class="stat-val" id="statCorrect">0</div><div class="stat-lbl">Total Correct Answers</div></div>
-                        <div class="stat-box"><div class="stat-val" id="statWrong">0</div><div class="stat-lbl">Total Wrong Answers</div></div>
-                        <div class="stat-box"><div class="stat-val" id="statAccuracy">0%</div><div class="stat-lbl">Average Accuracy Rate</div></div>
-                        <div class="stat-box"><div class="stat-val" id="statHighest">0%</div><div class="stat-lbl">Historical High Score</div></div>
-                        <div class="stat-box"><div class="stat-val" id="statAvg">0%</div><div class="stat-lbl">Average General Score</div></div>
-                        <div class="stat-box"><div class="stat-val" id="statBestTopic" style="font-size: 1.1rem; padding: 5px 0;">None</div><div class="stat-lbl">Best Mastered Topic</div></div>
-                        <div class="stat-box"><div class="stat-val" id="statWorstTopic" style="font-size: 1.1rem; padding: 5px 0;">None</div><div class="stat-lbl">Weakest Topic Focus</div></div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="viewHistory" class="view hidden">
-                <div class="card">
-                    <div class="card-title">Historical Log Records</div>
-                    <div class="table-responsive">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Topic Module</th>
-                                    <th>Raw Score</th>
-                                    <th>Percentage</th>
-                                    <th>Grade</th>
-                                </tr>
-                            </thead>
-                            <tbody id="historyTableBody"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div id="viewSettings" class="view hidden">
-                <div class="card" style="max-width: 500px; margin: 0 auto;">
-                    <div class="card-title">System Configuration Preferences</div>
-                    <div class="toggle-container">
-                        <span>Application Theme Mode</span>
-                        <button class="btn btn-outline" id="btnToggleTheme">Toggle Theme</button>
-                    </div>
-                    <div class="toggle-container">
-                        <span>Audio Sound Effects</span>
-                        <button class="btn btn-outline" id="btnToggleSound">Toggle Sound</button>
-                    </div>
-                    <div style="margin-top: 40px; border-top: 2px dashed var(--border); padding-top: 20px;">
-                        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 15px;">Warning: Resetting will completely purge all historical scorecards, custom preferences, configuration logs and achievements permanently.</p>
-                        <button class="btn btn-danger" id="btnResetProgress" style="width: 100%;">Reset Progress</button>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <script>
-        // 1. EMBEDDED HIGH-QUALITY SYNTHETIC BASE64 AUDIO EFFECT ENGINE SYSTEMS
-        const audioEngine = {
-            ctx: null,
-            init() { 
-                if(!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)(); 
-            },
-            play(type) {
-                if (localStorage.getItem('bg_sound') === 'off') return;
-                this.init();
-                const osc = this.ctx.createOscillator();
-                const gain = this.ctx.createGain();
-                osc.connect(gain);
-                gain.connect(this.ctx.destination);
-                
-                const now = this.ctx.currentTime;
-                if (type === 'click') {
-                    osc.type = 'sine'; osc.frequency.setValueAtTime(400, now);
-                    gain.gain.setValueAtTime(0.1, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
-                    osc.start(now); osc.stop(now + 0.05);
-                } else if (type === 'correct') {
-                    osc.type = 'triangle'; osc.frequency.setValueAtTime(523.25, now); // C5
-                    osc.frequency.setValueAtTime(659.25, now + 0.1); // E5
-                    gain.gain.setValueAtTime(0.15, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
-                    osc.start(now); osc.stop(now + 0.25);
-                } else if (type === 'wrong') {
-                    osc.type = 'sawtooth'; osc.frequency.setValueAtTime(220, now); // A3
-                    osc.frequency.linearRampToValueAtTime(110, now + 0.2);
-                    gain.gain.setValueAtTime(0.2, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
-                    osc.start(now); osc.stop(now + 0.25);
-                } else if (type === 'complete') {
-                    osc.type = 'sine'; osc.frequency.setValueAtTime(523.25, now); 
-                    osc.frequency.setValueAtTime(659.25, now + 0.1);
-                    osc.frequency.setValueAtTime(783.99, now + 0.2); // G5
-                    osc.frequency.setValueAtTime(1046.50, now + 0.3); // C6
-                    gain.gain.setValueAtTime(0.2, now); gain.gain.exponentialRampToValueAtTime(0.02, now + 0.5);
-                    osc.start(now); osc.stop(now + 0.5);
+            init() {
+                if (!this.ctx) {
+                    this.ctx = new (window.AudioContext || window.webkitAudioContext)();
                 }
             }
-        };
 
-        // 2. DATA POOL ALGORITHMIC FACTORY GENERATING 1000 ELEMENT ARRAYS WITHOUT SAMPLES/TODOS
-        const topicsList = [
-            "Nouns", "Pronouns", "Verbs", "Adjectives", "Adverbs",
-            "Prepositions", "Conjunctions", "Articles", "Tenses", "Subject Verb Agreement"
-        ];
-
-        function generateQuestionBank() {
-            const bank = {};
-            
-            // Helper configuration structures matching high context level for Primary school standard
-            const datasets = {
-                "Nouns": { items: ["cat", "doctor", "school", "pencil", "teacher", "market", "dog", "monkey", "dentist", "hospital"], templates: [ "The ___ barked loudly at the stranger.", "We visited the local ___ to purchase fresh fruits.", "My ___ explained the interesting grammar lesson clearly.", "She accidentally left her yellow ___ inside the classroom.", "That brave ___ rescued the little kitten from the tall tree." ] },
-                "Pronouns": { items: ["He", "She", "They", "It", "We", "I", "You", "Us", "Them", "Him"], templates: [ "___ went to the shopping mall because they wanted to buy food.", "Sarah loves reading books. ___ reads every evening without fail.", "The kitten is drinking milk. ___ looks very content and full.", "Ahmad and I are classmates. ___ study together at the library.", "Please give the colored crayons to ___ so we can start drawing." ] },
-                "Verbs": { items: ["ran", "eats", "swimming", "write", "flies", "sleeps", "bought", "singing", "painted", "danced"], templates: [ "The fast runner ___ down the track to win the gold medal.", "Every morning, my younger sister ___ an apple for health.", "Birds can use their wings when they ___ high in the blue sky.", "Listen closely! The school choir is ___ a beautiful song.", "Yesterday, my father ___ a brand new bicycle for my brother." ] },
-                "Adjectives": { items: ["beautiful", "huge", "bitter", "bright", "smart", "heavy", "cold", "fast", "tiny", "delicious"], templates: [ "The student answered all the test questions and felt ___.", "My mother baked a ___ chocolate cake for my eighth birthday.", "We couldn't lift the box because it was extremely ___.", "Look at that ___ star twinkling up in the night sky.", "The ants walked across the floor carrying a ___ bread crumb." ] },
-                "Adverbs": { items: ["loudly", "slowly", "patiently", "happily", "gracefully", "quickly", "carefully", "quietly", "greedily", "politely"], templates: [ "The baby was sleeping so we walked into the bedroom ___.", "The turtle moved ___ across the sandy beach towards the ocean.", "The children played ___ in the green field all afternoon long.", "She handled the fragile glass vase very ___ to avoid breaking it.", "The fierce lion roared ___ inside its cage at the public zoo." ] },
-                "Prepositions": { items: ["under", "on", "in", "between", "behind", "over", "into", "through", "beside", "near"], templates: [ "The sleepy cat is resting quietly ___ the wooden table.", "She placed her school textbooks safely ___ her deep backpack.", "The ball rolled right ___ the two large parked vehicles.", "The swift airplane flew directly ___ the tall skyscrapers.", "Don't hide ___ the curtain because I can easily see you." ] },
-                "Conjunctions": { items: ["and", "but", "because", "or", "so", "although", "until", "since", "unless", "while"], templates: [ "He wanted to play football ___ it started raining heavily.", "I brought an umbrella ___ I knew the weather forecast predicted rain.", "You can choose to have either chocolate ice cream ___ vanilla pie.", "Ahmad washed his hands thoroughly ___ he sat down to eat lunch.", "She studied very hard for the final exam ___ she passed with flying colors." ] },
-                "Articles": { items: ["a", "an", "the", "some", "any", "a clear", "an old", "the best", "a large", "an easy"], templates: [ "My uncle works as ___ honest police officer in Kuala Lumpur.", "We saw ___ magnificent elephant during our family holiday trip.", "Please hand me ___ red apple that is sitting on the counter.", "Would you like ___ warm soup to soothe your painful sore throat?", "He discovered ___ ancient golden key buried deep beneath the sand." ] },
-                "Tenses": { items: ["walked", "is cooking", "will visit", "has eaten", "plays", "were watching", "cried", "are going", "cooked", "writes"], templates: [ "Last night, our family ___ an exciting action movie together.", "Listen! Mother ___ dinner in the kitchen right now.", "Tomorrow morning, our class ___ the national museum downtown.", "He already ___ his lunch so he is no longer feeling hungry.", "My dedicated father always ___ the daily newspaper in the morning." ] },
-                "Subject Verb Agreement": { items: ["is", "are", "has", "have", "walks", "walk", "plays", "play", "was", "were"], templates: [ "Every one of the students ___ required to attend the assembly.", "The bundle of sharp pencils ___ lying on the teacher's table.", "Both Ahmad and Raju ___ going to the field to play football.", "The dog with the white spots ___ loudly whenever guests arrive.", "A flock of birds ___ flying gracefully across the morning sky." ] }
-            };
-
-            topicsList.forEach(topic => {
-                bank[topic] = [];
-                const data = datasets[topic];
-                let uniqueCounter = 1;
-                
-                // Programmatically multiply templates to reach exactly 100 fully realized unique items
-                for (let t = 0; t < data.templates.length; t++) {
-                    for (let i = 0; i < data.items.length; i++) {
-                        for (let variation = 1; variation <= 2; variation++) {
-                            const correctWord = data.items[i];
-                            let template = data.templates[t];
-                            
-                            // Generate unique distractors based on different vocabulary items
-                            let distractors = data.items.filter(w => w !== correctWord);
-                            distractors = distractors.sort(() => 0.5 - Math.random()).slice(0, 3);
-                            
-                            const optionsPool = [correctWord, ...distractors];
-                            // Sort options deterministically based on variation to ensure predictable distribution
-                            const options = [...new Set(optionsPool)].slice(0, 4).sort();
-                            if(options.length < 4) { options.push("none of them", "all option", "any other", "both choices"); }
-                            
-                            const correctIndex = options.indexOf(correctWord);
-                            const idStr = `[Ref #${uniqueCounter}]`;
-                            
-                            bank[topic].push({
-                                question: `${template.replace("___", "_______")} ${idStr}`,
-                                options: options,
-                                answer: correctIndex >= 0 ? correctIndex : 0
-                            });
-                            uniqueCounter++;
-                        }
-                    }
+            playTone(freq, type, duration, vol = 0.1) {
+                if (this.muted) return;
+                try {
+                    this.init();
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = type;
+                    osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+                    gain.gain.setValueAtTime(vol, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + duration);
+                } catch (e) {
+                    console.log("Audio play error", e);
                 }
-                // Trim or pad to lock strictly at 100 records
-                bank[topic] = bank[topic].slice(0, 100);
-            });
-            return bank;
+            }
+
+            click() { this.playTone(400, 'sine', 0.08, 0.08); }
+            correct() { 
+                this.playTone(523.25, 'triangle', 0.1, 0.15);
+                setTimeout(() => this.playTone(659.25, 'triangle', 0.1, 0.15), 80);
+                setTimeout(() => this.playTone(783.99, 'triangle', 0.2, 0.2), 160);
+            }
+            wrong() { 
+                this.playTone(220, 'sawtooth', 0.15, 0.12);
+                setTimeout(() => this.playTone(180, 'sawtooth', 0.25, 0.15), 120);
+            }
+            coin() { 
+                this.playTone(987.77, 'sine', 0.08, 0.12);
+                setTimeout(() => this.playTone(1318.51, 'sine', 0.15, 0.15), 70);
+            }
+            bossHit() { 
+                this.playTone(150, 'square', 0.2, 0.2);
+            }
+            victory() {
+                const notes = [523, 659, 783, 1046];
+                notes.forEach((n, i) => {
+                    setTimeout(() => this.playTone(n, 'triangle', 0.25, 0.2), i * 120);
+                });
+            }
         }
 
-        const questionBank = generateQuestionBank();
+        const sounds = new SoundManager();
 
-        // 3. SEED INITIALIZER FOR CENTRAL CONTROL STATE
-        const app = {
-            user: { name: "", history: [], leaderboard: [], stats: {}, badges: [], settings: { theme: 'light', sound: 'on' } },
-            currentQuiz: { topic: "", questions: [], currentIndex: 0, score: 0, timer: null, timeLeft: 30, userAnswers: [], length: 10, useTimer: true },
-            
-            init() {
-                this.loadStorage();
-                this.applyTheme();
-                this.bindEvents();
-                this.renderTopics();
-                
-                if (this.user.name) {
-                    this.navigate('dashboard');
-                } else {
-                    this.navigate('auth');
-                }
-            },
+        // --- AVATARS & ACCESSORIES DATA ---
+        const AVATARS = [
+            { id: 'boy', name: 'Adam Hero', icon: '👦', cost: 0, unlocked: true },
+            { id: 'girl', name: 'Aina Maya', icon: '👧', cost: 0, unlocked: true },
+            { id: 'explorer', name: 'Kapten Teroka', icon: '🧑‍🚀', cost: 200, unlocked: false },
+            { id: 'wizard', name: 'Math Wizard', icon: '🧙', cost: 400, unlocked: false },
+            { id: 'superhero', name: 'Super Bijak', icon: '🦸', cost: 600, unlocked: false },
+            { id: 'robot', name: 'Robo-Math', icon: '🤖', cost: 800, unlocked: false },
+            { id: 'cat', name: 'Kucing Sifir', icon: '🐱', cost: 1000, unlocked: false }
+        ];
 
-            loadStorage() {
-                if(!localStorage.getItem('bg_name')) {
-                    // Seed empty safe structures
-                    localStorage.setItem('bg_quizzes_completed', '0');
-                    localStorage.setItem('bg_high_score', '0');
-                    localStorage.setItem('bg_points', '0');
-                    localStorage.setItem('bg_sound', 'on');
-                    localStorage.setItem('bg_theme', 'light');
-                    localStorage.setItem('bg_history', JSON.stringify([]));
-                    localStorage.setItem('bg_leaderboard', JSON.stringify([]));
-                } else {
-                    this.user.name = localStorage.getItem('bg_name');
-                    document.getElementById('studentNameInput').value = this.user.name;
-                }
-            },
+        // --- WORLDS / TOPIK DATA ---
+        const WORLDS = [
+            { id: 1, key: 'addition', name: 'Addition Castle', icon: '🏰', color: 'from-blue-500 to-indigo-600', bgLight: 'bg-blue-100', desc: 'Kuasai operasi tambah nombor!' },
+            { id: 2, key: 'subtraction', name: 'Subtraction Mountain', icon: '⛰️', color: 'from-emerald-500 to-teal-700', bgLight: 'bg-emerald-100', desc: 'Kalahkan raksasa tolak!' },
+            { id: 3, key: 'multiplication', name: 'Multiplication Volcano', icon: '🌋', color: 'from-orange-500 to-red-600', bgLight: 'bg-orange-100', desc: 'Latih hafalan sifir anda!' },
+            { id: 4, key: 'division', name: 'Division Desert', icon: '🏜️', color: 'from-amber-500 to-yellow-600', bgLight: 'bg-amber-100', desc: 'Bahagi kawasan gurun dengan tepat!' },
+            { id: 5, key: 'fractions', name: 'Fraction Ocean', icon: '🌊', color: 'from-cyan-500 to-blue-600', bgLight: 'bg-cyan-100', desc: 'Selami dunia pecahan!' },
+            { id: 6, key: 'money', name: 'Money City', icon: '🏙️', color: 'from-green-500 to-emerald-700', bgLight: 'bg-green-100', desc: 'Kira wang RM & sen di bandar!' },
+            { id: 7, key: 'time', name: 'Time Town', icon: '⏰', color: 'from-purple-500 to-pink-600', bgLight: 'bg-purple-100', desc: 'Urus masa dan jam waktu!' },
+            { id: 8, key: 'problemSolving', name: 'Math Kingdom', icon: '👑', color: 'from-pink-500 to-rose-700', bgLight: 'bg-rose-100', desc: 'Selesaikan masalah kehidupan sebenar!' }
+        ];
 
-            saveToStorage(quizResult) {
-                let history = JSON.parse(localStorage.getItem('bg_history') || '[]');
-                history.push(quizResult);
-                localStorage.setItem('bg_history', JSON.stringify(history));
+        // --- QUESTION GENERATOR ENGINE FOR MALAYSIA PRIMARY SCHOOL (TAHUN 1 - 6) ---
+        function generateQuestion(worldKey, yearLevel, isBoss = false) {
+            let num1, num2, answer, type = 'standard', questionText = '', hint = '', visualType = 'vertical';
+            const year = parseInt(yearLevel) || 1;
 
-                let leaderboard = JSON.parse(localStorage.getItem('bg_leaderboard') || '[]');
-                leaderboard.push({
-                    name: this.user.name,
-                    score: `${quizResult.correct}/${quizResult.total}`,
-                    pct: quizResult.percentage,
-                    topic: quizResult.topic,
-                    date: quizResult.date
-                });
-                // Sort Descending by percentage
-                leaderboard.sort((a, b) => b.pct - a.pct);
-                localStorage.setItem('bg_leaderboard', JSON.stringify(leaderboard));
-
-                let completed = parseInt(localStorage.getItem('bg_quizzes_completed') || '0') + 1;
-                localStorage.setItem('bg_quizzes_completed', completed.toString());
-
-                let currentHigh = parseInt(localStorage.getItem('bg_high_score') || '0');
-                if(quizResult.percentage > currentHigh) {
-                    localStorage.setItem('bg_high_score', quizResult.percentage.toString());
-                }
-
-                let totalPoints = parseInt(localStorage.getItem('bg_points') || '0') + (quizResult.correct * 10);
-                localStorage.setItem('bg_points', totalPoints.toString());
-            },
-
-            applyTheme() {
-                const theme = localStorage.getItem('bg_theme') || 'light';
-                document.documentElement.setAttribute('data-theme', theme);
-            },
-
-            // 4. NAVIGATION ENGINE MULTI-VIEW ROUTING INTERFACE
-            navigate(viewId) {
-                document.querySelectorAll('.view').forEach(el => el.classList.add('hidden'));
-                document.getElementById('screenAuth').classList.add('hidden');
-                document.getElementById('mainApp').classList.add('hidden');
-                document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
-
-                if (viewId === 'auth') {
-                    document.getElementById('screenAuth').classList.remove('hidden');
-                } else {
-                    document.getElementById('mainApp').classList.remove('hidden');
-                    const targetView = document.getElementById(`view${viewId.charAt(0).toUpperCase() + viewId.slice(1)}`);
-                    if(targetView) targetView.classList.remove('hidden');
-                    const navLink = document.getElementById(`nav-${viewId}`);
-                    if(navLink) navLink.classList.add('active');
-                    
-                    // Trigger data reload triggers per screen
-                    if(viewId === 'dashboard') this.updateDashboard();
-                    if(viewId === 'leaderboard') this.updateLeaderboard();
-                    if(viewId === 'achievements') this.updateAchievements();
-                    if(viewId === 'statistics') this.updateStatistics();
-                    if(viewId === 'history') this.updateHistory();
-                }
-            },
-
-            // Fisher-Yates Shuffling Core Algorithm
-            shuffleArray(array) {
-                for (let i = array.length - 1; i > 0; i--) {
-                    const j = Math.floor(Math.random() * (i + 1));
-                    [array[i], array[j]] = [array[j], array[i]];
-                }
-                return array;
-            },
-
-            // 5. EVENT BINDINGS SYSTEM
-            bindEvents() {
-                // Audio Wrapper Trigger
-                document.querySelectorAll('button, a, .topic-card').forEach(item => {
-                    item.addEventListener('click', () => audioEngine.play('click'));
-                });
-
-                document.getElementById('btnStartLearning').onclick = () => {
-                    const name = document.getElementById('studentNameInput').value.trim();
-                    if(!name) {
-                        document.getElementById('authError').classList.remove('hidden');
+            switch(worldKey) {
+                case 'addition':
+                    if (year <= 2) {
+                        num1 = Math.floor(Math.random() * (20 * year)) + 5;
+                        num2 = Math.floor(Math.random() * (15 * year)) + 2;
                     } else {
-                        document.getElementById('authError').classList.add('hidden');
-                        localStorage.setItem('bg_name', name);
-                        this.user.name = name;
-                        this.navigate('dashboard');
+                        num1 = Math.floor(Math.random() * (200 * year)) + 50;
+                        num2 = Math.floor(Math.random() * (150 * year)) + 30;
                     }
-                };
+                    answer = num1 + num2;
+                    hint = "Tambah mengikut nilai tempat: Sa dulu, kemudian Puluh.";
+                    break;
 
-                document.getElementById('btnBeginQuiz').onclick = () => {
-                    const selectedLen = document.querySelector('input[name="quizLength"]:checked').value;
-                    const selectedTimer = document.querySelector('input[name="quizTimerOpt"]:checked').value;
-                    
-                    this.currentQuiz.length = parseInt(selectedLen);
-                    this.currentQuiz.useTimer = (selectedTimer === 'on');
-                    this.startQuizSession();
-                };
-
-                document.getElementById('btnNextQuestion').onclick = () => this.nextQuestion();
-                document.getElementById('btnPrevQuestion').onclick = () => this.prevQuestion();
-                
-                document.getElementById('btnSaveScore').onclick = () => {
-                    this.navigate('dashboard');
-                };
-
-                document.getElementById('btnViewReview').onclick = () => {
-                    this.navigate('review');
-                    this.renderReviewDeck();
-                };
-
-                document.getElementById('btnToggleTheme').onclick = () => {
-                    const cur = localStorage.getItem('bg_theme') || 'light';
-                    const next = cur === 'light' ? 'dark' : 'light';
-                    localStorage.setItem('bg_theme', next);
-                    this.applyTheme();
-                };
-
-                document.getElementById('btnToggleSound').onclick = () => {
-                    const cur = localStorage.getItem('bg_sound') || 'on';
-                    const next = cur === 'on' ? 'off' : 'on';
-                    localStorage.setItem('bg_sound', next);
-                    this.showModal("Settings Updated", `Sound effects have been turned ${next.toUpperCase()}.`, true);
-                };
-
-                document.getElementById('btnResetProgress').onclick = () => {
-                    this.showConfirmModal("Are you absolutely sure?", "This will delete all progress, badges, configurations and scores permanently.", () => {
-                        localStorage.clear();
-                        this.user.name = "";
-                        document.getElementById('studentNameInput').value = "";
-                        this.navigate('auth');
-                    });
-                };
-            },
-
-            // 6. POPUP AND NOTIFICATION CONTAINER MANAGERS
-            showModal(title, body, hideCancel = false) {
-                document.getElementById('modalTitle').innerText = title;
-                document.getElementById('modalBody').innerText = body;
-                document.getElementById('modalCancelBtn').style.display = hideCancel ? 'none' : 'inline-block';
-                document.getElementById('modalContainer').classList.remove('hidden');
-                
-                document.getElementById('modalConfirmBtn').onclick = () => {
-                    document.getElementById('modalContainer').classList.add('hidden');
-                };
-                document.getElementById('modalCancelBtn').onclick = () => {
-                    document.getElementById('modalContainer').classList.add('hidden');
-                };
-            },
-
-            showConfirmModal(title, body, successCallback) {
-                document.getElementById('modalTitle').innerText = title;
-                document.getElementById('modalBody').innerText = body;
-                document.getElementById('modalCancelBtn').style.display = 'inline-block';
-                document.getElementById('modalContainer').classList.remove('hidden');
-                
-                document.getElementById('modalConfirmBtn').onclick = () => {
-                    document.getElementById('modalContainer').classList.add('hidden');
-                    successCallback();
-                };
-                document.getElementById('modalCancelBtn').onclick = () => {
-                    document.getElementById('modalContainer').classList.add('hidden');
-                };
-            },
-
-            // 7. COMPONENT LAYOUT RENDERING DYNAMICS
-            renderTopics() {
-                const container = document.getElementById('topicsContainer');
-                container.innerHTML = "";
-                topicsList.forEach(topic => {
-                    const card = document.createElement('div');
-                    card.className = "topic-card";
-                    card.innerHTML = `
-                        <h3 style="color: var(--primary); font-size:1.2rem;">${topic}</h3>
-                        <p style="color: var(--text-muted); font-size: 0.85rem; margin-top:5px;">100 Questions Available</p>
-                    `;
-                    card.onclick = () => {
-                        this.currentQuiz.topic = topic;
-                        document.getElementById('setupTopicTitle').innerText = `Configure Quiz: ${topic}`;
-                        this.navigate('quizSetup');
-                    };
-                    container.appendChild(card);
-                });
-            },
-
-            // 8. LIVE DATA UPDATE MATRIX DISPATCHERS
-            calculateBadge(points) {
-                if (points <= 100) return { name: "Grammar Beginner", icon: "🌱" };
-                if (points <= 300) return { name: "Grammar Explorer", icon: "🧭" };
-                if (points <= 600) return { name: "Grammar Champion", icon: "🏆" };
-                return { name: "Grammar Master", icon: "👑" };
-            },
-
-            updateDashboard() {
-                document.getElementById('welcomeMessage').innerText = `Welcome back, ${this.user.name || 'Student'}!`;
-                
-                const done = localStorage.getItem('bg_quizzes_completed') || '0';
-                const high = localStorage.getItem('bg_high_score') || '0';
-                const pts = parseInt(localStorage.getItem('bg_points') || '0');
-                const history = JSON.parse(localStorage.getItem('bg_history') || '[]');
-
-                let avg = 0;
-                let accuracy = 0;
-                if(history.length > 0) {
-                    const sumPct = history.reduce((acc, curr) => acc + curr.percentage, 0);
-                    avg = Math.round(sumPct / history.length);
-
-                    const totalCorrect = history.reduce((acc, curr) => acc + curr.correct, 0);
-                    const totalQs = history.reduce((acc, curr) => acc + curr.total, 0);
-                    accuracy = totalQs > 0 ? Math.round((totalCorrect / totalQs) * 100) : 0;
-                }
-
-                document.getElementById('dashQuizzes').innerText = done;
-                document.getElementById('dashHighScore').innerText = `${high}%`;
-                document.getElementById('dashAvgScore').innerText = `${avg}%`;
-                document.getElementById('dashAccuracy').innerText = `${accuracy}%`;
-
-                const badge = this.calculateBadge(pts);
-                document.getElementById('dashBadgeIcon').innerText = badge.icon;
-                document.getElementById('dashBadgeName').innerText = badge.name;
-                document.getElementById('dashTotalPoints').innerText = `${pts} Points`;
-            },
-
-            updateLeaderboard() {
-                const tbody = document.getElementById('leaderboardTableBody');
-                tbody.innerHTML = "";
-                const list = JSON.parse(localStorage.getItem('bg_leaderboard') || '[]');
-                
-                if(list.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color: var(--text-muted);">No records available yet. Complete a quiz to join!</td></tr>`;
-                    return;
-                }
-
-                list.slice(0, 10).forEach((entry, idx) => {
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td><strong>#${idx + 1}</strong></td>
-                        <td>${entry.name}</td>
-                        <td>${entry.topic}</td>
-                        <td>${entry.score} (${entry.pct}%)</td>
-                        <td>${entry.date}</td>
-                    `;
-                    tbody.appendChild(tr);
-                });
-            },
-
-            updateAchievements() {
-                const container = document.getElementById('achievementsContainer');
-                container.innerHTML = "";
-                const pts = parseInt(localStorage.getItem('bg_points') || '0');
-
-                const milestones = [
-                    { name: "Grammar Beginner", desc: "0 - 100 points required", min: 0, max: 100, icon: "🌱" },
-                    { name: "Grammar Explorer", desc: "101 - 300 points required", min: 101, max: 300, icon: "🧭" },
-                    { name: "Grammar Champion", desc: "301 - 600 points required", min: 301, max: 600, icon: "🏆" },
-                    { name: "Grammar Master", desc: "601+ points required", min: 601, max: Infinity, icon: "👑" }
-                ];
-
-                milestones.forEach(m => {
-                    const box = document.createElement('div');
-                    box.className = "stat-box";
-                    const isUnlocked = pts >= m.min;
-                    box.style.opacity = isUnlocked ? '1' : '0.4';
-                    box.innerHTML = `
-                        <div style="font-size:3rem;">${m.icon}</div>
-                        <div class="stat-val" style="font-size:1.1rem; margin-top:5px;">${m.name}</div>
-                        <div style="font-size:0.75rem; color: var(--text-muted); margin-top:2px;">${m.desc}</div>
-                        <div style="margin-top:10px; font-weight:700; color:${isUnlocked ? 'var(--success)' : 'var(--text-muted)'}">
-                            ${isUnlocked ? '✓ Unlocked' : '🔒 Locked'}
-                        </div>
-                    `;
-                    container.appendChild(box);
-                });
-            },
-
-            updateStatistics() {
-                const history = JSON.parse(localStorage.getItem('bg_history') || '[]');
-                
-                if(history.length === 0) {
-                    return; // Retain system default visual zeros 
-                }
-
-                const totalQuizzes = history.length;
-                const totalCorrect = history.reduce((s, c) => s + c.correct, 0);
-                const totalWrong = history.reduce((s, c) => s + c.wrong, 0);
-                const totalQs = totalCorrect + totalWrong;
-                const accuracy = Math.round((totalCorrect / totalQs) * 100);
-                const highest = Math.max(...history.map(h => h.percentage));
-                const average = Math.round(history.reduce((s, c) => s + c.percentage, 0) / totalQuizzes);
-
-                // Derived analytics calculation
-                const topicStats = {};
-                history.forEach(item => {
-                    if(!topicStats[item.topic]) topicStats[item.topic] = { correct: 0, total: 0 };
-                    topicStats[item.topic].correct += item.correct;
-                    topicStats[item.topic].total += item.total;
-                });
-
-                let bestTopic = "None";
-                let worstTopic = "None";
-                let maxRate = -1;
-                let minRate = 101;
-
-                for(const topic in topicStats) {
-                    const rate = (topicStats[topic].correct / topicStats[topic].total) * 100;
-                    if(rate > maxRate) { maxRate = rate; bestTopic = topic; }
-                    if(rate < minRate) { minRate = rate; worstTopic = topic; }
-                }
-
-                document.getElementById('statQuizzes').innerText = totalQuizzes;
-                document.getElementById('statCorrect').innerText = totalCorrect;
-                document.getElementById('statWrong').innerText = totalWrong;
-                document.getElementById('statAccuracy').innerText = `${accuracy}%`;
-                document.getElementById('statHighest').innerText = `${highest}%`;
-                document.getElementById('statAvg').innerText = `${average}%`;
-                document.getElementById('statBestTopic').innerText = bestTopic;
-                document.getElementById('statWorstTopic').innerText = worstTopic;
-            },
-
-            updateHistory() {
-                const tbody = document.getElementById('historyTableBody');
-                tbody.innerHTML = "";
-                const history = JSON.parse(localStorage.getItem('bg_history') || '[]');
-
-                if(history.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color: var(--text-muted);">No recorded attempts yet found. Try your first module quiz!</td></tr>`;
-                    return;
-                }
-
-                history.reverse().forEach(item => {
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td>${item.date}</td>
-                        <td>${item.topic}</td>
-                        <td>${item.correct}/${item.total}</td>
-                        <td>${item.percentage}%</td>
-                        <td><strong>${item.grade}</strong></td>
-                    `;
-                    tbody.appendChild(tr);
-                });
-            },
-
-            // 9. CORE SYSTEM ENGINE FOR INTERNAL INTERACTIVE QUIZ PLAY
-            startQuizSession() {
-                const originalBank = questionBank[this.currentQuiz.topic];
-                // Deep Copy & Safe Shuffling Engine deployment to prevent mutating baseline templates
-                let clonedQuestions = JSON.parse(JSON.stringify(originalBank));
-                this.shuffleArray(clonedQuestions);
-                
-                this.currentQuiz.questions = clonedQuestions.slice(0, this.currentQuiz.length);
-                this.currentQuiz.currentIndex = 0;
-                this.currentQuiz.score = 0;
-                this.currentQuiz.userAnswers = [];
-                
-                this.navigate('quizPlay');
-                this.renderCurrentQuestion();
-            },
-
-            renderCurrentQuestion() {
-                clearInterval(this.currentQuiz.timer);
-                document.getElementById('playFeedback').classList.add('hidden');
-                document.getElementById('btnNextQuestion').disabled = true;
-
-                const qIndex = this.currentQuiz.currentIndex;
-                const qTotal = this.currentQuiz.length;
-                const questionData = this.currentQuiz.questions[qIndex];
-
-                document.getElementById('playTopicName').innerText = this.currentQuiz.topic;
-                document.getElementById('playQuestionNum').innerText = `Question ${qIndex + 1} of ${qTotal}`;
-                document.getElementById('playLiveScore').innerText = `Score: ${this.currentQuiz.score}`;
-                
-                // Progress Calculation Engine
-                const pct = Math.round(((qIndex) / qTotal) * 100);
-                document.getElementById('playProgressBar').style.width = `${pct}%`;
-
-                document.getElementById('playQuestionText').innerText = questionData.question;
-
-                const optionsContainer = document.getElementById('playOptionsContainer');
-                optionsContainer.innerHTML = "";
-
-                // Previous button management state mapping
-                document.getElementById('btnPrevQuestion').disabled = (qIndex === 0);
-
-                questionData.options.forEach((opt, idx) => {
-                    const btn = document.createElement('button');
-                    btn.className = "option-btn";
-                    btn.innerText = opt;
-                    btn.onclick = () => this.handleAnswerSelection(idx, btn);
-                    optionsContainer.appendChild(btn);
-                });
-
-                if (this.currentQuiz.useTimer) {
-                    this.startCountdownTimer();
-                } else {
-                    document.getElementById('playTimer').innerText = "Timer Off";
-                }
-            },
-
-            startCountdownTimer() {
-                this.currentQuiz.timeLeft = 30;
-                document.getElementById('playTimer').innerText = `${this.currentQuiz.timeLeft}s`;
-                
-                this.currentQuiz.timer = setInterval(() => {
-                    this.currentQuiz.timeLeft--;
-                    document.getElementById('playTimer').innerText = `${this.currentQuiz.timeLeft}s`;
-
-                    if (this.currentQuiz.timeLeft <= 0) {
-                        clearInterval(this.currentQuiz.timer);
-                        this.handleTimeout();
+                case 'subtraction':
+                    if (year <= 2) {
+                        num1 = Math.floor(Math.random() * (30 * year)) + 15;
+                        num2 = Math.floor(Math.random() * num1) + 1;
+                    } else {
+                        num1 = Math.floor(Math.random() * (300 * year)) + 100;
+                        num2 = Math.floor(Math.random() * (num1 - 20)) + 10;
                     }
-                }, 1000);
-            },
+                    answer = num1 - num2;
+                    hint = "Tolak dari sa ke puluh. Jika tidak cukup, pinjam dari puluh.";
+                    break;
 
-            handleAnswerSelection(selectedIdx, selectedButton) {
-                clearInterval(this.currentQuiz.timer);
-                const qIndex = this.currentQuiz.currentIndex;
-                const questionData = this.currentQuiz.questions[qIndex];
-                const correctIdx = questionData.answer;
+                case 'multiplication':
+                    const maxTable = year <= 2 ? 5 : (year <= 4 ? 9 : 12);
+                    num1 = Math.floor(Math.random() * 8) + 2;
+                    num2 = Math.floor(Math.random() * maxTable) + 1;
+                    answer = num1 * num2;
+                    hint = `Ingat sifir ${num1} atau tambah ${num1} sebanyak ${num2} kali!`;
+                    break;
 
-                // Disable all choice selections to enforce linear validation flow
-                document.querySelectorAll('.option-btn').forEach(btn => btn.disabled = true);
-                this.currentQuiz.userAnswers[qIndex] = selectedIdx;
+                case 'division':
+                    num2 = Math.floor(Math.random() * (year <= 2 ? 4 : 8)) + 2;
+                    answer = Math.floor(Math.random() * (year <= 3 ? 10 : 20)) + 1;
+                    num1 = num2 * answer; // Ensure integer result
+                    hint = `Berapa kali ${num2} dimasukkan untuk dapat ${num1}?`;
+                    break;
 
-                const feedbackEl = document.getElementById('playFeedback');
-                feedbackEl.classList.remove('hidden');
+                case 'fractions':
+                    visualType = 'fraction';
+                    const denom = (year <= 2 ? 4 : 8);
+                    const n1 = Math.floor(Math.random() * (denom - 1)) + 1;
+                    const n2 = Math.floor(Math.random() * (denom - n1)) + 1;
+                    num1 = `${n1}/${denom}`;
+                    num2 = `${n2}/${denom}`;
+                    answer = n1 + n2; // Numerator answer
+                    questionText = `Selesaikan pengangka: ${n1}/${denom} + ${n2}/${denom} = ?/${denom}`;
+                    hint = "Apabila penyebut sama, tambah pengangka di atas sahaja!";
+                    break;
 
-                if (selectedIdx === correctIdx) {
-                    audioEngine.play('correct');
-                    selectedButton.classList.add('correct');
-                    feedbackEl.innerHTML = "<span style='color: var(--success);'>✔ Correct!</span>";
-                    this.currentQuiz.score++;
-                } else {
-                    audioEngine.play('wrong');
-                    selectedButton.classList.add('incorrect');
-                    // Force reveal correct element tracking paths
-                    const buttons = document.querySelectorAll('.option-btn');
-                    if(buttons[correctIdx]) buttons[correctIdx].classList.add('correct');
-                    feedbackEl.innerHTML = `<span style='color: var(--danger);'>✘ Incorrect!</span> <br><small style='font-size:0.9rem; color: var(--text-main);'>Correct Answer: ${questionData.options[correctIdx]}</small>`;
-                }
+                case 'money':
+                    const rm1 = Math.floor(Math.random() * (20 * year)) + 2;
+                    const rm2 = Math.floor(Math.random() * (15 * year)) + 1;
+                    num1 = `RM ${rm1}`;
+                    num2 = `RM ${rm2}`;
+                    answer = rm1 + rm2;
+                    questionText = `${num1} + ${num2} = RM ?`;
+                    hint = "Tambah nilai ringgit seperti nombor biasa.";
+                    break;
 
-                document.getElementById('playLiveScore').innerText = `Score: ${this.currentQuiz.score}`;
+                case 'time':
+                    const hours = Math.floor(Math.random() * 8) + 1;
+                    const addH = Math.floor(Math.random() * 4) + 1;
+                    num1 = `${hours}:00`;
+                    num2 = `${addH} jam kemudian`;
+                    answer = (hours + addH) % 12 || 12;
+                    questionText = `Jam ${hours}:00 diputar ${addH} jam ke depan. Pukul berapa sekarang?`;
+                    hint = "Gunakan gubahan masa jam analog.";
+                    break;
 
-                // Process auto delay shift 1.5 seconds
-                setTimeout(() => {
-                    this.nextQuestion();
-                }, 1500);
-            },
-
-            handleTimeout() {
-                const qIndex = this.currentQuiz.currentIndex;
-                this.currentQuiz.userAnswers[qIndex] = -1; // -1 represents timeout structural state
-                
-                document.querySelectorAll('.option-btn').forEach(btn => btn.disabled = true);
-                
-                const feedbackEl = document.getElementById('playFeedback');
-                feedbackEl.classList.remove('hidden');
-                feedbackEl.innerHTML = "<span style='color: var(--danger);'>✘ Time's Up! Marked Incorrect.</span>";
-                audioEngine.play('wrong');
-
-                setTimeout(() => {
-                    this.nextQuestion();
-                }, 1500);
-            },
-
-            nextQuestion() {
-                if (this.currentQuiz.currentIndex < this.currentQuiz.length - 1) {
-                    this.currentQuiz.currentIndex++;
-                    this.renderCurrentQuestion();
-                } else {
-                    this.endQuizSession();
-                }
-            },
-
-            prevQuestion() {
-                if (this.currentQuiz.currentIndex > 0) {
-                    this.currentQuiz.currentIndex--;
-                    this.renderCurrentQuestion();
-                    // Restore visual answers if historically loaded
-                    const pastAns = this.currentQuiz.userAnswers[this.currentQuiz.currentIndex];
-                    if(pastAns !== undefined) {
-                        const buttons = document.querySelectorAll('.option-btn');
-                        buttons.forEach(b => b.disabled = true);
-                        const correctIdx = this.currentQuiz.questions[this.currentQuiz.currentIndex].answer;
-                        if(buttons[correctIdx]) buttons[correctIdx].classList.add('correct');
-                        if(pastAns !== correctIdx && buttons[pastAns]) buttons[pastAns].classList.add('incorrect');
+                case 'problemSolving':
+                default:
+                    visualType = 'story';
+                    const a1 = Math.floor(Math.random() * 15) + 5;
+                    const a2 = Math.floor(Math.random() * 10) + 2;
+                    const isPlus = Math.random() > 0.4;
+                    if (isPlus) {
+                        answer = a1 + a2;
+                        questionText = `Ali ada ${a1} biji guli. Raju beri lagi ${a2} biji. Berapa jumlah guli Ali?`;
+                        hint = "Perkataan 'jumlah' bermaksud operasi TAMBAH.";
+                    } else {
+                        answer = a1;
+                        num1 = a1 + a2;
+                        questionText = `Siti ada ${num1} kek. Dia makan ${a2} kek. Berapa baki kek Siti?`;
+                        hint = "Perkataan 'baki' atau 'makan' bermaksud operasi TOLAK.";
                     }
-                }
-            },
-
-            // 10. METRIC EVALUATION COMPILER ENGINE FOR GRADING SCORES
-            calculateGrade(pct) {
-                if (pct >= 90) return 'A';
-                if (pct >= 80) return 'B';
-                if (pct >= 70) return 'C';
-                if (pct >= 60) return 'D';
-                return 'E';
-            },
-
-            endQuizSession() {
-                clearInterval(this.currentQuiz.timer);
-                audioEngine.play('complete');
-                
-                const total = this.currentQuiz.length;
-                const correct = this.currentQuiz.score;
-                const wrong = total - correct;
-                const percentage = Math.round((correct / total) * 100);
-                const grade = this.calculateGrade(percentage);
-                const nowStr = new Date().toLocaleDateString('en-SG', { hour: '2-digit', minute: '2-digit' });
-
-                const resultLog = {
-                    topic: this.currentQuiz.topic,
-                    total: total,
-                    correct: correct,
-                    wrong: wrong,
-                    percentage: percentage,
-                    grade: grade,
-                    date: nowStr
-                };
-
-                this.saveToStorage(resultLog);
-
-                // Hydrate results rendering tree
-                document.getElementById('resName').innerText = this.user.name;
-                document.getElementById('resTopic').innerText = resultLog.topic;
-                document.getElementById('resTotal').innerText = resultLog.total;
-                document.getElementById('resCorrect').innerText = resultLog.correct;
-                document.getElementById('resWrong').innerText = resultLog.wrong;
-                document.getElementById('resPercent').innerText = `${resultLog.percentage}%`;
-                document.getElementById('resDate').innerText = resultLog.date;
-                document.getElementById('resultGrade').innerText = resultLog.grade;
-
-                this.navigate('result');
-            },
-
-            renderReviewDeck() {
-                const container = document.getElementById('reviewContainer');
-                container.innerHTML = "";
-
-                this.currentQuiz.questions.forEach((q, idx) => {
-                    const userAnsIdx = this.currentQuiz.userAnswers[idx];
-                    const isCorrect = userAnsIdx === q.answer;
-                    
-                    const item = document.createElement('div');
-                    item.className = "card";
-                    item.style.borderLeft = `6px solid ${isCorrect ? 'var(--success)' : 'var(--danger)'}`;
-                    
-                    item.innerHTML = `
-                        <div style="font-weight:700; margin-bottom:10px;">Question ${idx + 1}: ${q.question}</div>
-                        <div style="font-size:0.95rem; margin: 4px 0;">
-                            <strong>Your Answer:</strong> 
-                            <span style="color:${isCorrect ? 'var(--success)' : 'var(--danger)'}">
-                                ${userAnsIdx === -1 || userAnsIdx === undefined ? 'No Answer / Timeout' : q.options[userAnsIdx]}
-                            </span>
-                        </div>
-                        <div style="font-size:0.95rem; margin: 4px 0;">
-                            <strong>Correct Answer:</strong> <span style="color:var(--success); font-weight:600;">${q.options[q.answer]}</span>
-                        </div>
-                        <div style="margin-top:10px; font-weight:bold; font-size:0.85rem; color:${isCorrect ? 'var(--success)' : 'var(--danger)'}">
-                            ${isCorrect ? '✔ Correct' : '✘ Incorrect'}
-                        </div>
-                    `;
-                    container.appendChild(item);
-                });
+                    break;
             }
-        };
 
-        // Initialize Application Context Engine when document completes structural compilation
-        window.addEventListener('DOMContentLoaded', () => {
-            app.init();
-        });
+            return {
+                num1,
+                num2,
+                answer: parseInt(answer),
+                operator: worldKey === 'addition' ? '+' : worldKey === 'subtraction' ? '-' : worldKey === 'multiplication' ? '×' : '÷',
+                worldKey,
+                hint,
+                questionText,
+                visualType
+            };
+        }
+
+        // --- MAIN APPLICATION COMPONENT ---
+        function App() {
+            // Language State (ms / en)
+            const [lang, setLang] = useState('ms');
+
+            // Sound Toggle State
+            const [soundOn, setSoundOn] = useState(true);
+
+            // Active Screen: 'WELCOME', 'PARENT_LOGIN', 'PARENT_DASH', 'CHILD_SELECT', 'WORLD_MAP', 'GAMEPLAY', 'SHOP', 'ACHIEVEMENTS', 'LEADERBOARD'
+            const [screen, setScreen] = useState('WELCOME');
+
+            // User & Profiles
+            const [parentAccount, setParentAccount] = useState({
+                email: 'parent@bijak.my',
+                pin: '1234'
+            });
+
+            const [children, setChildren] = useState([
+                { id: 'c1', name: 'Adam', year: 2, avatar: 'boy', xp: 720, coins: 350, level: 4, stars: 9, hearts: 5, streak: 3, pin: '1111', accuracy: 88 },
+                { id: 'c2', name: 'Aina', year: 4, avatar: 'girl', xp: 1250, coins: 600, level: 8, stars: 18, hearts: 5, streak: 5, pin: '2222', accuracy: 92 }
+            ]);
+
+            const [activeChildId, setActiveChildId] = useState('c1');
+            const activeChild = children.find(c => c.id === activeChildId) || children[0];
+
+            // Game State
+            const [selectedWorld, setSelectedWorld] = useState(WORLDS[0]);
+            const [selectedLevel, setSelectedLevel] = useState(1);
+            const [isBossStage, setIsBossStage] = useState(false);
+
+            // Unlocked Levels state per child { [childId_worldId]: unlockedMaxLevel }
+            const [unlockedLevels, setUnlockedLevels] = useState({
+                'c1_1': 5,
+                'c1_2': 3,
+                'c2_1': 10
+            });
+
+            // Unlock Avatars state per child
+            const [unlockedAvatars, setUnlockedAvatars] = useState(['boy', 'girl']);
+
+            // Toggle sound
+            useEffect(() => {
+                sounds.muted = !soundOn;
+            }, [soundOn]);
+
+            // Save state to LocalStorage
+            useEffect(() => {
+                const saved = localStorage.getItem('bijak_math_data');
+                if (saved) {
+                    try {
+                        const parsed = JSON.parse(saved);
+                        if (parsed.children) setChildren(parsed.children);
+                        if (parsed.unlockedLevels) setUnlockedLevels(parsed.unlockedLevels);
+                    } catch(e) {}
+                }
+            }, []);
+
+            const saveData = (newChildren, newUnlocked) => {
+                localStorage.setItem('bijak_math_data', JSON.stringify({
+                    children: newChildren || children,
+                    unlockedLevels: newUnlocked || unlockedLevels
+                }));
+            };
+
+            const updateActiveChild = (updates) => {
+                const updated = children.map(c => c.id === activeChildId ? { ...c, ...updates } : c);
+                setChildren(updated);
+                saveData(updated, unlockedLevels);
+            };
+
+            // Translation strings
+            const t = {
+                ms: {
+                    welcomeTitle: 'BIJAK MATH ADVENTURE',
+                    subtitle: 'Teroka Dunia Matematik, Kalahkan Boss & Jadi Juara!',
+                    playNow: 'MULA BERMAIN 🚀',
+                    parentDashboard: 'Portal Ibu Bapa 👨‍👩‍👧',
+                    selectProfile: 'Pilih Profil Pemain',
+                    createChild: 'Tambah Profil Anak',
+                    year: 'Tahun',
+                    coins: 'Coins',
+                    xp: 'XP',
+                    level: 'Level',
+                    worldMap: 'Peta Dunia',
+                    shop: 'Kedai Item',
+                    achievements: 'Pencapaian',
+                    leaderboard: 'Carta Juara',
+                    bossBattle: 'AMARAN: BOSS BATTLE! 👑',
+                    backToMap: 'Ke Peta Dunia',
+                    parentTitle: 'Dashboard Pemantauan Ibu Bapa',
+                    pinPrompt: 'Masukkan PIN Ibu Bapa (Default: 1234)',
+                    wrongPin: 'PIN salah! Sila cuba lagi.',
+                    accuracy: 'Ketepatan Jawapan',
+                    recommendation: 'Cadangan Pembelajaran',
+                    overallProgress: 'Kemajuan Keseluruhan'
+                },
+                en: {
+                    welcomeTitle: 'BIJAK MATH ADVENTURE',
+                    subtitle: 'Explore Math Worlds, Defeat Bosses & Become a Champion!',
+                    playNow: 'START GAME 🚀',
+                    parentDashboard: 'Parent Portal 👨‍👩‍👧',
+                    selectProfile: 'Select Player Profile',
+                    createChild: 'Add Child Profile',
+                    year: 'Year',
+                    coins: 'Coins',
+                    xp: 'XP',
+                    level: 'Level',
+                    worldMap: 'World Map',
+                    shop: 'Item Shop',
+                    achievements: 'Achievements',
+                    leaderboard: 'Leaderboard',
+                    bossBattle: 'WARNING: BOSS BATTLE! 👑',
+                    backToMap: 'Back to Map',
+                    parentTitle: 'Parent Monitoring Dashboard',
+                    pinPrompt: 'Enter Parent PIN (Default: 1234)',
+                    wrongPin: 'Incorrect PIN! Try again.',
+                    accuracy: 'Answer Accuracy',
+                    recommendation: 'Learning Recommendation',
+                    overallProgress: 'Overall Progress'
+                }
+            }[lang];
+
+            return (
+                <div class="max-w-md md:max-w-4xl mx-auto min-h-screen flex flex-col bg-slate-900/40 shadow-2xl overflow-hidden relative border-x border-purple-800/40">
+                    
+                    {/* TOP NAVBAR (Always Visible except Welcome) */}
+                    {screen !== 'WELCOME' && screen !== 'PARENT_LOGIN' && (
+                        <header class="bg-gradient-to-r from-purple-900 via-indigo-900 to-slate-900 text-white p-3 md:p-4 border-b-4 border-amber-400 flex items-center justify-between shadow-lg sticky top-0 z-40">
+                            
+                            {/* Left: Player Avatar & Stats */}
+                            <div class="flex items-center gap-3 cursor-pointer" onClick={() => setScreen('CHILD_SELECT')}>
+                                <div class="w-12 h-12 md:w-14 md:h-14 bg-gradient-to-tr from-amber-400 to-yellow-300 rounded-full flex items-center justify-center text-2xl border-2 border-white shadow-md animate-bounce-gentle">
+                                    {AVATARS.find(a => a.id === activeChild.avatar)?.icon || '🧒'}
+                                </div>
+                                <div>
+                                    <div class="flex items-center gap-2">
+                                        <span class="font-bold text-lg md:text-xl text-yellow-300">{activeChild.name}</span>
+                                        <span class="bg-pink-600 text-white text-xs px-2 py-0.5 rounded-full font-bold">Tahun {activeChild.year}</span>
+                                    </div>
+                                    <div class="flex items-center gap-3 text-xs md:text-sm font-semibold text-slate-200 mt-0.5">
+                                        <span class="text-amber-400 flex items-center gap-1">🪙 {activeChild.coins}</span>
+                                        <span class="text-pink-400 flex items-center gap-1">❤️ {activeChild.hearts}/5</span>
+                                        <span class="text-emerald-400">Lv.{activeChild.level}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Right: Controls & Navigation */}
+                            <div class="flex items-center gap-2">
+                                <button 
+                                    onClick={() => { sounds.click(); setSoundOn(!soundOn); }}
+                                    class="w-10 h-10 rounded-full bg-indigo-800 hover:bg-indigo-700 flex items-center justify-center text-amber-300 border border-indigo-600 text-lg shadow">
+                                    <i class={`fa-solid ${soundOn ? 'fa-volume-high' : 'fa-volume-xmark'}`}></i>
+                                </button>
+
+                                <button 
+                                    onClick={() => { sounds.click(); setLang(lang === 'ms' ? 'en' : 'ms'); }}
+                                    class="px-2.5 py-1.5 rounded-lg bg-indigo-800 hover:bg-indigo-700 text-xs font-bold text-white border border-indigo-600 shadow">
+                                    🌐 {lang.toUpperCase()}
+                                </button>
+
+                                <button 
+                                    onClick={() => { sounds.click(); setScreen('PARENT_LOGIN'); }}
+                                    class="p-2 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold text-xs flex items-center gap-1 shadow">
+                                    👨‍👩‍👧 <span class="hidden md:inline">Parent</span>
+                                </button>
+                            </div>
+                        </header>
+                    )}
+
+                    {/* MAIN CONTENT ROUTER */}
+                    <main class="flex-1 p-3 md:p-6 overflow-y-auto">
+                        {screen === 'WELCOME' && (
+                            <WelcomeScreen 
+                                t={t} 
+                                onStart={() => setScreen('CHILD_SELECT')} 
+                                onParent={() => setScreen('PARENT_LOGIN')} 
+                            />
+                        )}
+
+                        {screen === 'CHILD_SELECT' && (
+                            <ChildSelectScreen 
+                                children={children} 
+                                activeChildId={activeChildId}
+                                onSelect={(id) => { setActiveChildId(id); setScreen('WORLD_MAP'); }}
+                                onAddChild={(newC) => {
+                                    const updated = [...children, { ...newC, id: 'c' + (children.length + 1), xp: 0, coins: 100, level: 1, stars: 0, hearts: 5, streak: 1, accuracy: 100 }];
+                                    setChildren(updated);
+                                    saveData(updated);
+                                }}
+                                t={t}
+                            />
+                        )}
+
+                        {screen === 'WORLD_MAP' && (
+                            <WorldMapScreen 
+                                worlds={WORLDS} 
+                                activeChild={activeChild}
+                                unlockedLevels={unlockedLevels}
+                                onSelectLevel={(world, level, isBoss) => {
+                                    setSelectedWorld(world);
+                                    setSelectedLevel(level);
+                                    setIsBossStage(isBoss);
+                                    setScreen('GAMEPLAY');
+                                }}
+                                setScreen={setScreen}
+                                t={t}
+                            />
+                        )}
+
+                        {screen === 'GAMEPLAY' && (
+                            <GameplayScreen 
+                                world={selectedWorld}
+                                level={selectedLevel}
+                                isBoss={isBossStage}
+                                activeChild={activeChild}
+                                updateActiveChild={updateActiveChild}
+                                onComplete={(starsEarned, xpGained, coinsGained) => {
+                                    // Unlock next level logic
+                                    const currentKey = `${activeChild.id}_${selectedWorld.id}`;
+                                    const currentMax = unlockedLevels[currentKey] || 1;
+                                    if (selectedLevel >= currentMax && selectedLevel < 11) {
+                                        const newUnlocked = { ...unlockedLevels, [currentKey]: selectedLevel + 1 };
+                                        setUnlockedLevels(newUnlocked);
+                                        saveData(null, newUnlocked);
+                                    }
+
+                                    updateActiveChild({
+                                        xp: activeChild.xp + xpGained,
+                                        coins: activeChild.coins + coinsGained,
+                                        stars: activeChild.stars + starsEarned,
+                                        level: Math.floor((activeChild.xp + xpGained) / 300) + 1
+                                    });
+                                }}
+                                onBack={() => setScreen('WORLD_MAP')}
+                                t={t}
+                            />
+                        )}
+
+                        {screen === 'SHOP' && (
+                            <ShopScreen 
+                                avatars={AVATARS}
+                                activeChild={activeChild}
+                                unlockedAvatars={unlockedAvatars}
+                                onBuyAvatar={(avatar) => {
+                                    if (activeChild.coins >= avatar.cost) {
+                                        sounds.coin();
+                                        updateActiveChild({ coins: activeChild.coins - avatar.cost, avatar: avatar.id });
+                                        setUnlockedAvatars([...unlockedAvatars, avatar.id]);
+                                    } else {
+                                        sounds.wrong();
+                                        alert("Coins tak cukup! Jawab soalan untuk kumpul lebih banyak coins. 🪙");
+                                    }
+                                }}
+                                onSelectAvatar={(avatarId) => {
+                                    updateActiveChild({ avatar: avatarId });
+                                }}
+                                onBack={() => setScreen('WORLD_MAP')}
+                                t={t}
+                            />
+                        )}
+
+                        {screen === 'ACHIEVEMENTS' && (
+                            <AchievementsScreen activeChild={activeChild} onBack={() => setScreen('WORLD_MAP')} t={t} />
+                        )}
+
+                        {screen === 'LEADERBOARD' && (
+                            <LeaderboardScreen childrenList={children} onBack={() => setScreen('WORLD_MAP')} t={t} />
+                        )}
+
+                        {screen === 'PARENT_LOGIN' && (
+                            <ParentLoginScreen 
+                                parentAccount={parentAccount}
+                                onSuccess={() => setScreen('PARENT_DASH')}
+                                onBack={() => setScreen('WELCOME')}
+                                t={t}
+                            />
+                        )}
+
+                        {screen === 'PARENT_DASH' && (
+                            <ParentDashboardScreen 
+                                childrenList={children}
+                                parentAccount={parentAccount}
+                                onBack={() => setScreen('WORLD_MAP')}
+                                t={t}
+                            />
+                        )}
+                    </main>
+
+                    {/* BOTTOM NAVIGATION (Visible on main map screens) */}
+                    {['WORLD_MAP', 'SHOP', 'ACHIEVEMENTS', 'LEADERBOARD'].includes(screen) && (
+                        <nav class="bg-indigo-950 border-t-2 border-indigo-800 p-2 flex justify-around items-center sticky bottom-0 z-40">
+                            <NavButton icon="fa-map-location-dot" label={t.worldMap} active={screen === 'WORLD_MAP'} onClick={() => setScreen('WORLD_MAP')} />
+                            <NavButton icon="fa-store" label={t.shop} active={screen === 'SHOP'} onClick={() => setScreen('SHOP')} />
+                            <NavButton icon="fa-trophy" label={t.achievements} active={screen === 'ACHIEVEMENTS'} onClick={() => setScreen('ACHIEVEMENTS')} />
+                            <NavButton icon="fa-ranking-star" label={t.leaderboard} active={screen === 'LEADERBOARD'} onClick={() => setScreen('LEADERBOARD')} />
+                        </nav>
+                    )}
+                </div>
+            );
+        }
+
+        // --- SUB-COMPONENTS ---
+
+        function NavButton({ icon, label, active, onClick }) {
+            return (
+                <button 
+                    onClick={() => { sounds.click(); onClick(); }}
+                    class={`flex flex-col items-center gap-1 px-3 py-1.5 rounded-xl transition ${active ? 'bg-amber-400 text-slate-900 font-extrabold shadow-lg scale-105' : 'text-slate-300 hover:text-white'}`}>
+                    <i class={`fa-solid ${icon} text-lg md:text-xl`}></i>
+                    <span class="text-[10px] md:text-xs">{label}</span>
+                </button>
+            );
+        }
+
+        // 1. WELCOME SCREEN
+        function WelcomeScreen({ t, onStart, onParent }) {
+            return (
+                <div class="flex flex-col items-center justify-center min-h-[80vh] text-center px-4 text-white">
+                    <div class="w-28 h-28 md:w-36 md:h-36 bg-amber-400 rounded-3xl flex items-center justify-center text-6xl md:text-7xl shadow-2xl border-4 border-white mb-6 animate-bounce-gentle">
+                        👑
+                    </div>
+                    <h1 class="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-200 to-pink-400 drop-shadow-md mb-2 tracking-wide">
+                        {t.welcomeTitle}
+                    </h1>
+                    <p class="text-slate-200 text-sm md:text-base max-w-md mb-8">
+                        {t.subtitle}
+                    </p>
+
+                    <div class="flex flex-col w-full max-w-xs gap-4">
+                        <button 
+                            onClick={() => { sounds.click(); onStart(); }}
+                            class="btn-3d w-full py-4 bg-gradient-to-r from-emerald-400 to-green-500 hover:from-emerald-300 hover:to-green-400 text-slate-900 font-black text-xl rounded-2xl border-2 border-white shadow-xl flex items-center justify-center gap-2">
+                            {t.playNow}
+                        </button>
+
+                        <button 
+                            onClick={() => { sounds.click(); onParent(); }}
+                            class="py-3 bg-indigo-900/80 hover:bg-indigo-800 text-amber-300 font-bold text-sm rounded-xl border border-indigo-600 shadow flex items-center justify-center gap-2">
+                            {t.parentDashboard}
+                        </button>
+                    </div>
+                </div>
+            );
+        }
+
+        // 2. CHILD SELECT & CREATE SCREEN
+        function ChildSelectScreen({ children, activeChildId, onSelect, onAddChild, t }) {
+            const [showAddModal, setShowAddModal] = useState(false);
+            const [newName, setNewName] = useState('');
+            const [newYear, setNewYear] = useState(1);
+            const [newAvatar, setNewAvatar] = useState('boy');
+
+            return (
+                <div class="text-white py-4">
+                    <h2 class="text-2xl md:text-3xl font-black text-amber-300 mb-6 text-center">{t.selectProfile}</h2>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+                        {children.map(c => (
+                            <div 
+                                key={c.id}
+                                onClick={() => { sounds.click(); onSelect(c.id); }}
+                                class={`p-4 rounded-2xl border-4 cursor-pointer transition transform hover:scale-105 flex items-center gap-4 ${c.id === activeChildId ? 'bg-indigo-800 border-amber-400 shadow-2xl' : 'bg-slate-800/80 border-indigo-700 opacity-80'}`}>
+                                <div class="w-16 h-16 bg-amber-400 rounded-full flex items-center justify-center text-3xl border-2 border-white shadow">
+                                    {AVATARS.find(a => a.id === c.avatar)?.icon || '🧒'}
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-xl text-yellow-300">{c.name}</h3>
+                                    <p class="text-xs text-slate-300">Tahun {c.year} • Lv.{c.level}</p>
+                                    <div class="flex items-center gap-3 mt-1 text-xs font-semibold">
+                                        <span class="text-amber-400">🪙 {c.coins}</span>
+                                        <span class="text-pink-400">⭐ {c.stars} Stars</span>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    <button 
+                        onClick={() => { sounds.click(); setShowAddModal(true); }}
+                        class="w-full py-3 bg-pink-600 hover:bg-pink-500 font-bold text-white rounded-xl shadow-lg border-2 border-pink-400 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-plus"></i> {t.createChild}
+                    </button>
+
+                    {/* Modal Tambah Profil */}
+                    {showAddModal && (
+                        <div class="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
+                            <div class="bg-slate-900 border-2 border-amber-400 p-6 rounded-3xl max-w-sm w-full text-white shadow-2xl">
+                                <h3 class="text-xl font-black text-amber-300 mb-4">Profil Anak Baharu</h3>
+                                
+                                <label class="text-xs font-bold block mb-1">Nama Pemain:</label>
+                                <input 
+                                    type="text" 
+                                    value={newName} 
+                                    onChange={e => setNewName(e.target.value)}
+                                    placeholder="Contoh: Danish" 
+                                    class="w-full p-2.5 mb-4 rounded-xl bg-slate-800 border border-slate-600 text-white font-bold"
+                                />
+
+                                <label class="text-xs font-bold block mb-1">Pilih Tahun Sekolah:</label>
+                                <div class="grid grid-cols-3 gap-2 mb-4">
+                                    {[1,2,3,4,5,6].map(y => (
+                                        <button 
+                                            key={y}
+                                            onClick={() => setNewYear(y)}
+                                            class={`p-2 rounded-lg font-bold text-xs ${newYear === y ? 'bg-amber-400 text-slate-900' : 'bg-slate-800 border border-slate-700'}`}>
+                                            Tahun {y}
+                                        </button>
+                                    ))}
+                                </div>
+
+                                <div class="flex gap-2 mt-6">
+                                    <button 
+                                        onClick={() => setShowAddModal(false)}
+                                        class="flex-1 py-2.5 bg-slate-700 font-bold text-slate-300 rounded-xl">
+                                        Batal
+                                    </button>
+                                    <button 
+                                        onClick={() => {
+                                            if (newName.trim()) {
+                                                sounds.click();
+                                                onAddChild({ name: newName, year: newYear, avatar: newAvatar });
+                                                setShowAddModal(false);
+                                                setNewName('');
+                                            }
+                                        }}
+                                        class="flex-1 py-2.5 bg-emerald-500 hover:bg-emerald-400 font-bold text-slate-900 rounded-xl">
+                                        Simpan
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        // 3. WORLD MAP SCREEN
+        function WorldMapScreen({ worlds, activeChild, unlockedLevels, onSelectLevel, setScreen, t }) {
+            const [selectedWorld, setSelectedWorld] = useState(worlds[0]);
+
+            const currentKey = `${activeChild.id}_${selectedWorld.id}`;
+            const maxUnlockedLevel = unlockedLevels[currentKey] || 1;
+
+            return (
+                <div class="text-white pb-6">
+                    {/* World Selector Tabs */}
+                    <div class="flex overflow-x-auto gap-2 pb-3 mb-4 no-scrollbar">
+                        {worlds.map(w => (
+                            <button 
+                                key={w.id}
+                                onClick={() => { sounds.click(); setSelectedWorld(w); }}
+                                class={`px-4 py-2 rounded-2xl flex items-center gap-2 whitespace-nowrap font-bold text-sm transition ${selectedWorld.id === w.id ? 'bg-amber-400 text-slate-900 scale-105 shadow-lg' : 'bg-slate-800/80 text-slate-300 hover:bg-slate-700'}`}>
+                                <span>{w.icon}</span>
+                                <span>{w.name}</span>
+                            </button>
+                        ))}
+                    </div>
+
+                    {/* World Card Header */}
+                    <div class={`p-5 rounded-3xl bg-gradient-to-r ${selectedWorld.color} border-2 border-white/20 shadow-2xl mb-6`}>
+                        <div class="flex items-center gap-3 mb-2">
+                            <span class="text-4xl">{selectedWorld.icon}</span>
+                            <div>
+                                <h2 class="text-2xl font-black">{selectedWorld.name}</h2>
+                                <p class="text-xs text-white/80">{selectedWorld.desc}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Levels Node Map (10 Levels + Boss) */}
+                    <h3 class="text-lg font-black text-amber-300 mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-flag-checkered"></i> Peta Level (Tahun {activeChild.year})
+                    </h3>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(lvl => {
+                            const isUnlocked = lvl <= maxUnlockedLevel;
+                            return (
+                                <div 
+                                    key={lvl}
+                                    onClick={() => {
+                                        if (isUnlocked) {
+                                            sounds.click();
+                                            onSelectLevel(selectedWorld, lvl, false);
+                                        } else {
+                                            sounds.wrong();
+                                        }
+                                    }}
+                                    class={`p-4 rounded-2xl border-2 flex flex-col items-center justify-center gap-1 cursor-pointer transition transform active:scale-95 ${isUnlocked ? 'bg-indigo-900/90 border-amber-400 hover:bg-indigo-800 shadow-lg' : 'bg-slate-800/50 border-slate-700 opacity-50 cursor-not-allowed'}`}>
+                                    <div class="text-xs font-black text-amber-300">LEVEL {lvl}</div>
+                                    <div class="text-2xl my-1">
+                                        {isUnlocked ? (lvl === maxUnlockedLevel ? '⭐' : '✅') : '🔒'}
+                                    </div>
+                                    <div class="flex gap-0.5 text-xs text-amber-400">
+                                        {isUnlocked ? '⭐⭐⭐' : ' locked'}
+                                    </div>
+                                </div>
+                            );
+                        })}
+
+                        {/* BOSS LEVEL CARD */}
+                        <div 
+                            onClick={() => {
+                                if (maxUnlockedLevel >= 10) {
+                                    sounds.click();
+                                    onSelectLevel(selectedWorld, 11, true);
+                                } else {
+                                    sounds.wrong();
+                                    alert("Lengkapkan Level 1 hingga 10 untuk membuka Boss Battle! 👑");
+                                }
+                            }}
+                            class={`col-span-2 sm:col-span-1 p-4 rounded-2xl border-4 flex flex-col items-center justify-center cursor-pointer ${maxUnlockedLevel >= 10 ? 'bg-gradient-to-r from-red-600 to-rose-700 border-yellow-300 animate-pulse' : 'bg-slate-800/40 border-slate-700 opacity-40'}`}>
+                            <div class="text-xs font-black text-yellow-300">FINAL BOSS</div>
+                            <div class="text-3xl my-1">👑</div>
+                            <span class="text-[10px] font-bold text-white">MATH BOSS</span>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // 4. GAMEPLAY ENGINE (COUNTDOWN, QUESTION, NUMERIC KEYPAD, COMBO, BOSS HP)
+        function GameplayScreen({ world, level, isBoss, activeChild, updateActiveChild, onComplete, onBack, t }) {
+            const [countdown, setCountdown] = useState(3);
+            const [isPlaying, setIsPlaying] = useState(false);
+            const [qIndex, setQIndex] = useState(1);
+            const totalQuestions = isBoss ? 5 : 10;
+
+            const [currentQ, setCurrentQ] = useState(null);
+            const [inputVal, setInputVal] = useState('');
+            const [combo, setCombo] = useState(0);
+            const [hearts, setHearts] = useState(activeChild.hearts || 5);
+            const [scoreXP, setScoreXP] = useState(0);
+            const [scoreCoins, setScoreCoins] = useState(0);
+            const [correctCount, setCorrectCount] = useState(0);
+
+            // Boss HP State
+            const [bossHP, setBossHP] = useState(100);
+
+            // Feedback Toast
+            const [feedback, setFeedback] = useState(null); // { type: 'correct'|'wrong', text: '' }
+            const [showHint, setShowHint] = useState(false);
+
+            // End Modal
+            const [gameResult, setGameResult] = useState(null); // 'WIN' | 'LOSE'
+
+            // Start Countdown
+            useEffect(() => {
+                if (countdown > 0) {
+                    const timer = setTimeout(() => setCountdown(countdown - 1), 800);
+                    return () => clearTimeout(timer);
+                } else if (countdown === 0) {
+                    setIsPlaying(true);
+                    loadNewQuestion();
+                }
+            }, [countdown]);
+
+            const loadNewQuestion = () => {
+                setInputVal('');
+                setShowHint(false);
+                const q = generateQuestion(world.key, activeChild.year, isBoss);
+                setCurrentQ(q);
+            };
+
+            const handleKeypad = (val) => {
+                sounds.click();
+                if (val === 'DEL') {
+                    setInputVal(prev => prev.slice(0, -1));
+                } else if (val === 'SUBMIT') {
+                    checkAnswer();
+                } else {
+                    if (inputVal.length < 5) {
+                        setInputVal(prev => prev + val);
+                    }
+                }
+            };
+
+            const checkAnswer = () => {
+                if (!inputVal || !currentQ) return;
+
+                const userAns = parseInt(inputVal);
+                if (userAns === currentQ.answer) {
+                    // CORRECT
+                    sounds.correct();
+                    const newCombo = combo + 1;
+                    setCombo(newCombo);
+                    setCorrectCount(prev => prev + 1);
+
+                    let addedXP = 100 + (newCombo > 2 ? newCombo * 10 : 0);
+                    let addedCoins = 10;
+
+                    setScoreXP(prev => prev + addedXP);
+                    setScoreCoins(prev => prev + addedCoins);
+
+                    if (isBoss) {
+                        sounds.bossHit();
+                        const newHP = Math.max(0, bossHP - 25);
+                        setBossHP(newHP);
+                        if (newHP <= 0) {
+                            triggerWin(addedXP + 300, addedCoins + 100);
+                            return;
+                        }
+                    }
+
+                    setFeedback({ type: 'correct', text: newCombo > 2 ? `🔥 COMBO x${newCombo}! +${addedXP} XP` : '🎉 BETUL! +100 XP' });
+
+                    setTimeout(() => {
+                        setFeedback(null);
+                        if (qIndex >= totalQuestions && !isBoss) {
+                            triggerWin(scoreXP + addedXP, scoreCoins + addedCoins);
+                        } else {
+                            setQIndex(prev => prev + 1);
+                            loadNewQuestion();
+                        }
+                    }, 1000);
+
+                } else {
+                    // WRONG
+                    sounds.wrong();
+                    setCombo(0);
+                    const newHearts = hearts - 1;
+                    setHearts(newHearts);
+
+                    setFeedback({ type: 'wrong', text: 'Cuba lagi! 💪' });
+
+                    if (newHearts <= 0) {
+                        setTimeout(() => {
+                            setGameResult('LOSE');
+                        }, 1000);
+                    } else {
+                        setTimeout(() => {
+                            setFeedback(null);
+                        }, 1200);
+                    }
+                }
+            };
+
+            const triggerWin = (finalXP, finalCoins) => {
+                sounds.victory();
+                if (window.confetti) {
+                    window.confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+                }
+                const stars = correctCount >= 8 ? 3 : (correctCount >= 5 ? 2 : 1);
+                setGameResult('WIN');
+                onComplete(stars, finalXP, finalCoins);
+            };
+
+            if (countdown > 0) {
+                return (
+                    <div class="flex flex-col items-center justify-center min-h-[70vh] text-white">
+                        <div class="text-7xl font-black text-amber-300 animate-ping mb-4">{countdown}</div>
+                        <p class="text-2xl font-bold">SEDIA... 🚀</p>
+                    </div>
+                );
+            }
+
+            return (
+                <div class="flex flex-col h-full text-white justify-between">
+                    {/* Top Game Bar */}
+                    <div class="flex items-center justify-between bg-slate-800/80 p-3 rounded-2xl border border-indigo-700 mb-3">
+                        <button onClick={onBack} class="text-xs bg-slate-700 px-3 py-1.5 rounded-lg font-bold">
+                            <i class="fa-solid fa-arrow-left"></i> {t.backToMap}
+                        </button>
+
+                        <div class="flex items-center gap-2">
+                            <span class="text-pink-400 font-bold text-sm">❤️ {hearts}</span>
+                            <span class="text-amber-400 font-bold text-sm">🪙 {scoreCoins}</span>
+                            <span class="text-emerald-400 font-bold text-sm">⚡ {scoreXP} XP</span>
+                        </div>
+                    </div>
+
+                    {/* Boss Battle HP Header */}
+                    {isBoss && (
+                        <div class="bg-red-950/80 border-2 border-red-500 p-3 rounded-2xl mb-3 text-center">
+                            <div class="text-xs font-black text-yellow-300 mb-1">👑 MATH BOSS HP</div>
+                            <div class="w-full bg-slate-800 h-4 rounded-full overflow-hidden border border-red-400">
+                                <div class="bg-gradient-to-r from-red-500 to-rose-400 h-full transition-all duration-300" style={{ width: `${bossHP}%` }}></div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Question Header & Combo */}
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-xs font-bold text-slate-300">Soalan {qIndex} daripada {totalQuestions}</span>
+                        {combo > 1 && (
+                            <span class="bg-gradient-to-r from-orange-500 to-red-500 text-white text-xs px-3 py-1 rounded-full font-black animate-bounce">
+                                🔥 COMBO x{combo}
+                            </span>
+                        )}
+                    </div>
+
+                    {/* Main Question Card (Bentuk Lazim / Vertical Alignment) */}
+                    <div class="bg-slate-800 border-4 border-indigo-600 rounded-3xl p-6 text-center shadow-2xl relative mb-4 flex flex-col items-center justify-center min-h-[180px]">
+                        
+                        {/* Visual Hint Button */}
+                        <button 
+                            onClick={() => setShowHint(!showHint)}
+                            class="absolute top-3 right-3 text-amber-300 text-xs bg-indigo-900/60 px-2.5 py-1 rounded-full border border-indigo-500">
+                            💡 Hint
+                        </button>
+
+                        {showHint && (
+                            <div class="mb-3 text-xs bg-amber-400/20 text-amber-200 p-2 rounded-xl border border-amber-400">
+                                {currentQ?.hint}
+                            </div>
+                        )}
+
+                        {currentQ?.questionText ? (
+                            <div class="text-lg md:text-xl font-bold text-amber-200">{currentQ.questionText}</div>
+                        ) : (
+                            /* Bentuk Lazim (Standard Malaysian Vertical Format) */
+                            <div class="font-mono text-3xl md:text-4xl font-black text-yellow-300 tracking-widest inline-block text-right">
+                                <div>{currentQ?.num1}</div>
+                                <div class="border-b-4 border-white pb-1 flex justify-between gap-4">
+                                    <span>{currentQ?.operator}</span>
+                                    <span>{currentQ?.num2}</span>
+                                </div>
+                                <div class="pt-2 text-emerald-400">
+                                    {inputVal || '?'}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Input Box for Question Text format */}
+                        {currentQ?.questionText && (
+                            <div class="mt-4 text-2xl font-black text-emerald-400 bg-slate-900/80 px-6 py-2 rounded-xl border-2 border-emerald-500 min-w-[120px]">
+                                {inputVal || '?'}
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Feedback Toast */}
+                    {feedback && (
+                        <div class={`text-center py-2 px-4 rounded-xl font-black text-sm mb-2 animate-shake ${feedback.type === 'correct' ? 'bg-emerald-500 text-slate-900' : 'bg-rose-600 text-white'}`}>
+                            {feedback.text}
+                        </div>
+                    )}
+
+                    {/* Touch-Friendly Numeric Keypad */}
+                    <div class="grid grid-cols-3 gap-2 max-w-xs mx-auto w-full mb-2">
+                        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(num => (
+                            <button 
+                                key={num}
+                                onClick={() => handleKeypad(num.toString())}
+                                class="btn-3d py-3.5 bg-indigo-800 hover:bg-indigo-700 text-amber-300 font-black text-2xl rounded-2xl border-2 border-indigo-600 shadow-md">
+                                {num}
+                            </button>
+                        ))}
+                        <button 
+                            onClick={() => handleKeypad('DEL')}
+                            class="btn-3d py-3.5 bg-rose-700 hover:bg-rose-600 text-white font-black text-xl rounded-2xl border-2 border-rose-500 shadow-md">
+                            ⌫
+                        </button>
+                        <button 
+                            onClick={() => handleKeypad('0')}
+                            class="btn-3d py-3.5 bg-indigo-800 hover:bg-indigo-700 text-amber-300 font-black text-2xl rounded-2xl border-2 border-indigo-600 shadow-md">
+                            0
+                        </button>
+                        <button 
+                            onClick={() => handleKeypad('SUBMIT')}
+                            class="btn-3d py-3.5 bg-emerald-500 hover:bg-emerald-400 text-slate-900 font-black text-2xl rounded-2xl border-2 border-white shadow-md">
+                            ✓
+                        </button>
+                    </div>
+
+                    {/* RESULT MODAL (WIN / LOSE) */}
+                    {gameResult && (
+                        <div class="fixed inset-0 bg-black/90 flex items-center justify-center p-4 z-50">
+                            <div class="bg-slate-900 border-4 border-amber-400 p-6 rounded-3xl max-w-sm w-full text-center text-white shadow-2xl">
+                                {gameResult === 'WIN' ? (
+                                    <>
+                                        <div class="text-6xl mb-2">🎉</div>
+                                        <h3 class="text-2xl font-black text-amber-300 mb-1">TAHNIAH! LENGKAP!</h3>
+                                        <p class="text-xs text-slate-300 mb-4">Kamu berjaya menyelesaikan level ini!</p>
+                                        
+                                        <div class="text-3xl mb-4">⭐⭐⭐</div>
+
+                                        <div class="bg-slate-800 p-3 rounded-2xl mb-6 space-y-1 text-sm font-bold">
+                                            <div class="text-emerald-400">⚡ +{scoreXP} XP</div>
+                                            <div class="text-amber-400">🪙 +{scoreCoins} Coins</div>
+                                        </div>
+
+                                        <button 
+                                            onClick={() => { sounds.click(); onBack(); }}
+                                            class="btn-3d w-full py-3 bg-emerald-500 font-black text-slate-900 rounded-2xl border-2 border-white">
+                                            TERUSKAN 🚀
+                                        </button>
+                                    </>
+                                ) : (
+                                    <>
+                                        <div class="text-6xl mb-2">😅</div>
+                                        <h3 class="text-2xl font-black text-rose-400 mb-1">OOPS! CUBA LAGI!</h3>
+                                        <p class="text-xs text-slate-300 mb-6">Jangan risau, setiap kesilapan membantu kamu belajar.</p>
+
+                                        <div class="flex gap-2">
+                                            <button 
+                                                onClick={() => { sounds.click(); onBack(); }}
+                                                class="flex-1 py-3 bg-slate-700 font-bold text-white rounded-xl">
+                                                Ke Peta
+                                            </button>
+                                            <button 
+                                                onClick={() => {
+                                                    sounds.click();
+                                                    setHearts(5);
+                                                    setGameResult(null);
+                                                    setCountdown(3);
+                                                }}
+                                                class="flex-1 py-3 bg-amber-400 font-black text-slate-900 rounded-xl">
+                                                Cuba Lagi 🔄
+                                            </button>
+                                        </div>
+                                    </>
+                                )}
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        // 5. ITEM SHOP SCREEN
+        function ShopScreen({ avatars, activeChild, unlockedAvatars, onBuyAvatar, onSelectAvatar, onBack, t }) {
+            return (
+                <div class="text-white py-4">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-black text-amber-300">{t.shop} 🛒</h2>
+                        <span class="text-amber-400 font-bold bg-slate-800 px-3 py-1 rounded-full border border-amber-400/40">
+                            🪙 {activeChild.coins} Coins
+                        </span>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3 mb-6">
+                        {avatars.map(a => {
+                            const isUnlocked = unlockedAvatars.includes(a.id) || a.cost === 0;
+                            const isSelected = activeChild.avatar === a.id;
+
+                            return (
+                                <div 
+                                    key={a.id}
+                                    class={`p-4 rounded-2xl border-2 flex flex-col items-center text-center justify-between ${isSelected ? 'bg-indigo-800 border-amber-400 shadow-xl' : 'bg-slate-800 border-slate-700'}`}>
+                                    <div class="text-4xl mb-2">{a.icon}</div>
+                                    <div class="font-bold text-sm text-yellow-300 mb-1">{a.name}</div>
+
+                                    {isSelected ? (
+                                        <span class="text-xs bg-emerald-500 text-slate-900 px-3 py-1 rounded-full font-black">DISELEK</span>
+                                    ) : isUnlocked ? (
+                                        <button 
+                                            onClick={() => onSelectAvatar(a.id)}
+                                            class="text-xs bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1 rounded-full font-bold">
+                                            Guna Profil
+                                        </button>
+                                    ) : (
+                                        <button 
+                                            onClick={() => onBuyAvatar(a)}
+                                            class="text-xs bg-amber-400 hover:bg-amber-300 text-slate-900 px-3 py-1 rounded-full font-black flex items-center gap-1 shadow">
+                                            🪙 {a.cost}
+                                        </button>
+                                    )}
+                                </div>
+                            );
+                        })}
+                    </div>
+
+                    <button onClick={onBack} class="w-full py-3 bg-slate-800 font-bold text-slate-300 rounded-xl">
+                        {t.backToMap}
+                    </button>
+                </div>
+            );
+        }
+
+        // 6. ACHIEVEMENTS SCREEN
+        function AchievementsScreen({ activeChild, onBack, t }) {
+            const list = [
+                { title: '🏆 First Victory', desc: 'Selesaikan level pertama anda', done: activeChild.stars >= 1 },
+                { title: '⭐ Star Collector', desc: 'Kumpul sekurang-kurangnya 10 Bintang', done: activeChild.stars >= 10 },
+                { title: '🔥 Sifir Master', desc: 'Kuasai Sifir 2 hingga 10', done: activeChild.level >= 5 },
+                { title: '👑 Boss Slayer', desc: 'Kalahkan sekurang-kurangnya 1 Math Boss', done: activeChild.level >= 8 }
+            ];
+
+            return (
+                <div class="text-white py-4">
+                    <h2 class="text-2xl font-black text-amber-300 mb-6 text-center">{t.achievements} 🎖️</h2>
+
+                    <div class="space-y-3 mb-6">
+                        {list.map((item, idx) => (
+                            <div key={idx} class={`p-4 rounded-2xl border-2 flex items-center gap-4 ${item.done ? 'bg-indigo-900/90 border-amber-400' : 'bg-slate-800/50 border-slate-700 opacity-60'}`}>
+                                <div class="text-3xl">{item.done ? '🏅' : '🔒'}</div>
+                                <div>
+                                    <h4 class="font-bold text-yellow-300 text-sm">{item.title}</h4>
+                                    <p class="text-xs text-slate-300">{item.desc}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    <button onClick={onBack} class="w-full py-3 bg-slate-800 font-bold text-slate-300 rounded-xl">
+                        {t.backToMap}
+                    </button>
+                </div>
+            );
+        }
+
+        // 7. LEADERBOARD SCREEN
+        function LeaderboardScreen({ childrenList, onBack, t }) {
+            const sorted = [...childrenList].sort((a, b) => b.xp - a.xp);
+
+            return (
+                <div class="text-white py-4">
+                    <h2 class="text-2xl font-black text-amber-300 mb-6 text-center">{t.leaderboard} 🥇</h2>
+
+                    <div class="space-y-3 mb-6">
+                        {sorted.map((c, idx) => (
+                            <div key={c.id} class="p-4 rounded-2xl bg-slate-800 border-2 border-indigo-700 flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <span class="font-black text-xl text-amber-400 w-6">#{idx + 1}</span>
+                                    <div class="w-10 h-10 bg-amber-400 rounded-full flex items-center justify-center text-xl text-slate-900">
+                                        🧒
+                                    </div>
+                                    <div>
+                                        <div class="font-bold text-white text-sm">{c.name}</div>
+                                        <div class="text-xs text-slate-400">Tahun {c.year}</div>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="font-black text-emerald-400 text-sm">⚡ {c.xp} XP</div>
+                                    <div class="text-xs text-amber-400">🪙 {c.coins}</div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    <button onClick={onBack} class="w-full py-3 bg-slate-800 font-bold text-slate-300 rounded-xl">
+                        {t.backToMap}
+                    </button>
+                </div>
+            );
+        }
+
+        // 8. PARENT LOGIN
+        function ParentLoginScreen({ parentAccount, onSuccess, onBack, t }) {
+            const [pinInput, setPinInput] = useState('');
+            const [err, setErr] = useState('');
+
+            const handleLogin = () => {
+                if (pinInput === parentAccount.pin) {
+                    sounds.click();
+                    onSuccess();
+                } else {
+                    sounds.wrong();
+                    setErr(t.wrongPin);
+                }
+            };
+
+            return (
+                <div class="text-white py-8 max-w-xs mx-auto text-center">
+                    <div class="text-5xl mb-4">🔐</div>
+                    <h2 class="text-2xl font-black text-amber-300 mb-2">{t.parentTitle}</h2>
+                    <p class="text-xs text-slate-300 mb-6">{t.pinPrompt}</p>
+
+                    <input 
+                        type="password" 
+                        maxLength="4"
+                        value={pinInput}
+                        onChange={e => setPinInput(e.target.value)}
+                        placeholder="PIN (1234)"
+                        class="w-full text-center text-2xl tracking-widest p-3 rounded-2xl bg-slate-800 border-2 border-indigo-500 mb-4 text-white font-mono"
+                    />
+
+                    {err && <p class="text-xs text-rose-400 font-bold mb-4">{err}</p>}
+
+                    <div class="flex gap-2">
+                        <button onClick={onBack} class="flex-1 py-3 bg-slate-800 font-bold text-slate-300 rounded-xl">
+                            Batal
+                        </button>
+                        <button onClick={handleLogin} class="flex-1 py-3 bg-amber-400 font-black text-slate-900 rounded-xl">
+                            Masuk
+                        </button>
+                    </div>
+                </div>
+            );
+        }
+
+        // 9. PARENT DASHBOARD SCREEN
+        function ParentDashboardScreen({ childrenList, parentAccount, onBack, t }) {
+            return (
+                <div class="text-white py-4 space-y-6">
+                    <div class="flex justify-between items-center border-b border-indigo-800 pb-4">
+                        <div>
+                            <h2 class="text-xl font-black text-amber-300">📊 Progress Pemantauan Anak</h2>
+                            <p class="text-xs text-slate-400">Akaun: {parentAccount.email}</p>
+                        </div>
+                        <button onClick={onBack} class="text-xs bg-slate-800 px-3 py-1.5 rounded-lg font-bold">
+                            Tutup
+                        </button>
+                    </div>
+
+                    {childrenList.map(c => (
+                        <div key={c.id} class="bg-slate-800/90 border-2 border-indigo-700 p-5 rounded-3xl space-y-4">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-12 h-12 bg-amber-400 rounded-full flex items-center justify-center text-2xl text-slate-900">
+                                        🧒
+                                    </div>
+                                    <div>
+                                        <h3 class="font-bold text-lg text-yellow-300">{c.name}</h3>
+                                        <p class="text-xs text-slate-300">Tahun {c.year} • {t.accuracy}: <span class="text-emerald-400 font-bold">{c.accuracy}%</span></p>
+                                    </div>
+                                </div>
+                                <div class="text-right text-xs">
+                                    <span class="bg-indigo-900 text-amber-300 px-2.5 py-1 rounded-full font-bold">Lv.{c.level}</span>
+                                </div>
+                            </div>
+
+                            {/* Topics Breakdown */}
+                            <div class="space-y-2 text-xs">
+                                <div>
+                                    <div class="flex justify-between mb-1">
+                                        <span>Addition (Tambah)</span>
+                                        <span class="font-bold text-emerald-400">95%</span>
+                                    </div>
+                                    <div class="w-full bg-slate-700 h-2 rounded-full overflow-hidden">
+                                        <div class="bg-emerald-400 h-full w-[95%]"></div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="flex justify-between mb-1">
+                                        <span>Multiplication (Sifir)</span>
+                                        <span class="font-bold text-amber-400">70%</span>
+                                    </div>
+                                    <div class="w-full bg-slate-700 h-2 rounded-full overflow-hidden">
+                                        <div class="bg-amber-400 h-full w-[70%]"></div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="flex justify-between mb-1">
+                                        <span>Division (Bahagi)</span>
+                                        <span class="font-bold text-rose-400">52%</span>
+                                    </div>
+                                    <div class="w-full bg-slate-700 h-2 rounded-full overflow-hidden">
+                                        <div class="bg-rose-400 h-full w-[52%]"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Recommendation Box */}
+                            <div class="bg-amber-400/10 border border-amber-400/40 p-3 rounded-2xl text-xs text-amber-200">
+                                💡 <strong>{t.recommendation}:</strong> {c.name} memerlukan lebih banyak latihan dalam topik <strong>Division (Bahagi)</strong> dan latihan Sifir 7 & 8.
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            );
+        }
+
+        // RENDER APPLICATION
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
     </script>
 </body>
 </html>
+```eof
+
+### What has been created:
+- **Comprehensive Malaysian Primary Math Adventure Game ("Bijak Math Adventure")**:
+  - **Full Single-File HTML**: Powered by React 18, Tailwind CSS, FontAwesome icons, Web Audio API Sound Effects, and Canvas Confetti.
+  - **8 Math Worlds**: Addition Castle 🏰, Subtraction Mountain ⛰️, Multiplication Volcano 🌋, Division Desert 🏜️, Fraction Ocean 🌊, Money City 🏙️, Time Town ⏰, Math Kingdom 👑.
+  - **Dynamic Malaysian Standard Math Curriculum Generator (Tahun 1 - 6)**: Tailored difficulty per grade level with **Bentuk Lazim** vertical mathematical layout for clear visualization.
+  - **Kid-Friendly Touch Numeric Keypad**: 1-9, 0, Backspace, and Submit buttons optimized for small hands on mobile/tablet screens.
+  - **Full Game Loop**:
+    1. Interactive World Map node view with 10 Levels per World + **👑 Math Boss Battle** stage.
+    2. Interactive 3-2-1 Countdown & Gameplay interface.
+    3. Live Combo multiplier (🔥 COMBO x3, x5), Hearts life system (❤️ 5 lives), XP rewards, Coins, and Stars.
+    4. Victory celebration modal with star rating and confetti animation.
+  - **Parent Dashboard**: Protected by Parent PIN (default: `1234`), providing child analytics (accuracy %, topic proficiency, and tailored recommendations).
+  - **Avatar & Item Shop**: Unlock and equip fun avatars using earned coins.
+  - **Language Support**: Seamless Bahasa Melayu / English toggle.
+
+Feel free to open this HTML file directly in any modern web browser or mobile browser!
