@@ -1309,81 +1309,176 @@
 
         const questionBank = {
             nouns: [
-                { q: "My father drives a new ________ to work.", options: ["caring", "car", "cared", "cars"], answer: 1 },
-                { q: "There are three ________ in the cage.", options: ["birdies", "bird", "birds", "birding"], answer: 2 },
-                { q: "Encik Ahmad is a hardworking ________.", options: ["teaching", "teacher", "taught", "teachers"], answer: 1 },
-                { q: "I need to brush my ________ every night.", options: ["tooths", "teethes", "tooth", "teeth"], answer: 3 },
-                { q: "The ________ is barking loudly at the cat.", options: ["dog", "dogging", "dogs", "doggy"], answer: 0 }
-            ],
+               { q: "My father drives a new ________ to work.", options: ["caring", "car", "cared", "cars"], answer: 1 },
+    { q: "There are three ________ in the cage.", options: ["birdies", "bird", "birds", "birding"], answer: 2 },
+    { q: "Encik Ahmad is a hardworking ________.", options: ["teaching", "teacher", "taught", "teachers"], answer: 1 },
+    { q: "I need to brush my ________ every night.", options: ["tooths", "teethes", "tooth", "teeth"], answer: 3 },
+    { q: "The ________ is barking loudly at the cat.", options: ["dog", "dogging", "dogs", "doggy"], answer: 0 },
+    { q: "She bought two ________ of bread from the bakery.", options: ["loafs", "loaves", "loaf", "loafes"], answer: 1 },
+    { q: "Kuala Lumpur is a big ________.", options: ["cities", "citys", "citing", "city"], answer: 3 },
+    { q: "All the ________ are playing in the field.", options: ["children", "child", "childs", "childrens"], answer: 0 },
+    { q: "Put the books on the ________, please.", options: ["tabling", "table", "tabled", "tables"], answer: 1 },
+    { q: "Five ________ are swimming in the pond.", options: ["gooses", "geese", "geeses", "goose"], answer: 1 },
+    { q: "The farmer has a large ________ on his farm.", options: ["cowing", "cowed", "cow", "cows"], answer: 2 },
+    { q: "Please wash your ________ before eating.", options: ["hands", "handing", "hand", "handed"], answer: 0 },
+    { q: "My mother is cooking in the ________.", options: ["kitchening", "kitchen", "kitchened", "kitchens"], answer: 1 },
+    { q: "There are many ________ in the library.", options: ["booking", "booked", "books", "book"], answer: 2 },
+    { q: "The sharp ________ is on the kitchen counter.", options: ["knives", "knife", "knifing", "knifes"], answer: 1 },
+    { q: "Several ________ are flying south for the winter.", options: ["goose", "duck", "geese", "ducks"], answer: 2 },
+    { q: "A clever ________ caught a big piece of cheese.", options: ["micing", "mouses", "mouse", "mice"], answer: 2 },
+    { q: "The doctor examined the sick ________ in the ward.", options: ["men's", "man", "men", "mans"], answer: 1 },
+    { q: "We need a clean ________ to dry the dishes.", options: ["towel", "toweled", "towels", "toweling"], answer: 0 },
+    { q: "The gardener cuts the grass with a lawn ________.", options: ["mowing", "mower", "mowed", "mowers"], answer: 1 },
+    { q: "Please give me a glass of ________.", options: ["waters", "water", "watered", "watering"], answer: 1 },
+    { q: "She wears a lovely ________ to the party.", options: ["dresses", "dress", "dressing", "dressed"], answer: 1 },
+    { q: "The small ________ is sleeping under the tree.", options: ["catty", "cat", "catting", "cats"], answer: 1 },
+    { q: "Ten ________ are grazing in the green meadow.", options: ["sheepping", "shept", "sheep", "sheeps"], answer: 2 },
+    { q: "The angry ________ chased the thief away.", options: ["policeman", "police", "policewoman", "policemen"], answer: 0 },
+    { q: "He keeps his important documents in a ________.", options: ["boxes", "box", "boxing", "boxed"], answer: 1 },
+    { q: "The bright ________ shines brightly in the sky.", options: ["sun", "sunning", "suns", "sunned"], answer: 0 },
+    { q: "A young ________ is learning how to jump.", options: ["frogging", "frog", "froged", "frogs"], answer: 1 },
+    { q: "She put on her ________ before going out in the rain.", options: ["booting", "boot", "boots", "booted"], answer: 2 },
+    { q: "The little ________ lost his way in the shopping mall.", options: ["boy", "boys", "boyed", "boying"], answer: 0 },
+    { q: "The baby is sleeping peacefully in her ________.", options: ["cot", "cotted", "cots", "cotting"], answer: 0 },
+    { q: "We saw a colorful ________ flying in the garden.", options: ["butterflys", "butterfying", "butterfly", "butterflies"], answer: 2 },
+    { q: "He wrote his name on a piece of ________.", options: ["papers", "papering", "paper", "papered"], answer: 2 },
+    { q: "The old ________ fell down during the storm.", options: ["tree", "treing", "trees", "treed"], answer: 0 },
+    { q: "Please turn on the ________ to get some cool air.", options: ["fans", "fanning", "fan", "fanned"], answer: 2 },
+    { q: "The hungry ________ ate a banana.", options: ["monkeys", "monkeying", "monkeyed", "monkey"], answer: 3 },
+    { q: "An intelligent ________ solved the difficult puzzle.", options: ["students", "student", "studying", "studied"], answer: 1 },
+    { q: "The postman delivered a ________ this morning.", options: ["letters", "lettering", "letter", "lettered"], answer: 2 },
+    { q: "We need three ________ to complete this project.", options: ["men", "man", "mans", "mens"], answer: 0 },
+    { q: "The heavy ________ fell from the dark clouds.", options: ["rains", "raining", "rain", "rained"], answer: 2 },
+    { q: "She loves to eat fresh ________ after dinner.", options: ["fruits", "fruit", "fruiting", "fruited"], answer: 1 },
+    { q: "The carpenter uses a ________ to drive nails.", options: ["hammers", "hammering", "hammer", "hammered"], answer: 2 },
+    { q: "A friendly ________ welcomed us at the hotel.", options: ["waiters", "waiting", "waiter", "waited"], answer: 2 },
+    { q: "He caught a big ________ in the river.", options: ["fishing", "fishes", "fished", "fish"], answer: 3 },
+    { q: "The tall ________ has many tall skyscrapers.", options: ["towns", "towning", "town", "towned"], answer: 2 },
+    { q: "She wears a gold ________ on her finger.", options: ["rings", "ring", "ringing", "ringed"], answer: 1 },
+    { q: "The teacher wrote the sentence on the ________.", options: ["boards", "boarding", "board", "boarded"], answer: 2 },
+    { q: "A busy ________ is making sweet honey.", options: ["bees", "beeing", "beed", "bee"], answer: 3 },
+    { q: "He opened the ________ to let the fresh air in.", options: ["window", "windows", "windowing", "windowed"], answer: 0 },
+    { q: "The sweet ________ smells wonderful in the garden.", options: ["flowering", "flower", "flowered", "flowers"], answer: 1 }
+],
             pronouns: [
                 { q: "Aina is hungry. ________ wants to eat a burger.", options: ["He", "She", "It", "They"], answer: 1 },
                 { q: "Ali and Adam are brothers. ________ like to play football.", options: ["We", "They", "He", "You"], answer: 1 },
                 { q: "My name is Danial. ________ am eight years old.", options: ["I", "You", "We", "He"], answer: 0 },
                 { q: "The cat is sleeping because ________ is tired.", options: ["she", "he", "it", "they"], answer: 2 },
-                { q: "My mother made cake for ________ because it is my birthday.", options: ["me", "I", "my", "mine"], answer: 0 }
+                { q: "My mother made cake for ________ because it is my birthday.", options: ["me", "I", "my", "mine"], answer: 0 },
+                { q: "This is Mei Ling's bag. It belongs to ________.", options: ["him", "her", "she", "his"], answer: 1 },
+                { q: "Are ________ coming to my house tomorrow?", options: ["you", "he", "she", "it"], answer: 0 },
+                { q: "We are classmates. Miss Lee teaches ________ English.", options: ["them", "us", "we", "our"], answer: 1 },
+                { q: "The boys finished ________ homework early.", options: ["their", "his", "her", "its"], answer: 0 },
+                { q: "The dog wagged ________ tail happily.", options: ["it", "it's", "its", "their"], answer: 2 }
             ],
             verbs: [
                 { q: "The pupils ________ to school every morning.", options: ["walk", "walks", "walking", "walked"], answer: 0 },
                 { q: "Siti ________ a song gracefully yesterday.", options: ["sing", "sings", "sang", "singing"], answer: 2 },
                 { q: "Listen! The baby is ________ in the bedroom.", options: ["crying", "cried", "cries", "cry"], answer: 0 },
                 { q: "My uncle ________ a big fish last weekend.", options: ["catch", "catches", "caught", "catching"], answer: 2 },
-                { q: "He ________ his teeth twice a day.", options: ["brush", "brushes", "brushed", "brushing"], answer: 1 }
+                { q: "He ________ his teeth twice a day.", options: ["brush", "brushes", "brushed", "brushing"], answer: 1 },
+                { q: "Birds ________ in the sky.", options: ["fly", "flies", "flying", "flew"], answer: 0 },
+                { q: "Mother ________ delicious fried rice this morning.", options: ["cook", "cooks", "cooked", "cooking"], answer: 2 },
+                { q: "They ________ swimming in the pool right now.", options: ["is", "are", "was", "were"], answer: 1 },
+                { q: "Raju ________ a funny story to his friends.", options: ["told", "tell", "tells", "telling"], answer: 0 },
+                { q: "Please ________ your shoes before entering.", options: ["remove", "removes", "removed", "removing"], answer: 0 }
             ],
             adjectives: [
                 { q: "An elephant is a ________ animal.", options: ["huge", "small", "tiny", "short"], answer: 0 },
                 { q: "Ice cream is ________ and sweet.", options: ["hot", "cold", "spicy", "warm"], answer: 1 },
                 { q: "Cheetah is the ________ land animal.", options: ["fast", "faster", "fastest", "more fast"], answer: 2 },
                 { q: "This knife is very ________. Be careful!", options: ["sharp", "blunt", "soft", "smooth"], answer: 0 },
-                { q: "My grandfather is ________, but he is still strong.", options: ["young", "old", "new", "fresh"], answer: 1 }
+                { q: "My grandfather is ________, but he is still strong.", options: ["young", "old", "new", "fresh"], answer: 1 },
+                { q: "She wore a ________ dress to the party.", options: ["beautiful", "beauty", "beautify", "more beautiful"], answer: 0 },
+                { q: "The box is too ________ for me to carry.", options: ["light", "heavy", "soft", "thin"], answer: 1 },
+                { q: "A giraffe has a ________ neck.", options: ["short", "long", "small", "broad"], answer: 1 },
+                { q: "Lemon juice tastes ________.", options: ["sour", "sweet", "salty", "bitter"], answer: 0 },
+                { q: "This riddle is ________ than the first one.", options: ["easy", "easier", "easiest", "more easy"], answer: 1 }
             ],
             prepositions: [
                 { q: "The cat is sleeping ________ the table.", options: ["under", "in", "above", "between"], answer: 0 },
                 { q: "We go to school ________ 7.00 a.m.", options: ["on", "at", "in", "by"], answer: 1 },
                 { q: "Put the apples ________ the basket.", options: ["inside", "on", "over", "between"], answer: 0 },
                 { q: "The sun shines ________ our heads at noon.", options: ["under", "above", "in", "behind"], answer: 1 },
-                { q: "My birthday is ________ July.", options: ["at", "on", "in", "to"], answer: 2 }
+                { q: "My birthday is ________ July.", options: ["at", "on", "in", "to"], answer: 2 },
+                { q: "She hangs the clock ________ the wall.", options: ["on", "in", "under", "at"], answer: 0 },
+                { q: "The boy is standing ________ his mother and father.", options: ["among", "between", "under", "in"], answer: 1 },
+                { q: "They walk ________ the bridge to cross the river.", options: ["across", "under", "into", "at"], answer: 0 },
+                { q: "The train arrived ________ Sunday morning.", options: ["in", "at", "on", "from"], answer: 2 },
+                { q: "He hid ________ the door during hide and seek.", options: ["behind", "on", "in", "over"], answer: 0 }
             ],
             conjunctions: [
                 { q: "I like apples ________ oranges.", options: ["and", "but", "or", "so"], answer: 0 },
                 { q: "He is rich ________ he is not happy.", options: ["and", "but", "so", "or"], answer: 1 },
                 { q: "Do you want tea ________ coffee?", options: ["and", "but", "or", "so"], answer: 2 },
                 { q: "She stayed home ________ she was feeling sick.", options: ["because", "but", "or", "and"], answer: 0 },
-                { q: "It started to rain, ________ we took out our umbrellas.", options: ["because", "so", "but", "or"], answer: 1 }
+                { q: "It started to rain, ________ we took out our umbrellas.", options: ["because", "so", "but", "or"], answer: 1 },
+                { q: "Abu is tall ________ his brother is short.", options: ["and", "or", "but", "because"], answer: 2 },
+                { q: "You can play video games ________ you finish your homework.", options: ["after", "but", "or", "so"], answer: 0 },
+                { q: "Wash your hands ________ you eat your meal.", options: ["before", "but", "so", "or"], answer: 0 },
+                { q: "He ran fast, ________ he missed the bus.", options: ["and", "but", "so", "because"], answer: 1 },
+                { q: "Is the answer true ________ false?", options: ["and", "but", "or", "so"], answer: 2 }
             ],
             articles: [
                 { q: "She wants to eat ________ apple.", options: ["a", "an", "the", "-"], answer: 1 },
                 { q: "I saw ________ cat in our backyard.", options: ["a", "an", "the", "-"], answer: 0 },
                 { q: "________ sun rises in the east.", options: ["A", "An", "The", "-"], answer: 2 },
                 { q: "He bought ________ umbrella yesterday.", options: ["a", "an", "the", "-"], answer: 1 },
-                { q: "My brother is ________ honest boy.", options: ["a", "an", "the", "-"], answer: 1 }
+                { q: "My brother is ________ honest boy.", options: ["a", "an", "the", "-"], answer: 1 },
+                { q: "Please give me ________ book on the desk.", options: ["a", "an", "the", "-"], answer: 2 },
+                { q: "There is ________ elephant at the zoo.", options: ["a", "an", "the", "-"], answer: 1 },
+                { q: "Ali has ________ pet dog.", options: ["a", "an", "the", "-"], answer: 0 },
+                { q: "She is ________ best student in class.", options: ["a", "an", "the", "-"], answer: 2 },
+                { q: "He waits for ________ hour.", options: ["a", "an", "the", "-"], answer: 1 }
             ],
             presentTense: [
                 { q: "Cats ________ milk.", options: ["drink", "drinks", "drinking", "drank"], answer: 0 },
                 { q: "He ________ to school every day.", options: ["cycle", "cycles", "cycling", "cycled"], answer: 1 },
                 { q: "I ________ English grammar.", options: ["love", "loves", "loving", "loved"], answer: 0 },
                 { q: "My mother ________ delicious food.", options: ["cook", "cooks", "cooking", "cooked"], answer: 1 },
-                { q: "Birds ________ in the sky.", options: ["fly", "flies", "flying", "flew"], answer: 0 }
+                { q: "Birds ________ in the sky.", options: ["fly", "flies", "flying", "flew"], answer: 0 },
+                { q: "The sun ________ in the east.", options: ["set", "sets", "setting", "rise"], answer: 1 },
+                { q: "We ________ football every evening.", options: ["play", "plays", "playing", "played"], answer: 0 },
+                { q: "She ________ her teeth twice a day.", options: ["brush", "brushes", "brushed", "brushing"], answer: 1 },
+                { q: "They ________ hard for their exams.", options: ["study", "studies", "studying", "studied"], answer: 0 },
+                { q: "A dog ________ a tail.", options: ["have", "has", "having", "had"], answer: 1 }
             ],
             pastTense: [
                 { q: "Yesterday, I ________ to the library.", options: ["go", "goes", "went", "going"], answer: 2 },
                 { q: "She ________ a letter last night.", options: ["write", "writes", "wrote", "writing"], answer: 2 },
                 { q: "They ________ football last weekend.", options: ["play", "plays", "played", "playing"], answer: 2 },
                 { q: "My father ________ a new car last month.", options: ["buy", "buys", "bought", "buying"], answer: 2 },
-                { q: "The baby ________ all night long.", options: ["cry", "cries", "cried", "crying"], answer: 2 }
+                { q: "The baby ________ all night long.", options: ["cry", "cries", "cried", "crying"], answer: 2 },
+                { q: "We ________ a movie yesterday.", options: ["watch", "watches", "watched", "watching"], answer: 2 },
+                { q: "He ________ an apple just now.", options: ["eat", "eats", "ate", "eating"], answer: 2 },
+                { q: "It ________ heavily last evening.", options: ["rain", "rains", "rained", "raining"], answer: 2 },
+                { q: "Ali ________ his homework an hour ago.", options: ["finish", "finishes", "finished", "finishing"], answer: 2 },
+                { q: "The bird ________ away quickly.", options: ["fly", "flies", "flew", "flying"], answer: 2 }
             ],
             singularPlural: [
                 { q: "Plural form of 'child' is ________.", options: ["childs", "children", "childes", "child"], answer: 1 },
                 { q: "Plural form of 'box' is ________.", options: ["boxs", "boxes", "boxen", "box"], answer: 1 },
                 { q: "Singular form of 'teeth' is ________.", options: ["tooth", "teeths", "toot", "teeth"], answer: 0 },
                 { q: "Plural form of 'baby' is ________.", options: ["babys", "babies", "baby", "babes"], answer: 1 },
-                { q: "Plural form of 'fish' is usually ________.", options: ["fishes", "fish", "fishs", "fishen"], answer: 1 }
+                { q: "Plural form of 'fish' is usually ________.", options: ["fishes", "fish", "fishs", "fishen"], answer: 1 },
+                { q: "Plural form of 'man' is ________.", options: ["mans", "men", "menn", "man"], answer: 1 },
+                { q: "Plural form of 'tomato' is ________.", options: ["tomatos", "tomatoes", "tomato", "tomatoe"], answer: 1 },
+                { q: "Singular form of 'mice' is ________.", options: ["mouse", "mices", "mous", "mice"], answer: 0 },
+                { q: "Plural form of 'bus' is ________.", options: ["buss", "buses", "busies", "busi"], answer: 1 },
+                { q: "Plural form of 'foot' is ________.", options: ["foots", "feets", "feet", "foot"], answer: 2 }
             ],
             demonstratives: [
                 { q: "________ is my apple here in my hand.", options: ["This", "That", "These", "Those"], answer: 0 },
                 { q: "Look at ________ stars high up in the sky.", options: ["this", "that", "these", "those"], answer: 3 },
                 { q: "________ books on this desk belong to me.", options: ["This", "That", "These", "That's"], answer: 2 },
                 { q: "Is ________ bird far away an eagle?", options: ["this", "that", "these", "those"], answer: 1 },
-                { q: "________ are my new shoes on my feet.", options: ["This", "That", "These", "Those"], answer: 2 }
+                { q: "________ are my new shoes on my feet.", options: ["This", "That", "These", "Those"], answer: 2 },
+                { q: "Can you see ________ airplanes flying far away?", options: ["this", "that", "these", "those"], answer: 3 },
+                { q: "________ is a wonderful day today.", options: ["This", "That", "These", "Those"], answer: 0 },
+                { q: "Who left ________ dirty dishes over there?", options: ["this", "that", "these", "those"], answer: 3 },
+                { q: "Take ________ pencil and write your name.", options: ["this", "these", "those", "they"], answer: 0 },
+                { q: "________ mountains in the distance are huge.", options: ["This", "That", "These", "Those"], answer: 3 }
             ]
         };
 
