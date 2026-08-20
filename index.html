@@ -13,10 +13,10 @@
             --primary-blue: #5CE1E6;
             --primary-green: #7ED957;
             --primary-purple: #C38FFF;
-            --sidebar-bg: #2C3E50;
+            --sidebar-bg: rgba(44, 62, 80, 0.9);
             --sidebar-text: #FFFFFF;
             --text-dark: #2C3E50;
-            --white: #FFFFFF;
+            --white: rgba(255, 255, 255, 0.95);
         }
 
         * {
@@ -27,7 +27,9 @@
 
         body {
             font-family: 'Quicksand', sans-serif;
-            background: linear-gradient(135deg, #a8edd8 0%, #d8e7ff 100%);
+            /* Latar belakang baharu menggunakan imej Imgur pilihan anda dengan kesan penapis sedikit gelap agar teks mudah dibaca */
+            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('https://i.imgur.com/H46KuIJ.jpeg') no-repeat center center fixed;
+            background-size: cover;
             color: var(--text-dark);
             min-height: 100vh;
             display: flex;
@@ -37,11 +39,12 @@
         .sidebar {
             width: 250px;
             background-color: var(--sidebar-bg);
+            backdrop-filter: blur(8px);
             color: var(--sidebar-text);
             display: flex;
             flex-direction: column;
             padding: 20px 15px;
-            box-shadow: 4px 0 15px rgba(0,0,0,0.1);
+            box-shadow: 4px 0 15px rgba(0,0,0,0.2);
             transition: all 0.3s ease;
             z-index: 100;
         }
@@ -71,6 +74,7 @@
             color: var(--primary-yellow);
             text-align: center;
             margin-bottom: 5px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
         }
 
         .sidebar-subtitle {
@@ -143,8 +147,9 @@
 
         .container {
             background-color: var(--white);
+            backdrop-filter: blur(10px);
             border-radius: 25px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             width: 100%;
             max-width: 650px;
             padding: 30px;
@@ -194,6 +199,7 @@
             font-family: 'Quicksand', sans-serif;
             font-weight: 700;
             outline: none;
+            background: #fff;
         }
 
         .form-input:focus {
