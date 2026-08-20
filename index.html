@@ -60,7 +60,29 @@
             font-size: 1.1rem;
             font-weight: 700;
             color: #5E17EB;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
+        }
+
+        .user-bar {
+            background: #F0F4F8;
+            padding: 8px 15px;
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .change-user-btn {
+            background: #FF5757;
+            color: white;
+            border: none;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            font-weight: 700;
         }
 
         .card {
@@ -77,12 +99,33 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* Input Profil */
+        .input-group {
+            margin: 20px 0;
+        }
+
+        .name-input {
+            width: 80%;
+            padding: 12px 20px;
+            font-size: 1.2rem;
+            border: 3px solid var(--primary-blue);
+            border-radius: 15px;
+            text-align: center;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            outline: none;
+        }
+
+        .name-input:focus {
+            border-color: var(--primary-pink);
+        }
+
         /* Menu Skrin Utama */
         .topic-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 15px;
-            margin-top: 20px;
+            margin-top: 15px;
         }
 
         .topic-btn {
@@ -184,8 +227,7 @@
             font-weight: 700;
             cursor: pointer;
             box-shadow: 0 4px 0 #E65100;
-            display: none;
-            margin: 0 auto;
+            margin: 10px auto;
         }
 
         .action-btn:active {
@@ -193,7 +235,7 @@
             box-shadow: 0 2px 0 #E65100;
         }
 
-        /* Skrin Keputusan */
+        /* Skrin Keputusan & Rekod */
         .result-score {
             font-size: 3rem;
             font-family: 'Fredoka One', cursive;
@@ -201,17 +243,23 @@
             margin: 15px 0;
         }
 
-        .home-btn {
-            background-color: var(--primary-pink);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 20px;
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            box-shadow: 0 4px 0 #C2185B;
+        .record-table {
+            width: 100%;
             margin-top: 15px;
+            border-collapse: collapse;
+            background: #FFFDE7;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .record-table th, .record-table td {
+            padding: 10px;
+            border: 1px solid #FFE082;
+            font-size: 0.95rem;
+        }
+
+        .record-table th {
+            background-color: var(--primary-yellow);
         }
 
     </style>
@@ -222,11 +270,25 @@
         <header>
             <h1>🌟 Grammar Hub 🌟</h1>
             <p>English KSSR Primary School</p>
+            <div id="user-display" class="user-bar" style="display:none;">
+                👤 Student: <span id="current-username" style="color:#5E17EB;">-</span>
+                <button class="change-user-btn" onclick="playClickSound(); changeUser()">Switch Profile</button>
+            </div>
         </header>
 
-        <!-- SKRIN UTAMA (MENU TOPIK) -->
-        <div id="home-screen" class="card active">
-            <h2 style="margin-bottom: 15px; color: #333;">Choose a Topic! 📚</h2>
+        <!-- SKRIN DAFTAR NAMA -->
+        <div id="profile-screen" class="card active">
+            <h2>Welcome! 👋</h2>
+            <p style="margin-top: 10px;">Please enter your name to start:</p>
+            <div class="input-group">
+                <input type="text" id="username-input" class="name-input" placeholder="Type your name here..." maxlength="20">
+            </div>
+            <button class="action-btn" style="display:inline-block;" onclick="playClickSound(); registerUser()">Start Learning 🚀</button>
+        </div>
+
+        <!-- SKRIN UTAMA (MENU TOPIK & REKOD) -->
+        <div id="home-screen" class="card">
+            <h2 style="margin-bottom: 10px; color: #333;">Choose a Topic! 📚</h2>
             <div class="topic-grid">
                 <button class="topic-btn" onclick="playClickSound(); startQuiz('nouns')">Nouns 🍎</button>
                 <button class="topic-btn" onclick="playClickSound(); startQuiz('pronouns')">Pronouns 👦👧</button>
@@ -235,6 +297,20 @@
                 <button class="topic-btn" onclick="playClickSound(); startQuiz('prepositions')">Prepositions 📦</button>
                 <button class="topic-btn" onclick="playClickSound(); startQuiz('conjunctions')">Conjunctions 🔗</button>
             </div>
+
+            <!-- JADUAL REKOD SKOR -->
+            <h3 style="margin-top: 25px; color: #333;">🏆 My Highest Scores</h3>
+            <table class="record-table">
+                <thead>
+                    <tr>
+                        <th>Topic</th>
+                        <th>Best Score</th>
+                    </tr>
+                </thead>
+                <tbody id="score-records-body">
+                    <!-- Rekod dimuatkan melalui JS -->
+                </tbody>
+            </table>
         </div>
 
         <!-- SKRIN SOALAN -->
@@ -250,10 +326,10 @@
             </div>
 
             <div id="options-container" class="options-grid">
-                <!-- Pilihan jawapan akan dimuatkan oleh JavaScript -->
+                <!-- Pilihan jawapan -->
             </div>
 
-            <button id="next-btn" class="action-btn" onclick="playClickSound(); nextQuestion()">Next Question ➔</button>
+            <button id="next-btn" class="action-btn" style="display:none;" onclick="playClickSound(); nextQuestion()">Next Question ➔</button>
         </div>
 
         <!-- SKRIN KEPUTUSAN -->
@@ -262,7 +338,7 @@
             <p>You have completed the quiz!</p>
             <div class="result-score" id="final-score">0 / 10</div>
             <p id="feedback-message" style="font-weight: 700; color: #555;"></p>
-            <button class="home-btn" onclick="playClickSound(); goHome()">Play Again 🔄</button>
+            <button class="action-btn" style="display:inline-block;" onclick="playClickSound(); goHome()">Back to Menu 🔄</button>
         </div>
     </div>
 
@@ -270,7 +346,6 @@
         // --- SISTEM BUNYI (WEB AUDIO API) ---
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-        // Bunyi klik biasa (Butang Menu & Next)
         function playClickSound() {
             if (audioCtx.state === 'suspended') audioCtx.resume();
             const osc = audioCtx.createOscillator();
@@ -286,16 +361,13 @@
             osc.stop(audioCtx.currentTime + 0.08);
         }
 
-        // Bunyi Jawapan Betul (Ceria & Tinggi)
         function playCorrectSound() {
             if (audioCtx.state === 'suspended') audioCtx.resume();
             const now = audioCtx.currentTime;
-            
-            // Nada 1
             const osc1 = audioCtx.createOscillator();
             const gain1 = audioCtx.createGain();
             osc1.type = 'triangle';
-            osc1.frequency.setValueAtTime(523.25, now); // C5
+            osc1.frequency.setValueAtTime(523.25, now); 
             gain1.gain.setValueAtTime(0.3, now);
             gain1.gain.linearRampToValueAtTime(0.01, now + 0.15);
             osc1.connect(gain1);
@@ -303,11 +375,10 @@
             osc1.start(now);
             osc1.stop(now + 0.15);
 
-            // Nada 2
             const osc2 = audioCtx.createOscillator();
             const gain2 = audioCtx.createGain();
             osc2.type = 'triangle';
-            osc2.frequency.setValueAtTime(659.25, now + 0.1); // E5
+            osc2.frequency.setValueAtTime(659.25, now + 0.1); 
             gain2.gain.setValueAtTime(0.3, now + 0.1);
             gain2.gain.linearRampToValueAtTime(0.01, now + 0.3);
             osc2.connect(gain2);
@@ -316,14 +387,13 @@
             osc2.stop(now + 0.3);
         }
 
-        // Bunyi Jawapan Salah (Nada Rendah)
         function playWrongSound() {
             if (audioCtx.state === 'suspended') audioCtx.resume();
             const now = audioCtx.currentTime;
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
             osc.type = 'sawtooth';
-            osc.frequency.setValueAtTime(220, now); // A3
+            osc.frequency.setValueAtTime(220, now);
             osc.frequency.linearRampToValueAtTime(130, now + 0.25);
             gain.gain.setValueAtTime(0.3, now);
             gain.gain.linearRampToValueAtTime(0.01, now + 0.25);
@@ -333,7 +403,7 @@
             osc.stop(now + 0.25);
         }
 
-        // Bank Soalan KSSR Bahasa Inggeris
+        // Bank Soalan KSSR
         const questionBank = {
             nouns: [
                 { q: "My father drives a new ________ to work.", options: ["car", "cars", "caring", "cared"], answer: 0 },
@@ -409,14 +479,79 @@
             ]
         };
 
-        // Pembolehubah Sesi
+        // Pembolehubah Aplikasi
+        let currentUser = "";
         let currentTopic = "";
         let currentQuestions = [];
         let currentQuestionIndex = 0;
         let score = 0;
         let canAnswer = true;
 
-        // Rawakkan soalan
+        // Semak profil pada awal pemuatan
+        window.onload = function() {
+            const savedUser = localStorage.getItem("grammar_hub_active_user");
+            if (savedUser) {
+                currentUser = savedUser;
+                showHomeScreen();
+            } else {
+                showScreen("profile-screen");
+            }
+        };
+
+        // Pendaftaran Profil
+        function registerUser() {
+            const inputName = document.getElementById("username-input").value.trim();
+            if (inputName === "") {
+                alert("Please enter your name first!");
+                return;
+            }
+            currentUser = inputName;
+            localStorage.setItem("grammar_hub_active_user", currentUser);
+            showHomeScreen();
+        }
+
+        function changeUser() {
+            localStorage.removeItem("grammar_hub_active_user");
+            document.getElementById("username-input").value = "";
+            document.getElementById("user-display").style.display = "none";
+            showScreen("profile-screen");
+        }
+
+        function showHomeScreen() {
+            document.getElementById("current-username").innerText = currentUser;
+            document.getElementById("user-display").style.display = "inline-flex";
+            loadScoreBoard();
+            showScreen("home-screen");
+        }
+
+        // Papan Rekod Skor Menggunakan LocalStorage
+        function loadScoreBoard() {
+            const tbody = document.getElementById("score-records-body");
+            tbody.innerHTML = "";
+            
+            const topics = ['nouns', 'pronouns', 'verbs', 'adjectives', 'prepositions', 'conjunctions'];
+            const userScores = JSON.parse(localStorage.getItem(`grammar_hub_scores_${currentUser}`)) || {};
+
+            topics.forEach(tp => {
+                const tr = document.createElement("tr");
+                const topScore = userScores[tp] !== undefined ? `${userScores[tp]} / 10` : "-";
+                tr.innerHTML = `
+                    <td style="text-transform: capitalize; font-weight:700;">${tp}</td>
+                    <td style="font-weight:700; color:#5E17EB;">${topScore}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function saveScore(topic, newScore) {
+            let userScores = JSON.parse(localStorage.getItem(`grammar_hub_scores_${currentUser}`)) || {};
+            if (userScores[topic] === undefined || newScore > userScores[topic]) {
+                userScores[topic] = newScore;
+                localStorage.setItem(`grammar_hub_scores_${currentUser}`, JSON.stringify(userScores));
+            }
+        }
+
+        // Rawakkan Array Soalan
         function shuffle(array) {
             let currentIndex = array.length, randomIndex;
             while (currentIndex != 0) {
@@ -427,7 +562,7 @@
             return array;
         }
 
-        // Mulakan Kuiz
+        // Jalankan Sesi Kuiz
         function startQuiz(topic) {
             currentTopic = topic;
             currentQuestions = shuffle([...questionBank[topic]]);
@@ -441,7 +576,6 @@
             loadQuestion();
         }
 
-        // Paparkan Soalan
         function loadQuestion() {
             canAnswer = true;
             document.getElementById('next-btn').style.display = 'none';
@@ -462,7 +596,6 @@
             });
         }
 
-        // Semak Jawapan & Mainkan Bunyi Suara Hasil
         function checkAnswer(selectedIndex, btnElement) {
             if (!canAnswer) return;
             canAnswer = false;
@@ -472,12 +605,12 @@
 
             if (selectedIndex === qData.answer) {
                 btnElement.classList.add('correct');
-                playCorrectSound(); // Bunyi jawapan betul
+                playCorrectSound();
                 score++;
                 document.getElementById('current-score').innerText = score;
             } else {
                 btnElement.classList.add('wrong');
-                playWrongSound(); // Bunyi jawapan salah
+                playWrongSound();
                 allBtns[qData.answer].classList.add('correct');
             }
 
@@ -494,6 +627,7 @@
         }
 
         function showResults() {
+            saveScore(currentTopic, score); // Simpan rekod secara automatik
             showScreen('result-screen');
             document.getElementById('final-score').innerText = `${score} / 10`;
 
@@ -510,7 +644,7 @@
         }
 
         function goHome() {
-            showScreen('home-screen');
+            showHomeScreen();
         }
 
         function showScreen(screenId) {
