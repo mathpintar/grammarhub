@@ -115,7 +115,7 @@
             background-color: #C0392B;
         }
 
-        /* TOGGLE BUTTON UNTUK SKRIN KECIL / MOBILE */
+        /* TOGGLE BUTTON UNTUK MOBILE */
         .mobile-toggle {
             display: none;
             position: fixed;
@@ -228,6 +228,42 @@
 
         .topic-btn:nth-child(4n) { background-color: var(--primary-purple); box-shadow: 0 5px 0 #8d5cc4; color: white;}
         .topic-btn:nth-child(4n):hover { box-shadow: 0 8px 0 #8d5cc4; }
+
+        /* GAYA SKRIN LESSON */
+        .lesson-box {
+            background: #F0F4F8;
+            border-radius: 18px;
+            padding: 20px;
+            text-align: left;
+            margin: 20px 0;
+            border-left: 6px solid var(--primary-purple);
+        }
+
+        .lesson-title {
+            font-family: 'Fredoka One', cursive;
+            color: #5E17EB;
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+        }
+
+        .lesson-desc {
+            font-size: 1.05rem;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .lesson-example {
+            background: #FFFFFF;
+            padding: 12px 15px;
+            border-radius: 12px;
+            border: 2px dashed var(--primary-blue);
+            margin-top: 10px;
+        }
+
+        .lesson-example ul {
+            padding-left: 20px;
+            margin-top: 5px;
+        }
 
         /* Skrin Soalan */
         .quiz-header {
@@ -410,7 +446,7 @@
     <div class="main-content">
         <div class="container">
 
-            <!-- 1. SKRIN DAFTAR NAMA / AVAL -->
+            <!-- 1. SKRIN DAFTAR NAMA / AWAL -->
             <div id="profile-screen" class="card active">
                 <h1 style="font-family: 'Fredoka One', cursive; color: #FF5757; margin-bottom: 15px;">Grammar Hub</h1>
                 <h2>Welcome! 👋</h2>
@@ -423,18 +459,32 @@
 
             <!-- 2. SKRIN UTAMA (MENU TOPIK) -->
             <div id="home-screen" class="card">
-                <h2 style="margin-bottom: 15px; color: #333;">Choose a Topic! 📚</h2>
+                <h2 style="margin-bottom: 15px; color: #333;">Choose a Topic to Learn! 📚</h2>
                 <div class="topic-grid">
-                    <button class="topic-btn" onclick="playClickSound(); startQuiz('nouns')">Nouns 🍎</button>
-                    <button class="topic-btn" onclick="playClickSound(); startQuiz('pronouns')">Pronouns 👦👧</button>
-                    <button class="topic-btn" onclick="playClickSound(); startQuiz('verbs')">Verbs 🏃‍♂️</button>
-                    <button class="topic-btn" onclick="playClickSound(); startQuiz('adjectives')">Adjectives 🎨</button>
-                    <button class="topic-btn" onclick="playClickSound(); startQuiz('prepositions')">Prepositions 📦</button>
-                    <button class="topic-btn" onclick="playClickSound(); startQuiz('conjunctions')">Conjunctions 🔗</button>
+                    <button class="topic-btn" onclick="playClickSound(); openLesson('nouns')">Nouns 🍎</button>
+                    <button class="topic-btn" onclick="playClickSound(); openLesson('pronouns')">Pronouns 👦👧</button>
+                    <button class="topic-btn" onclick="playClickSound(); openLesson('verbs')">Verbs 🏃‍♂️</button>
+                    <button class="topic-btn" onclick="playClickSound(); openLesson('adjectives')">Adjectives 🎨</button>
+                    <button class="topic-btn" onclick="playClickSound(); openLesson('prepositions')">Prepositions 📦</button>
+                    <button class="topic-btn" onclick="playClickSound(); openLesson('conjunctions')">Conjunctions 🔗</button>
                 </div>
             </div>
 
-            <!-- 3. SKRIN PAPARAN PROFIL -->
+            <!-- 3. SKRIN LESSON (PEMBELAJARAN SEBELUM KUIZ) -->
+            <div id="lesson-screen" class="card">
+                <h2 style="color: #333;">Lesson Time! 📖</h2>
+                <div class="lesson-box">
+                    <div class="lesson-title" id="lesson-title">Topic Title</div>
+                    <div class="lesson-desc" id="lesson-desc">Lesson explanation content goes here...</div>
+                    <div class="lesson-example">
+                        <strong>Examples:</strong>
+                        <div id="lesson-examples">Examples go here...</div>
+                    </div>
+                </div>
+                <button class="action-btn" style="display:inline-block; background-color: var(--primary-green); box-shadow: 0 4px 0 #5aa33d;" onclick="playClickSound(); startQuizAfterLesson()">Start Quiz 🚀</button>
+            </div>
+
+            <!-- 4. SKRIN PAPARAN PROFIL -->
             <div id="profile-view-screen" class="card">
                 <h2>User Profile 👤</h2>
                 <div class="profile-card-details">
@@ -445,7 +495,7 @@
                 <button class="action-btn" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
             </div>
 
-            <!-- 4. SKRIN REKOD SKOR (SCORES) -->
+            <!-- 5. SKRIN REKOD SKOR (SCORES) -->
             <div id="scores-screen" class="card">
                 <h2 style="color: #333;">🏆 My Highest Scores</h2>
                 <p style="color: #666; margin-top: 5px;">Track your grammar performance here!</p>
@@ -464,7 +514,7 @@
                 <button class="action-btn" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
             </div>
 
-            <!-- 5. SKRIN SOALAN KUIZ -->
+            <!-- 6. SKRIN SOALAN KUIZ -->
             <div id="quiz-screen" class="card">
                 <div class="quiz-header">
                     <span id="topic-title">Topic</span>
@@ -483,7 +533,7 @@
                 <button id="next-btn" class="action-btn" style="display:none;" onclick="playClickSound(); nextQuestion()">Next Question ➔</button>
             </div>
 
-            <!-- 6. SKRIN KEPUTUSAN -->
+            <!-- 7. SKRIN KEPUTUSAN -->
             <div id="result-screen" class="card">
                 <h2>Awesome Job! 🎉</h2>
                 <p>You have completed the quiz!</p>
@@ -556,6 +606,40 @@
             osc.start(now);
             osc.stop(now + 0.25);
         }
+
+        // BANK NOTA LESSON
+        const lessonData = {
+            nouns: {
+                title: "Nouns (Kata Nama)",
+                desc: "<strong>Nouns</strong> are words used to name people, places, animals, or things. Pay attention to Singular (one) and Plural (more than one).",
+                examples: "<ul><li>Singular: <i>car, dog, child, tooth</i></li><li>Plural: <i>cars, dogs, children, teeth</i></li></ul>"
+            },
+            pronouns: {
+                title: "Pronouns (Kata Ganti Nama)",
+                desc: "<strong>Pronouns</strong> are words that take the place of nouns so we don't have to repeat the same noun.",
+                examples: "<ul><li>Girl/Woman: <b>She, Her</b></li><li>Boy/Man: <b>He, Him</b></li><li>Animal/Object: <b>It, Its</b></li><li>Group: <b>They, We</b></li></ul>"
+            },
+            verbs: {
+                title: "Verbs (Kata Kerja)",
+                desc: "<strong>Verbs</strong> are action words. They show what someone or something is doing. Remember to check the tenses (present or past)!",
+                examples: "<ul><li>Present Tense: <i>walks, sings, flying</i></li><li>Past Tense: <i>walked, sang, caught</i></li></ul>"
+            },
+            adjectives: {
+                title: "Adjectives (Kata Sifat)",
+                desc: "<strong>Adjectives</strong> describe or give more information about a noun (size, color, shape, feeling).",
+                examples: "<ul><li>Size: <i>huge, small, long</i></li><li>Taste/Feel: <i>sweet, sour, cold, heavy</i></li><li>Comparison: <i>fast ➔ faster ➔ fastest</i></li></ul>"
+            },
+            prepositions: {
+                title: "Prepositions (Kata Sendi Nama)",
+                desc: "<strong>Prepositions</strong> tell us the position or location of something, or when something happens.",
+                examples: "<ul><li>Position: <i>under, on, inside, between, behind</i></li><li>Time: <i>at 7.00 a.m., in July, on Sunday</i></li></ul>"
+            },
+            conjunctions: {
+                title: "Conjunctions (Kata Hubung)",
+                desc: "<strong>Conjunctions</strong> are joining words that connect words, phrases, or sentences together.",
+                examples: "<ul><li><b>And:</b> joins similar ideas.</li><li><b>But:</b> joins opposite ideas.</li><li><b>Because:</b> shows a reason.</li><li><b>So:</b> shows a result.</li></ul>"
+            }
+        };
 
         // Bank Soalan KSSR
         const questionBank = {
@@ -695,12 +779,27 @@
             }
             showScreen(screenId);
             
-            // Tutup sidebar pada paparan mudah alih jika terbuka
             document.getElementById("sidebar").classList.remove("open");
         }
 
         function toggleSidebar() {
             document.getElementById("sidebar").classList.toggle("open");
+        }
+
+        // FUNGSI BUAT LESSON SEBELUM KUIZ
+        function openLesson(topic) {
+            currentTopic = topic;
+            const lesson = lessonData[topic];
+
+            document.getElementById("lesson-title").innerText = lesson.title;
+            document.getElementById("lesson-desc").innerHTML = lesson.desc;
+            document.getElementById("lesson-examples").innerHTML = lesson.examples;
+
+            showScreen("lesson-screen");
+        }
+
+        function startQuizAfterLesson() {
+            startQuiz(currentTopic);
         }
 
         // Papan Rekod Skor
