@@ -172,15 +172,19 @@
             50% { transform: translateY(-6px); }
         }
 
-        /* Input Profil */
+        /* Input Form & Profiles */
         .input-group {
-            margin: 20px 0;
+            margin: 15px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: center;
         }
 
-        .name-input {
+        .custom-input {
             width: 80%;
             padding: 12px 20px;
-            font-size: 1.2rem;
+            font-size: 1rem;
             border: 3px solid var(--primary-blue);
             border-radius: 15px;
             text-align: center;
@@ -189,8 +193,32 @@
             outline: none;
         }
 
-        .name-input:focus {
+        .custom-input:focus {
             border-color: var(--primary-pink);
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .profile-btn {
+            background-color: var(--primary-purple);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .profile-btn:hover {
+            transform: scale(1.05);
+            background-color: #a35eff;
         }
 
         /* MENU UTAMA - HEADER LOGO & INTRO */
@@ -377,6 +405,12 @@
             box-shadow: 0 2px 0 #E65100;
         }
 
+        .action-btn:disabled {
+            background-color: #BDC3C7;
+            box-shadow: none;
+            cursor: not-allowed;
+        }
+
         .home-btn {
             background-color: #3498DB;
             box-shadow: 0 4px 0 #1F618D;
@@ -511,7 +545,7 @@
             <li class="nav-item" onclick="playClickSound(); navigateTo('scores-screen', this)">
                 🏆 Scores
             </li>
-            <li class="nav-item logout-btn" onclick="playClickSound(); logout()">
+            <li class="nav-item logout-btn" onclick="playClickSound(); logoutUser()">
                 🚪 Logout
             </li>
         </ul>
@@ -521,15 +555,41 @@
     <div class="main-content">
         <div class="container">
 
-            <!-- 1. SKRIN DAFTAR NAMA / AWAL -->
-            <div id="profile-screen" class="card active">
+            <!-- 1A. SKRIN LOG IN / REGISTER EMAIL FIREBASE -->
+            <div id="auth-screen" class="card active">
                 <h1 style="font-family: 'Fredoka One', cursive; color: #FF5757; margin-bottom: 15px;">Grammar Hub</h1>
-                <h2>Welcome! 👋</h2>
-                <p style="margin-top: 10px;">Please enter your name to start learning:</p>
+                <h2 id="auth-title">Log Masuk Email 🔑</h2>
                 <div class="input-group">
-                    <input type="text" id="username-input" class="name-input" placeholder="Type your name here..." maxlength="20">
+                    <input type="email" id="auth-email" class="custom-input" placeholder="E-mel anda">
+                    <input type="password" id="auth-password" class="custom-input" placeholder="Kata Laluan">
                 </div>
-                <button class="action-btn" style="display:inline-block;" onclick="playClickSound(); registerUser()">Start Learning 🚀</button>
+                <button id="auth-main-btn" class="action-btn" onclick="playClickSound(); handleAuth()">Log Masuk</button>
+                <p style="margin-top: 15px; font-size: 0.9rem;" id="auth-toggle-text">
+                    Belum ada akaun? <a href="#" onclick="toggleAuthMode(); return false;" style="color: #5E17EB; font-weight: bold;">Daftar Sini</a>
+                </p>
+            </div>
+
+            <!-- 1B. SKRIN PILIH / CREAT PROFIL (MAX 6) -->
+            <div id="profile-select-screen" class="card">
+                <h2>Pilih Profil Murid 👦👧</h2>
+                <p style="margin-top: 5px; color: #666;">Setiap akaun disokong maksimum 6 profil sahaja.</p>
+                
+                <div id="existing-profiles" class="profile-grid">
+                    <!-- Senarai profil dari Firebase dipaparkan di sini -->
+                </div>
+
+                <hr style="margin: 20px 0; border: 1px dashed #ccc;">
+
+                <div id="create-profile-container">
+                    <h3>Tambah Profil Baharu</h3>
+                    <div class="input-group">
+                        <input type="text" id="new-profile-name" class="custom-input" placeholder="Nama Murid / Anak" maxlength="20">
+                    </div>
+                    <button id="add-profile-btn" class="action-btn" onclick="playClickSound(); createProfile()">Tambah Profil</button>
+                </div>
+                <p id="max-profile-msg" style="color: red; font-weight: bold; display: none; margin-top: 10px;">
+                    Akaun ini telah mencapai had maksimum 6 profil.
+                </p>
             </div>
 
             <!-- 2. SKRIN UTAMA (MENU TOPIK DENGAN LOGO & GREETING) -->
@@ -570,10 +630,12 @@
             <div id="profile-view-screen" class="card">
                 <h2>User Profile 👤</h2>
                 <div class="profile-card-details">
-                    <p><strong>Student Name:</strong> <span id="profile-name-val" style="color: #5E17EB;">-</span></p>
+                    <p><strong>Account Email:</strong> <span id="profile-email-val" style="color: #5E17EB;">-</span></p>
+                    <p><strong>Active Student:</strong> <span id="profile-name-val" style="color: #5E17EB;">-</span></p>
                     <p><strong>Status:</strong> Active Learner 🌟</p>
                     <p><strong>Level:</strong> Primary School English (KSSR)</p>
                 </div>
+                <button class="action-btn" style="background-color: var(--primary-purple); box-shadow: 0 4px 0 #8d5cc4;" onclick="playClickSound(); switchProfile()">Tukar Profil 🔄</button>
                 <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
             </div>
 
@@ -637,6 +699,243 @@
 
         </div>
     </div>
+
+    <!-- FIREBASE SDK MODULAR -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { 
+            getAuth, 
+            createUserWithEmailAndPassword, 
+            signInWithEmailAndPassword, 
+            onAuthStateChanged, 
+            signOut 
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { 
+            getDatabase, 
+            ref, 
+            set, 
+            push, 
+            get, 
+            child 
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.app.js";
+
+        // Konfigurasi Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyAgUl-DSLAGA4pRvmKTacvowO4E0OEXo5w",
+            authDomain: "abcd-b1870.firebaseapp.com",
+            databaseURL: "https://abcd-b1870-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "abcd-b1870",
+            storageBucket: "abcd-b1870.firebasestorage.app",
+            messagingSenderId: "890026579019",
+            appId: "1:890026579019:web:200fd135537b9ea2f7a9ce"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getDatabase(app);
+
+        // Variables Global Auth/Profile
+        let currentAuthUser = null;
+        let isSignUpMode = false;
+        let userProfiles = [];
+
+        // Auth Listener
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentAuthUser = user;
+                document.getElementById("profile-email-val").innerText = user.email;
+                fetchUserProfiles();
+            } else {
+                currentAuthUser = null;
+                window.currentUser = "";
+                showLoggedOutState();
+                showScreen("auth-screen");
+            }
+        });
+
+        // Toggle Mod Login / Sign Up
+        window.toggleAuthMode = function() {
+            isSignUpMode = !isSignUpMode;
+            if(isSignUpMode) {
+                document.getElementById("auth-title").innerText = "Daftar Akaun Baharu 📝";
+                document.getElementById("auth-main-btn").innerText = "Daftar Akaun";
+                document.getElementById("auth-toggle-text").innerHTML = 'Sudah ada akaun? <a href="#" onclick="toggleAuthMode(); return false;" style="color: #5E17EB; font-weight: bold;">Log Masuk Sini</a>';
+            } else {
+                document.getElementById("auth-title").innerText = "Log Masuk Email 🔑";
+                document.getElementById("auth-main-btn").innerText = "Log Masuk";
+                document.getElementById("auth-toggle-text").innerHTML = 'Belum ada akaun? <a href="#" onclick="toggleAuthMode(); return false;" style="color: #5E17EB; font-weight: bold;">Daftar Sini</a>';
+            }
+        }
+
+        // Pengurusan Auth
+        window.handleAuth = async function() {
+            const email = document.getElementById("auth-email").value.trim();
+            const password = document.getElementById("auth-password").value.trim();
+
+            if(!email || !password) {
+                alert("Sila isi e-mel dan kata laluan!");
+                return;
+            }
+
+            try {
+                if(isSignUpMode) {
+                    await createUserWithEmailAndPassword(auth, email, password);
+                    alert("Akaun berjaya didaftarkan!");
+                } else {
+                    await signInWithEmailAndPassword(auth, email, password);
+                }
+            } catch (error) {
+                alert("Ralat: " + error.message);
+            }
+        }
+
+        // Logout
+        window.logoutUser = function() {
+            signOut(auth).then(() => {
+                closeSidebar();
+            });
+        }
+
+        // Ambil profil-profil pengguna dari Database Firebase
+        async function fetchUserProfiles() {
+            const dbRef = ref(db);
+            try {
+                const snapshot = await get(child(dbRef, `users/${currentAuthUser.uid}/profiles`));
+                userProfiles = [];
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    for(let id in data) {
+                        userProfiles.push({ id: id, name: data[id].name });
+                    }
+                }
+                renderProfiles();
+                showScreen("profile-select-screen");
+            } catch(e) {
+                console.error("Ralat mengambil profil:", e);
+            }
+        }
+
+        // Paparkan profil di skrin
+        function renderProfiles() {
+            const container = document.getElementById("existing-profiles");
+            container.innerHTML = "";
+
+            userProfiles.forEach(p => {
+                const btn = document.createElement("button");
+                btn.className = "profile-btn";
+                btn.innerText = p.name;
+                btn.onclick = () => selectProfile(p.name);
+                container.appendChild(btn);
+            });
+
+            // Semak jika capai 6 profil
+            const addBtn = document.getElementById("add-profile-btn");
+            const inputName = document.getElementById("new-profile-name");
+            const msg = document.getElementById("max-profile-msg");
+
+            if (userProfiles.length >= 6) {
+                addBtn.disabled = true;
+                inputName.disabled = true;
+                msg.style.display = "block";
+            } else {
+                addBtn.disabled = false;
+                inputName.disabled = false;
+                msg.style.display = "none";
+            }
+        }
+
+        // Cipta profil baru (Limit 6)
+        window.createProfile = async function() {
+            const nameInput = document.getElementById("new-profile-name");
+            const name = nameInput.value.trim();
+
+            if (!name) {
+                alert("Sila masukkan nama profil!");
+                return;
+            }
+
+            if (userProfiles.length >= 6) {
+                alert("Maksimum 6 profil sahaja dibenarkan!");
+                return;
+            }
+
+            const profileListRef = ref(db, `users/${currentAuthUser.uid}/profiles`);
+            const newProfileRef = push(profileListRef);
+            await set(newProfileRef, { name: name });
+
+            nameInput.value = "";
+            fetchUserProfiles();
+        }
+
+        // Pilih profil aktif
+        function selectProfile(name) {
+            window.currentUser = name;
+            showLoggedInState();
+            showScreen("home-screen");
+        }
+
+        window.switchProfile = function() {
+            showScreen("profile-select-screen");
+        }
+
+        // Simpan rekod kuiz ke Firebase Realtime Database
+        window.saveSessionRecord = function(topic, scoreValue, formattedTime) {
+            if (!currentAuthUser || !window.currentUser) return;
+
+            const historyRef = ref(db, `users/${currentAuthUser.uid}/history/${window.currentUser}`);
+            const newHistoryRef = push(historyRef);
+            set(newHistoryRef, {
+                topic: topic,
+                score: scoreValue,
+                time: formattedTime
+            });
+        }
+
+        // Muat turun rekod sejarah dari Firebase
+        window.loadScoreBoard = async function() {
+            const tbody = document.getElementById("score-records-body");
+            tbody.innerHTML = "<tr><td colspan='4'>Memuatkan sejarah...</td></tr>";
+
+            if (!currentAuthUser || !window.currentUser) return;
+
+            const dbRef = ref(db);
+            try {
+                const snapshot = await get(child(dbRef, `users/${currentAuthUser.uid}/history/${window.currentUser}`));
+                tbody.innerHTML = "";
+
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    const historyArray = Object.values(data);
+
+                    historyArray.slice().reverse().forEach((session, idx) => {
+                        const tr = document.createElement("tr");
+                        const sessionNum = historyArray.length - idx;
+
+                        tr.innerHTML = `
+                            <td style="font-weight:700;">#${sessionNum}</td>
+                            <td style="text-transform: capitalize; font-weight:700;">${session.topic}</td>
+                            <td style="font-weight:700; color:#5E17EB;">${session.score} / 10</td>
+                            <td style="font-size:0.8rem; color:#555;">${session.time}</td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                } else {
+                    tbody.innerHTML = `<tr><td colspan="4" style="color:#777; padding: 20px;">No quiz sessions recorded yet! Start a quiz to see your history.</td></tr>`;
+                }
+            } catch(e) {
+                console.error(e);
+            }
+        }
+
+        // Padam rekod sejarah
+        window.clearHistory = async function() {
+            if (confirm("Are you sure you want to clear all your attempt history?")) {
+                const historyRef = ref(db, `users/${currentAuthUser.uid}/history/${window.currentUser}`);
+                await set(historyRef, null);
+                loadScoreBoard();
+            }
+        }
+    </script>
 
     <script>
         // --- SISTEM BUNYI (WEB AUDIO API) ---
@@ -810,27 +1109,13 @@
         };
 
         // Pembolehubah Aplikasi
-        let currentUser = "";
         let currentTopic = "";
         let currentQuestions = [];
         let currentQuestionIndex = 0;
         let score = 0;
         let canAnswer = true;
 
-        // Semak profil awal
-        window.onload = function() {
-            const savedUser = localStorage.getItem("grammar_hub_active_user");
-            if (savedUser) {
-                currentUser = savedUser;
-                showLoggedInState();
-                showScreen("home-screen");
-            } else {
-                showLoggedOutState();
-                showScreen("profile-screen");
-            }
-        };
-
-        // Tutup Sidebar jika pengguna tekan di luar kawasan sidebar (kawasan main-content)
+        // Tutup Sidebar jika pengguna tekan di luar kawasan sidebar
         document.addEventListener('click', function(event) {
             const sidebar = document.getElementById("sidebar");
             const mobileBtn = document.getElementById("mobile-toggle-btn");
@@ -850,39 +1135,19 @@
             }
         }
 
-        // Toggle Sidebar apabila butang menu ditekan
+        // Toggle Sidebar
         function toggleSidebar(event) {
             if(event) event.stopPropagation();
             document.getElementById("sidebar").classList.toggle("open");
         }
 
-        // Pendaftaran Profil
-        function registerUser() {
-            const inputName = document.getElementById("username-input").value.trim();
-            if (inputName === "") {
-                alert("Please enter your name first!");
-                return;
-            }
-            currentUser = inputName;
-            localStorage.setItem("grammar_hub_active_user", currentUser);
-            showLoggedInState();
-            showScreen("home-screen");
-        }
-
-        function logout() {
-            closeSidebar();
-            localStorage.removeItem("grammar_hub_active_user");
-            currentUser = "";
-            document.getElementById("username-input").value = "";
-            showLoggedOutState();
-            showScreen("profile-screen");
-        }
-
         function showLoggedInState() {
             document.getElementById("nav-menu").style.display = "flex";
-            document.getElementById("profile-name-val").innerText = currentUser;
-            document.getElementById("home-greeting").innerText = `Hi ${currentUser}! 👋`;
-            loadScoreBoard();
+            document.getElementById("profile-name-val").innerText = window.currentUser;
+            document.getElementById("home-greeting").innerText = `Hi ${window.currentUser}! 👋`;
+            if (typeof window.loadScoreBoard === 'function') {
+                window.loadScoreBoard();
+            }
         }
 
         function showLoggedOutState() {
@@ -896,8 +1161,8 @@
                 document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
                 element.classList.add('active');
             }
-            if (screenId === 'scores-screen') {
-                loadScoreBoard();
+            if (screenId === 'scores-screen' && typeof window.loadScoreBoard === 'function') {
+                window.loadScoreBoard();
             }
             showScreen(screenId);
         }
@@ -925,53 +1190,6 @@
         function startQuizAfterLesson() {
             closeSidebar();
             startQuiz(currentTopic);
-        }
-
-        // PAPAN REKOD UNTUK SETIAP SESI / PERCUBAAN (HISTORY LOG)
-        function loadScoreBoard() {
-            const tbody = document.getElementById("score-records-body");
-            tbody.innerHTML = "";
-            
-            const userHistory = JSON.parse(localStorage.getItem(`grammar_hub_history_${currentUser}`)) || [];
-
-            if (userHistory.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" style="color:#777; padding: 20px;">No quiz sessions recorded yet! Start a quiz to see your history.</td></tr>`;
-                return;
-            }
-
-            userHistory.slice().reverse().forEach((session, idx) => {
-                const tr = document.createElement("tr");
-                const sessionNum = userHistory.length - idx;
-
-                tr.innerHTML = `
-                    <td style="font-weight:700;">#${sessionNum}</td>
-                    <td style="text-transform: capitalize; font-weight:700;">${session.topic}</td>
-                    <td style="font-weight:700; color:#5E17EB;">${session.score} / 10</td>
-                    <td style="font-size:0.8rem; color:#555;">${session.time}</td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-
-        // Merekod Setiap Sesi Kuiz Ke Dalam Array Sejarah
-        function saveSessionRecord(topic, scoreValue, formattedTime) {
-            let userHistory = JSON.parse(localStorage.getItem(`grammar_hub_history_${currentUser}`)) || [];
-            
-            userHistory.push({
-                topic: topic,
-                score: scoreValue,
-                time: formattedTime
-            });
-
-            localStorage.setItem(`grammar_hub_history_${currentUser}`, JSON.stringify(userHistory));
-        }
-
-        // Memadamkan Sejarah Sesi
-        function clearHistory() {
-            if (confirm("Are you sure you want to clear all your attempt history?")) {
-                localStorage.removeItem(`grammar_hub_history_${currentUser}`);
-                loadScoreBoard();
-            }
         }
 
         // Formatkan Tarikh & Masa Terkini
@@ -1060,7 +1278,9 @@
 
         function showResults() {
             const completionTime = getFormattedDateTime();
-            saveSessionRecord(currentTopic, score, completionTime);
+            if (typeof window.saveSessionRecord === 'function') {
+                window.saveSessionRecord(currentTopic, score, completionTime);
+            }
             
             showScreen('result-screen');
             document.getElementById('final-score').innerText = `${score} / 10`;
