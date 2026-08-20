@@ -140,10 +140,10 @@
             z-index: 101;
         }
 
-        /* MAIN CONTENT AREA - Dibenarkan skrol pada aras badan utama */
+        /* MAIN CONTENT AREA */
         .main-content {
             flex-grow: 1;
-            margin-left: 250px; /* Ruang untuk sidebar tetap */
+            margin-left: 250px;
             padding: 40px 30px;
             display: flex;
             justify-content: center;
@@ -212,7 +212,6 @@
             border-color: var(--primary-pink);
         }
 
-        /* TOPIC GRID - Dibuang had ketinggian supaya boleh skrol bersama laman */
         .home-header {
             margin-bottom: 15px;
         }
@@ -239,7 +238,6 @@
             font-weight: 700;
         }
 
-        /* PROFILE BADGE BAR DI HOME */
         .active-profile-badge {
             background: #E0F7FA;
             border: 2px dashed var(--primary-blue);
@@ -275,7 +273,6 @@
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 12px;
             margin-top: 15px;
-            /* Dibuang max-height dan overflow-y supaya tiada kotak skrol dalaman */
         }
 
         .topic-btn {
@@ -443,7 +440,6 @@
             box-shadow: 0 2px 0 #922B21;
         }
 
-        /* RESULTS & SCORE BOARDS */
         .result-score {
             font-size: 3rem;
             font-family: 'Fredoka One', cursive;
@@ -489,7 +485,6 @@
             z-index: 1;
         }
 
-        /* PROFILE SECTION */
         .profile-card-details {
             background: #F0F4F8;
             padding: 20px;
@@ -511,7 +506,6 @@
             margin-top: 15px;
         }
 
-        /* RESPONSIVE DESIGN */
         @media (max-width: 768px) {
             body {
                 flex-direction: column;
@@ -616,7 +610,6 @@
                     <img src="https://i.imgur.com/vPd4cjj.jpeg" alt="Grammar Hub Logo" class="home-app-logo">
                     <h2 class="home-intro-title" id="home-greeting">Hi Student! 👋</h2>
                     
-                    <!-- BUTANG PILIH/TUKAR PROFIL -->
                     <div class="active-profile-badge">
                         <span>Profile: <strong id="current-badge-name" style="color: #5E17EB;">-</strong></span>
                         <button class="switch-profile-btn" onclick="playClickSound(); showScreen('profile-selection-screen')">Switch 🔄</button>
@@ -1381,6 +1374,9 @@
         function showScreen(screenId) {
             document.querySelectorAll('.card').forEach(card => card.classList.remove('active'));
             document.getElementById(screenId).classList.add('active');
+            
+            // PENYELESAIAN: Bawa paparan ke atas setiap kali skrin bertukar
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
 </body>
