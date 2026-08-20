@@ -131,6 +131,29 @@
             z-index: 101;
         }
 
+        /* BUTANG KAWALAN MUZIK LATAR (TOP RIGHT) */
+        .bgm-toggle-btn {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            background: #FF66C4;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            z-index: 102;
+            transition: all 0.2s ease;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        .bgm-toggle-btn.muted {
+            background: #95A5A6;
+        }
+
         /* --- KAWASAN KANDUNGAN UTAMA --- */
         .main-content {
             flex-grow: 1;
@@ -263,6 +286,7 @@
             text-align: left;
             margin: 20px 0;
             border-left: 6px solid var(--primary-purple);
+            position: relative;
         }
 
         .lesson-title {
@@ -314,6 +338,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            position: relative;
         }
 
         .options-grid {
@@ -375,6 +400,26 @@
         .action-btn:active {
             transform: translateY(2px);
             box-shadow: 0 2px 0 #E65100;
+        }
+
+        .speech-btn {
+            background-color: #9B59B6;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 3px 0 #6C3483;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.2s;
+        }
+
+        .speech-btn:hover {
+            background-color: #8E44AD;
         }
 
         .home-btn {
@@ -488,10 +533,13 @@
         }
     </style>
 </head>
-<body>
+<body onclick="initAudioContext()">
 
     <!-- TOGGLE BUTTON UNTUK MOBILE -->
     <button class="mobile-toggle" id="mobile-toggle-btn" onclick="toggleSidebar(event)">☰</button>
+
+    <!-- BUTANG KAWALAN MUZIK LATAR -->
+    <button class="bgm-toggle-btn muted" id="bgm-btn" onclick="toggleBGM(event)">🔇 BGM OFF</button>
 
     <!-- SIDEBAR SEBELAH KIRI -->
     <div class="sidebar" id="sidebar">
@@ -552,7 +600,11 @@
 
             <!-- 3. SKRIN LESSON (PEMBELAJARAN SEBELUM KUIZ) -->
             <div id="lesson-screen" class="card">
-                <h2 style="color: #333;">Lesson Time! 📖</h2>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h2 style="color: #333;">Lesson Time! 📖</h2>
+                    <button class="speech-btn" onclick="readCurrentLesson()">🔊 Read Lesson</button>
+                </div>
+                
                 <div class="lesson-box">
                     <div class="lesson-title" id="lesson-title">Topic Title</div>
                     <div class="lesson-desc" id="lesson-desc">Lesson explanation content goes here...</div>
@@ -602,7 +654,7 @@
                 <button class="action-btn clear-btn" onclick="playClickSound(); clearHistory()">Clear History 🗑️</button>
             </div>
 
-            <!-- 6. SKRIN SOALAN KUIZ (TAMBAH BUTTON BACK TO HOME) -->
+            <!-- 6. SKRIN SOALAN KUIZ -->
             <div id="quiz-screen" class="card">
                 <div class="quiz-header">
                     <span id="topic-title">Topic</span>
@@ -619,6 +671,7 @@
                 </div>
 
                 <div class="quiz-action-container">
+                    <button class="speech-btn" onclick="readCurrentQuestion()">🔊 Listen Question</button>
                     <button class="action-btn home-btn" onclick="playClickSound(); confirmBackToHome()">Home 🏠</button>
                     <button id="next-btn" class="action-btn" style="display:none;" onclick="playClickSound(); nextQuestion()">Next Question ➔</button>
                 </div>
@@ -639,11 +692,144 @@
     </div>
 
     <script>
-        // --- SISTEM BUNYI (WEB AUDIO API) ---
+        // --- SISTEM AUDIO UTAMA ---
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
+        function initAudioContext() {
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        // --- SISTEM MUZIK LATAR (BACKGROUND MUSIC GENERATOR) ---
+        let bgmPlaying = false;
+        let bgmInterval = null;
+        let bgmGainNode = null;
+
+        // Melodi Ceria Kanak-kanak (Frekuensi C Major)
+        const bgmNotes = [
+            261.63, 329.63, 392.00, 523.25, 392.00, 329.63,
+            293.66, 349.23, 440.00, 523.25, 440.00, 349.23,
+            261.63, 329.63, 392.00, 440.00, 392.00, 329.63,
+            293.66, 392.00, 349.23, 329.63, 293.66, 261.63
+        ];
+        let noteIndex = 0;
+
+        function startBGM() {
+            if (bgmPlaying) return;
+            bgmPlaying = true;
+            
+            bgmGainNode = audioCtx.createGain();
+            bgmGainNode.gain.setValueAtTime(0.04, audioCtx.currentTime); // Kelantangan perlahan supaya tidak mengganggu
+            bgmGainNode.connect(audioCtx.destination);
+
+            bgmInterval = setInterval(() => {
+                if (!bgmPlaying) return;
+                
+                const osc = audioCtx.createOscillator();
+                const noteGain = audioCtx.createGain();
+                
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(bgmNotes[noteIndex], audioCtx.currentTime);
+                
+                noteGain.gain.setValueAtTime(0.03, audioCtx.currentTime);
+                noteGain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.35);
+                
+                osc.connect(noteGain);
+                noteGain.connect(bgmGainNode);
+                
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.35);
+                
+                noteIndex = (noteIndex + 1) % bgmNotes.length;
+            }, 400);
+        }
+
+        function stopBGM() {
+            bgmPlaying = false;
+            if (bgmInterval) {
+                clearInterval(bgmInterval);
+                bgmInterval = null;
+            }
+        }
+
+        function toggleBGM(event) {
+            if (event) event.stopPropagation();
+            initAudioContext();
+            
+            const btn = document.getElementById("bgm-btn");
+            if (bgmPlaying) {
+                stopBGM();
+                btn.classList.add("muted");
+                btn.innerText = "🔇 BGM OFF";
+            } else {
+                startBGM();
+                btn.classList.remove("muted");
+                btn.innerText = "🎵 BGM ON";
+            }
+        }
+
+        // --- FUNGSI SUARA (TEXT-TO-SPEECH) ---
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+
+                // Perlahan BGM ketika ada bacaan suara (Ducking Effect)
+                if (bgmGainNode) {
+                    bgmGainNode.gain.setValueAtTime(0.01, audioCtx.currentTime);
+                }
+
+                const speechText = text.replace(/________/g, "blank");
+                const utterance = new SpeechSynthesisUtterance(speechText);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.9;
+                utterance.pitch = 1.0;
+
+                utterance.onend = function() {
+                    // Pulihkan kelantangan BGM selepas habis membaca
+                    if (bgmGainNode && bgmPlaying) {
+                        bgmGainNode.gain.setValueAtTime(0.04, audioCtx.currentTime);
+                    }
+                };
+
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        function stopSpeech() {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            }
+            if (bgmGainNode && bgmPlaying) {
+                bgmGainNode.gain.setValueAtTime(0.04, audioCtx.currentTime);
+            }
+        }
+
+        function readCurrentQuestion() {
+            const qData = currentQuestions[currentQuestionIndex];
+            if (qData) {
+                let fullText = `Question ${currentQuestionIndex + 1}: ${qData.q}. Options are: `;
+                qData.options.forEach((opt, idx) => {
+                    fullText += `Option ${idx + 1}, ${opt}. `;
+                });
+                speakText(fullText);
+            }
+        }
+
+        function readCurrentLesson() {
+            const lesson = lessonData[currentTopic];
+            if (lesson) {
+                const tempDiv = document.createElement("div");
+                tempDiv.innerHTML = `${lesson.title}. ${lesson.desc}`;
+                const textToRead = tempDiv.textContent || tempDiv.innerText || "";
+                speakText(textToRead);
+            }
+        }
+
+        // KESAN BUNYI KLIK / KEBENARAN
         function playClickSound() {
-            if (audioCtx.state === 'suspended') audioCtx.resume();
+            stopSpeech();
+            initAudioContext();
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
             osc.type = 'sine';
@@ -658,7 +844,8 @@
         }
 
         function playCorrectSound() {
-            if (audioCtx.state === 'suspended') audioCtx.resume();
+            stopSpeech();
+            initAudioContext();
             const now = audioCtx.currentTime;
             const osc1 = audioCtx.createOscillator();
             const gain1 = audioCtx.createGain();
@@ -684,7 +871,8 @@
         }
 
         function playWrongSound() {
-            if (audioCtx.state === 'suspended') audioCtx.resume();
+            stopSpeech();
+            initAudioContext();
             const now = audioCtx.currentTime;
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
@@ -817,7 +1005,6 @@
         let score = 0;
         let canAnswer = true;
 
-        // Semak profil awal
         window.onload = function() {
             const savedUser = localStorage.getItem("grammar_hub_active_user");
             if (savedUser) {
@@ -830,7 +1017,6 @@
             }
         };
 
-        // Tutup Sidebar jika pengguna tekan di luar kawasan sidebar (kawasan main-content)
         document.addEventListener('click', function(event) {
             const sidebar = document.getElementById("sidebar");
             const mobileBtn = document.getElementById("mobile-toggle-btn");
@@ -842,7 +1028,6 @@
             }
         });
 
-        // Tutup Sidebar Secara Khusus
         function closeSidebar() {
             const sidebar = document.getElementById("sidebar");
             if (sidebar) {
@@ -850,13 +1035,11 @@
             }
         }
 
-        // Toggle Sidebar apabila butang menu ditekan
         function toggleSidebar(event) {
             if(event) event.stopPropagation();
             document.getElementById("sidebar").classList.toggle("open");
         }
 
-        // Pendaftaran Profil
         function registerUser() {
             const inputName = document.getElementById("username-input").value.trim();
             if (inputName === "") {
@@ -870,6 +1053,7 @@
         }
 
         function logout() {
+            stopSpeech();
             closeSidebar();
             localStorage.removeItem("grammar_hub_active_user");
             currentUser = "";
@@ -890,6 +1074,7 @@
         }
 
         function navigateTo(screenId, element = null) {
+            stopSpeech();
             closeSidebar();
 
             if (element) {
@@ -902,15 +1087,15 @@
             showScreen(screenId);
         }
 
-        // FUNGSI KEMBALI KE HOME DARIPADA KUIZ
         function confirmBackToHome() {
+            stopSpeech();
             if (confirm("Are you sure you want to exit the quiz and return to Home? Your current score for this quiz will not be saved.")) {
                 navigateTo('home-screen');
             }
         }
 
-        // FUNGSI BUAT LESSON SEBELUM KUIZ
         function openLesson(topic) {
+            stopSpeech();
             closeSidebar();
             currentTopic = topic;
             const lesson = lessonData[topic];
@@ -923,11 +1108,11 @@
         }
 
         function startQuizAfterLesson() {
+            stopSpeech();
             closeSidebar();
             startQuiz(currentTopic);
         }
 
-        // PAPAN REKOD UNTUK SETIAP SESI / PERCUBAAN (HISTORY LOG)
         function loadScoreBoard() {
             const tbody = document.getElementById("score-records-body");
             tbody.innerHTML = "";
@@ -953,7 +1138,6 @@
             });
         }
 
-        // Merekod Setiap Sesi Kuiz Ke Dalam Array Sejarah
         function saveSessionRecord(topic, scoreValue, formattedTime) {
             let userHistory = JSON.parse(localStorage.getItem(`grammar_hub_history_${currentUser}`)) || [];
             
@@ -966,7 +1150,6 @@
             localStorage.setItem(`grammar_hub_history_${currentUser}`, JSON.stringify(userHistory));
         }
 
-        // Memadamkan Sejarah Sesi
         function clearHistory() {
             if (confirm("Are you sure you want to clear all your attempt history?")) {
                 localStorage.removeItem(`grammar_hub_history_${currentUser}`);
@@ -974,7 +1157,6 @@
             }
         }
 
-        // Formatkan Tarikh & Masa Terkini
         function getFormattedDateTime() {
             const now = new Date();
             const dateStr = now.toLocaleDateString('en-GB'); 
@@ -982,7 +1164,6 @@
             return `${dateStr}, ${timeStr}`;
         }
 
-        // Rawakkan Array Soalan
         function shuffle(array) {
             let currentIndex = array.length, randomIndex;
             while (currentIndex != 0) {
@@ -993,8 +1174,8 @@
             return array;
         }
 
-        // Jalankan Kuiz
         function startQuiz(topic) {
+            stopSpeech();
             closeSidebar();
             currentTopic = topic;
             currentQuestions = shuffle([...questionBank[topic]]);
@@ -1009,6 +1190,7 @@
         }
 
         function loadQuestion() {
+            stopSpeech();
             canAnswer = true;
             document.getElementById('next-btn').style.display = 'none';
             
@@ -1026,11 +1208,16 @@
                 btn.onclick = () => checkAnswer(idx, btn);
                 optionsContainer.appendChild(btn);
             });
+
+            setTimeout(() => {
+                readCurrentQuestion();
+            }, 300);
         }
 
         function checkAnswer(selectedIndex, btnElement) {
             if (!canAnswer) return;
             canAnswer = false;
+            stopSpeech();
 
             const qData = currentQuestions[currentQuestionIndex];
             const allBtns = document.querySelectorAll('.option-btn');
@@ -1059,6 +1246,7 @@
         }
 
         function showResults() {
+            stopSpeech();
             const completionTime = getFormattedDateTime();
             saveSessionRecord(currentTopic, score, completionTime);
             
@@ -1067,15 +1255,24 @@
             document.getElementById('completion-time').innerText = `📅 Completed on: ${completionTime}`;
 
             const feedback = document.getElementById('feedback-message');
+            let resultSpeech = "";
             if (score === 10) {
                 feedback.innerText = "🌟 Outstanding! Perfect Score! 🌟";
+                resultSpeech = "Outstanding! Perfect Score!";
             } else if (score >= 7) {
                 feedback.innerText = "👍 Great Job! Keep it up!";
+                resultSpeech = "Great Job! Keep it up!";
             } else if (score >= 5) {
                 feedback.innerText = "😊 Good try! You can do better!";
+                resultSpeech = "Good try! You can do better!";
             } else {
                 feedback.innerText = "💪 Don't give up! Try again!";
+                resultSpeech = "Don't give up! Try again!";
             }
+
+            setTimeout(() => {
+                speakText(`You scored ${score} out of 10. ${resultSpeech}`);
+            }, 300);
         }
 
         function showScreen(screenId) {
