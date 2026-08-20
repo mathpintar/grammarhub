@@ -27,6 +27,7 @@
 
         body {
             font-family: 'Quicksand', sans-serif;
+            /* Latar belakang baharu menggunakan imej Imgur pilihan anda dengan kesan penapis sedikit gelap agar teks mudah dibaca */
             background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('https://i.imgur.com/H46KuIJ.jpeg') no-repeat center center fixed;
             background-size: cover;
             color: var(--text-dark);
@@ -203,6 +204,13 @@
 
         .form-input:focus {
             border-color: var(--primary-pink);
+        }
+
+        .toggle-link {
+            color: #5E17EB;
+            cursor: pointer;
+            font-weight: 700;
+            text-decoration: underline;
         }
 
         /* TOPIC GRID */
@@ -575,11 +583,11 @@
             <!-- 1. LOGIN SCREEN -->
             <div id="login-screen" class="card active">
                 <h1 style="font-family: 'Fredoka One', cursive; color: #FF5757; margin-bottom: 10px;">Grammar Hub</h1>
-                <h2>Authorized Login Only 🔒</h2>
-                <p style="margin-top: 5px; color: #666;">Enter your pre-registered admin/user email.</p>
+                <h2>Welcome Back! 👋</h2>
+                <p style="margin-top: 5px; color: #666;">Log in using your registered email.</p>
                 
                 <div class="input-group">
-                    <label for="login-email">Authorized Email Address</label>
+                    <label for="login-email">Email Address</label>
                     <input type="email" id="login-email" class="form-input" placeholder="example@email.com">
                 </div>
                 <div class="input-group">
@@ -587,9 +595,32 @@
                     <input type="password" id="login-password" class="form-input" placeholder="••••••••">
                 </div>
                 <button class="action-btn" style="display:inline-block; width: 100%;" onclick="playClickSound(); handleLogin()">Log In 🚀</button>
+                <p style="margin-top: 15px; font-size: 0.9rem;">
+                    Don't have an account? <span class="toggle-link" onclick="showScreen('register-screen')">Register here</span>
+                </p>
             </div>
 
-            <!-- 2. PROFILE SELECTION / ADD SCREEN -->
+            <!-- 2. REGISTER ACCOUNT SCREEN -->
+            <div id="register-screen" class="card">
+                <h1 style="font-family: 'Fredoka One', cursive; color: #FF5757; margin-bottom: 10px;">Grammar Hub</h1>
+                <h2>Create Account 📝</h2>
+                <p style="margin-top: 5px; color: #666;">Register to start tracking learning progress.</p>
+                
+                <div class="input-group">
+                    <label for="reg-email">Email Address</label>
+                    <input type="email" id="reg-email" class="form-input" placeholder="example@email.com">
+                </div>
+                <div class="input-group">
+                    <label for="reg-password">Password (min 6 chars)</label>
+                    <input type="password" id="reg-password" class="form-input" placeholder="••••••••">
+                </div>
+                <button class="action-btn" style="display:inline-block; width: 100%; background-color: var(--primary-green); box-shadow: 0 4px 0 #5aa33d;" onclick="playClickSound(); handleRegister()">Register 🌟</button>
+                <p style="margin-top: 15px; font-size: 0.9rem;">
+                    Already have an account? <span class="toggle-link" onclick="showScreen('login-screen')">Log In</span>
+                </p>
+            </div>
+
+            <!-- 3. PROFILE SELECTION / ADD SCREEN -->
             <div id="profile-selection-screen" class="card">
                 <h2>Who is Learning? 🧒👧</h2>
                 <p style="color: #666; margin-top: 5px;">Select a student profile or add a new one.</p>
@@ -607,7 +638,7 @@
                 </div>
             </div>
 
-            <!-- 3. HOME SCREEN -->
+            <!-- 4. HOME SCREEN -->
             <div id="home-screen" class="card">
                 <div class="home-header">
                     <img src="https://i.imgur.com/vPd4cjj.jpeg" alt="Grammar Hub Logo" class="home-app-logo">
@@ -632,7 +663,7 @@
                 </div>
             </div>
 
-            <!-- 4. LESSON SCREEN -->
+            <!-- 5. LESSON SCREEN -->
             <div id="lesson-screen" class="card">
                 <h2 style="color: #333;">Lesson Time! 📖</h2>
                 <div class="lesson-box">
@@ -648,7 +679,7 @@
                 <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('home-screen')">Home 🏠</button>
             </div>
 
-            <!-- 5. PROFILES MANAGEMENT VIEW -->
+            <!-- 6. PROFILES MANAGEMENT VIEW -->
             <div id="profile-view-screen" class="card">
                 <h2>Account & Profiles 👤</h2>
                 <div class="profile-card-details">
@@ -662,7 +693,7 @@
                 <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
             </div>
 
-            <!-- 6. SCORES HISTORY SCREEN -->
+            <!-- 7. SCORES HISTORY SCREEN -->
             <div id="scores-screen" class="card">
                 <h2 style="color: #333;">🏆 Quiz Attempt History</h2>
                 <p style="color: #666; margin-top: 5px;">Records of every quiz session completed!</p>
@@ -687,7 +718,7 @@
                 <button class="action-btn clear-btn" onclick="playClickSound(); clearHistory()">Clear History 🗑️</button>
             </div>
 
-            <!-- 7. QUIZ SCREEN -->
+            <!-- 8. QUIZ SCREEN -->
             <div id="quiz-screen" class="card">
                 <div class="quiz-header">
                     <span id="topic-title">Topic</span>
@@ -709,7 +740,7 @@
                 </div>
             </div>
 
-            <!-- 8. RESULT SCREEN -->
+            <!-- 9. RESULT SCREEN -->
             <div id="result-screen" class="card">
                 <h2>Awesome Job! 🎉</h2>
                 <p>You have completed the quiz!</p>
@@ -728,6 +759,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { 
             getAuth, 
+            createUserWithEmailAndPassword, 
             signInWithEmailAndPassword, 
             signOut, 
             onAuthStateChanged 
@@ -756,27 +788,12 @@
         const auth = getAuth(app);
         const db = getDatabase(app);
 
-        // SENARAI E-MEL YANG DIBENARKAN (AUTHORIZED/ADMIN ONLY)
-        // Sila masukkan e-mel anda atau e-mel yang sah di sini
-        const ALLOWED_EMAILS = [
-            "admin@grammarhub.com",
-            "teacher@grammarhub.com"
-            // Tambah senarai e-mel lain di sini jika perlu
-        ];
-
         window.currentUserAuth = null;
         window.activeProfile = "";
         window.userProfiles = [];
 
         onAuthStateChanged(auth, async (user) => {
             if (user) {
-                // Semak sama ada e-mel pengguna tersenarai dalam ALLOWED_EMAILS
-                if (!ALLOWED_EMAILS.includes(user.email)) {
-                    alert("Akses ditolak: E-mel ini tidak dibenarkan menggunakan aplikasi.");
-                    await signOut(auth);
-                    return;
-                }
-
                 window.currentUserAuth = user;
                 document.getElementById("nav-menu").style.display = "flex";
                 document.getElementById("acc-email-val").innerText = user.email;
@@ -789,25 +806,36 @@
             }
         });
 
-        window.handleLogin = async function() {
-            const email = document.getElementById("login-email").value.trim().toLowerCase();
-            const password = document.getElementById("login-password").value.trim();
+        window.handleRegister = async function() {
+            const email = document.getElementById("reg-email").value.trim();
+            const password = document.getElementById("reg-password").value.trim();
 
             if (!email || !password) {
-                alert("Sila masukkan e-mel dan kata laluan.");
+                alert("Please fill in all email and password fields.");
                 return;
             }
 
-            // Validasi peringkat hadapan (frontend check) sebelum log masuk
-            if (!ALLOWED_EMAILS.includes(email)) {
-                alert("Akses ditolak: E-mel anda tidak didaftarkan sebagai pengguna yang dibenarkan oleh admin.");
+            try {
+                await createUserWithEmailAndPassword(auth, email, password);
+                alert("Registration successful! Welcome.");
+            } catch (error) {
+                alert("Registration failed: " + error.message);
+            }
+        };
+
+        window.handleLogin = async function() {
+            const email = document.getElementById("login-email").value.trim();
+            const password = document.getElementById("login-password").value.trim();
+
+            if (!email || !password) {
+                alert("Please fill in both email and password.");
                 return;
             }
 
             try {
                 await signInWithEmailAndPassword(auth, email, password);
             } catch (error) {
-                alert("Log masuk gagal: " + error.message);
+                alert("Login failed: " + error.message);
             }
         };
 
@@ -815,9 +843,9 @@
             closeSidebar();
             try {
                 await signOut(auth);
-                alert("Anda telah berjaya log keluar.");
+                alert("You have logged out successfully.");
             } catch (error) {
-                alert("Ralat semasa log keluar: " + error.message);
+                alert("Error logging out: " + error.message);
             }
         };
 
@@ -845,14 +873,14 @@
                     });
                 } else {
                     window.userProfiles = [];
-                    listContainer.innerHTML = "<p style='color:#777;'>Tiada profil dicipta lagi. Sila cipta satu di bawah!</p>";
+                    listContainer.innerHTML = "<p style='color:#777;'>No profiles created yet. Please create one below!</p>";
                 }
 
                 if (!window.activeProfile) {
                     showScreen("profile-selection-screen");
                 }
             } catch (err) {
-                console.error("Ralat memuatkan profil:", err);
+                console.error("Error fetching profiles:", err);
             }
         }
 
@@ -861,7 +889,7 @@
             const newName = nameInput.value.trim();
 
             if (!newName) {
-                alert("Sila masukkan nama pelajar.");
+                alert("Please enter a student name.");
                 return;
             }
 
@@ -875,7 +903,7 @@
                 await fetchProfiles();
                 selectProfile(newName);
             } catch (err) {
-                alert("Gagal menambah profil: " + err.message);
+                alert("Failed to add profile: " + err.message);
             }
         };
 
@@ -904,13 +932,13 @@
                 const newSessionRef = push(historyRef);
                 await set(newSessionRef, sessionData);
             } catch (err) {
-                console.error("Gagal menyimpan rekod skor:", err);
+                console.error("Failed to save score history:", err);
             }
         };
 
         window.loadScoreBoard = async function() {
             const tbody = document.getElementById("score-records-body");
-            tbody.innerHTML = "<tr><td colspan='4'>Memuatkan sejarah...</td></tr>";
+            tbody.innerHTML = "<tr><td colspan='4'>Loading history...</td></tr>";
 
             if (!window.currentUserAuth) return;
             const uid = window.currentUserAuth.uid;
@@ -925,7 +953,7 @@
                     const profileData = allData.filter(item => item.profile === window.activeProfile);
 
                     if (profileData.length === 0) {
-                        tbody.innerHTML = `<tr><td colspan="4" style="color:#777; padding: 20px;">Tiada sesi kuiz direkodkan untuk ${window.activeProfile} lagi!</td></tr>`;
+                        tbody.innerHTML = `<tr><td colspan="4" style="color:#777; padding: 20px;">No quiz sessions recorded for ${window.activeProfile} yet!</td></tr>`;
                         return;
                     }
 
@@ -942,15 +970,15 @@
                         tbody.appendChild(tr);
                     });
                 } else {
-                    tbody.innerHTML = `<tr><td colspan="4" style="color:#777; padding: 20px;">Tiada sesi kuiz direkodkan lagi!</td></tr>`;
+                    tbody.innerHTML = `<tr><td colspan="4" style="color:#777; padding: 20px;">No quiz sessions recorded yet! Start a quiz to see your history.</td></tr>`;
                 }
             } catch (err) {
-                tbody.innerHTML = `<tr><td colspan="4" style="color:red;">Ralat memuatkan sejarah.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="4" style="color:red;">Error loading history.</td></tr>`;
             }
         };
 
         window.clearHistory = async function() {
-            if (!confirm(`Adakah anda pasti mahu memadam semua sejarah untuk ${window.activeProfile}?`)) return;
+            if (!confirm(`Are you sure you want to clear all history for ${window.activeProfile}?`)) return;
 
             if (!window.currentUserAuth) return;
             const uid = window.currentUserAuth.uid;
@@ -967,7 +995,7 @@
                 }
                 loadScoreBoard();
             } catch (err) {
-                alert("Gagal memadam sejarah: " + err.message);
+                alert("Failed to clear history: " + err.message);
             }
         };
     </script>
@@ -1183,7 +1211,7 @@
         }
 
         function confirmBackToHome() {
-            if (confirm("Adakah anda pasti mahu keluar dari kuiz dan kembali ke Menu Utama? Skor semasa anda tidak akan disimpan.")) {
+            if (confirm("Are you sure you want to exit the quiz and return to Home? Your current score for this quiz will not be saved.")) {
                 navigateTo('home-screen');
             }
         }
@@ -1292,17 +1320,17 @@
             
             showScreen('result-screen');
             document.getElementById('final-score').innerText = `${score} / 10`;
-            document.getElementById('completion-time').innerText = `📅 Disiapkan pada: ${completionTime}`;
+            document.getElementById('completion-time').innerText = `📅 Completed on: ${completionTime}`;
 
             const feedback = document.getElementById('feedback-message');
             if (score === 10) {
-                feedback.innerText = "🌟 Cemerlang! Skor Penuh! 🌟";
+                feedback.innerText = "🌟 Outstanding! Perfect Score! 🌟";
             } else if (score >= 7) {
-                feedback.innerText = "👍 Bagus! Teruskan usaha!";
+                feedback.innerText = "👍 Great Job! Keep it up!";
             } else if (score >= 5) {
-                feedback.innerText = "😊 Cuba lagi, anda boleh buat lebih baik!";
+                feedback.innerText = "😊 Good try! You can do better!";
             } else {
-                feedback.innerText = "💪 Jangan berputus asa! Cuba lagi!";
+                feedback.innerText = "💪 Don't give up! Try again!";
             }
         }
 
