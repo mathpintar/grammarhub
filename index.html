@@ -189,6 +189,7 @@
             font-weight: 700;
             margin-bottom: 5px;
             color: #555;
+            font-size: 0.9rem;
         }
 
         .form-input {
@@ -482,7 +483,7 @@
             background: #F0F4F8;
             padding: 20px;
             border-radius: 15px;
-            margin: 20px 0;
+            margin: 15px 0;
             text-align: left;
             font-size: 1rem;
         }
@@ -499,7 +500,6 @@
             margin-top: 15px;
         }
 
-        /* Styling untuk Pilihan Bilangan Soalan */
         .question-count-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -673,7 +673,7 @@
                 <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('home-screen')">Home 🏠</button>
             </div>
 
-            <!-- BAHARU: SCREEN PILIH BILANGAN SOALAN -->
+            <!-- SCREEN PILIH BILANGAN SOALAN -->
             <div id="count-selection-screen" class="card">
                 <h2 style="color: #5E17EB; font-family: 'Fredoka One', cursive;">Select Question Count 📝</h2>
                 <p style="color: #666; margin-top: 5px;">How many questions would you like to answer?</p>
@@ -688,7 +688,7 @@
                 <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
             </div>
 
-            <!-- 5. PROFILES MANAGEMENT VIEW -->
+            <!-- 5. PROFILES & ACCOUNT MANAGEMENT VIEW (DIKEMASKINI DENGAN TUKAR PASSWORD) -->
             <div id="profile-view-screen" class="card">
                 <h2>Account & Profiles 👤</h2>
                 <div class="profile-card-details">
@@ -697,9 +697,23 @@
                     <p><strong>Level:</strong> Primary School English (KSSR)</p>
                 </div>
 
-                <button class="action-btn" style="background-color: var(--primary-purple); box-shadow: 0 4px 0 #8d5cc4;" onclick="playClickSound(); showScreen('profile-selection-screen')">Switch / Add Profiles 🔄</button>
-                <br><br>
-                <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
+                <button class="action-btn" style="background-color: var(--primary-purple); box-shadow: 0 4px 0 #8d5cc4; width: 100%; margin-bottom: 15px;" onclick="playClickSound(); showScreen('profile-selection-screen')">Switch / Add Profiles 🔄</button>
+                
+                <!-- KAWASAN TUKAR PASSWORD -->
+                <div style="background: #FFF9C4; padding: 15px; border-radius: 15px; border: 2px dashed #FBC02D; text-align: left; margin-bottom: 15px;">
+                    <h3 style="color: #D35400; font-size: 1.1rem; margin-bottom: 8px;">🔐 Change Password</h3>
+                    <div class="input-group" style="margin: 10px 0;">
+                        <label for="current-password-input">Current Password</label>
+                        <input type="password" id="current-password-input" class="form-input" placeholder="Enter current password">
+                    </div>
+                    <div class="input-group" style="margin: 10px 0;">
+                        <label for="new-password-input">New Password (Min. 6 characters)</label>
+                        <input type="password" id="new-password-input" class="form-input" placeholder="Enter new password">
+                    </div>
+                    <button class="action-btn" style="background-color: #E67E22; box-shadow: 0 4px 0 #B9770E; width: 100%; margin-top: 5px;" onclick="playClickSound(); handlePasswordChange()">Update Password 🔑</button>
+                </div>
+
+                <button class="action-btn home-btn" style="width: 100%; margin: 0;" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
             </div>
 
             <!-- 6. SCORES HISTORY SCREEN -->
@@ -770,7 +784,10 @@
             getAuth, 
             signInWithEmailAndPassword, 
             signOut, 
-            onAuthStateChanged 
+            onAuthStateChanged,
+            EmailAuthProvider,
+            reauthenticateWithCredential,
+            updatePassword
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { 
             getDatabase, 
@@ -837,6 +854,43 @@
                 alert("You have logged out successfully.");
             } catch (error) {
                 alert("Error logging out: " + error.message);
+            }
+        };
+
+        // FUNGSI TUKAR PASSWORD BARU
+        window.handlePasswordChange = async function() {
+            const currentPass = document.getElementById("current-password-input").value;
+            const newPass = document.getElementById("new-password-input").value;
+
+            if (!currentPass || !newPass) {
+                alert("Please fill in both current and new password fields.");
+                return;
+            }
+
+            if (newPass.length < 6) {
+                alert("New password must be at least 6 characters long.");
+                return;
+            }
+
+            const user = auth.currentUser;
+            if (!user) {
+                alert("No user signed in.");
+                return;
+            }
+
+            try {
+                // Firebase memerlukan re-authentication sebelum menukar password untuk aspek keselamatan
+                const credential = EmailAuthProvider.credential(user.email, currentPass);
+                await reauthenticateWithCredential(user, credential);
+
+                // Kemaskini kepada password baharu
+                await updatePassword(user, newPass);
+                
+                alert("Password updated successfully! 🎉");
+                document.getElementById("current-password-input").value = "";
+                document.getElementById("new-password-input").value = "";
+            } catch (error) {
+                alert("Failed to update password: " + error.message);
             }
         };
 
@@ -910,14 +964,13 @@
             if (!window.currentUserAuth || !window.activeProfile) return;
             const uid = window.currentUserAuth.uid;
 
-            // Kira nilai peratusan (contoh: 80%)
             const percentage = Math.round((scoreValue / totalQ) * 100);
 
             const sessionData = {
                 profile: window.activeProfile,
                 topic: topic,
-                score: `${percentage}%`, // Disimpan dalam bentuk peratus
-                rawScore: `${scoreValue} / ${totalQ}`, // Simpanan pilihan asal jika perlukan rujukan
+                score: `${percentage}%`,
+                rawScore: `${scoreValue} / ${totalQ}`,
                 time: formattedTime,
                 timestamp: Date.now()
             };
