@@ -362,12 +362,21 @@
             font-weight: 700;
             cursor: pointer;
             box-shadow: 0 4px 0 #E65100;
-            margin: 10px auto;
+            margin: 10px 5px;
         }
 
         .action-btn:active {
             transform: translateY(2px);
             box-shadow: 0 2px 0 #E65100;
+        }
+
+        .clear-btn {
+            background-color: #E74C3C;
+            box-shadow: 0 4px 0 #922B21;
+        }
+
+        .clear-btn:active {
+            box-shadow: 0 2px 0 #922B21;
         }
 
         /* Skrin Keputusan & Rekod Masa */
@@ -389,13 +398,18 @@
             font-weight: 700;
         }
 
+        .table-container {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 15px;
+            border-radius: 12px;
+            border: 2px solid #FFE082;
+        }
+
         .record-table {
             width: 100%;
-            margin-top: 15px;
             border-collapse: collapse;
             background: #FFFDE7;
-            border-radius: 12px;
-            overflow: hidden;
         }
 
         .record-table th, .record-table td {
@@ -406,6 +420,9 @@
 
         .record-table th {
             background-color: var(--primary-yellow);
+            position: sticky;
+            top: 0;
+            z-index: 1;
         }
 
         /* Profil Card Detail */
@@ -542,24 +559,29 @@
                 <button class="action-btn" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
             </div>
 
-            <!-- 5. SKRIN REKOD SKOR & WAKTU (SCORES & TIMESTAMP) -->
+            <!-- 5. SKRIN REKOD SEMUA SESI (ALL QUIZ SESSIONS HISTORY) -->
             <div id="scores-screen" class="card">
-                <h2 style="color: #333;">🏆 My Highest Scores & History</h2>
-                <p style="color: #666; margin-top: 5px;">Track your scores and last completed dates!</p>
-                <table class="record-table">
-                    <thead>
-                        <tr>
-                            <th>Topic</th>
-                            <th>Best Score</th>
-                            <th>Date & Time</th>
-                        </tr>
-                    </thead>
-                    <tbody id="score-records-body">
-                        <!-- Rekod dimuatkan melalui JS -->
-                    </tbody>
-                </table>
+                <h2 style="color: #333;">🏆 Quiz Attempt History</h2>
+                <p style="color: #666; margin-top: 5px;">Records of every quiz session completed!</p>
+                
+                <div class="table-container">
+                    <table class="record-table">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Topic</th>
+                                <th>Score</th>
+                                <th>Date & Time</th>
+                            </tr>
+                        </thead>
+                        <tbody id="score-records-body">
+                            <!-- Rekod sesi dimuatkan melalui JS -->
+                        </tbody>
+                    </table>
+                </div>
                 <br>
                 <button class="action-btn" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
+                <button class="action-btn clear-btn" onclick="playClickSound(); clearHistory()">Clear History 🗑️</button>
             </div>
 
             <!-- 6. SKRIN SOALAN KUIZ -->
@@ -852,46 +874,53 @@
             startQuiz(currentTopic);
         }
 
-        // Papan Rekod Skor Dan Masa
+        // PAPAN REKOD UNTUK SETIAP SESI / PERCUBAAN (HISTORY LOG)
         function loadScoreBoard() {
             const tbody = document.getElementById("score-records-body");
             tbody.innerHTML = "";
             
-            const topics = ['nouns', 'pronouns', 'verbs', 'adjectives', 'prepositions', 'conjunctions'];
-            const userScores = JSON.parse(localStorage.getItem(`grammar_hub_scores_${currentUser}`)) || {};
+            // Ambil array rekod sejarah sesi
+            const userHistory = JSON.parse(localStorage.getItem(`grammar_hub_history_${currentUser}`)) || [];
 
-            topics.forEach(tp => {
+            if (userHistory.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" style="color:#777; padding: 20px;">No quiz sessions recorded yet! Start a quiz to see your history.</td></tr>`;
+                return;
+            }
+
+            // Susun rekod secara kebalikan (paling baru di atas)
+            userHistory.slice().reverse().forEach((session, idx) => {
                 const tr = document.createElement("tr");
-                const topicData = userScores[tp];
-                
-                let topScore = "-";
-                let timeStamp = "-";
-
-                if (topicData) {
-                    topScore = `${topicData.score} / 10`;
-                    timeStamp = topicData.time || "-";
-                }
+                const sessionNum = userHistory.length - idx;
 
                 tr.innerHTML = `
-                    <td style="text-transform: capitalize; font-weight:700;">${tp}</td>
-                    <td style="font-weight:700; color:#5E17EB;">${topScore}</td>
-                    <td style="font-size:0.8rem; color:#555;">${timeStamp}</td>
+                    <td style="font-weight:700;">#${sessionNum}</td>
+                    <td style="text-transform: capitalize; font-weight:700;">${session.topic}</td>
+                    <td style="font-weight:700; color:#5E17EB;">${session.score} / 10</td>
+                    <td style="font-size:0.8rem; color:#555;">${session.time}</td>
                 `;
                 tbody.appendChild(tr);
             });
         }
 
-        // Merekod Skor Serta Tarikh/Waktu Jawapan
-        function saveScore(topic, newScore, formattedTime) {
-            let userScores = JSON.parse(localStorage.getItem(`grammar_hub_scores_${currentUser}`)) || {};
+        // Merekod Setiap Sesi Kuiz Ke Dalam Array Sejarah (History)
+        function saveSessionRecord(topic, scoreValue, formattedTime) {
+            let userHistory = JSON.parse(localStorage.getItem(`grammar_hub_history_${currentUser}`)) || [];
             
-            // Simpan jika skor baru lebih tinggi atau jika belum ada rekod
-            if (!userScores[topic] || newScore >= userScores[topic].score) {
-                userScores[topic] = {
-                    score: newScore,
-                    time: formattedTime
-                };
-                localStorage.setItem(`grammar_hub_scores_${currentUser}`, JSON.stringify(userScores));
+            // Tambah rekod sesi baharu
+            userHistory.push({
+                topic: topic,
+                score: scoreValue,
+                time: formattedTime
+            });
+
+            localStorage.setItem(`grammar_hub_history_${currentUser}`, JSON.stringify(userHistory));
+        }
+
+        // Memadamkan Sejarah Sesi
+        function clearHistory() {
+            if (confirm("Are you sure you want to clear all your attempt history?")) {
+                localStorage.removeItem(`grammar_hub_history_${currentUser}`);
+                loadScoreBoard();
             }
         }
 
@@ -980,7 +1009,7 @@
 
         function showResults() {
             const completionTime = getFormattedDateTime();
-            saveScore(currentTopic, score, completionTime);
+            saveSessionRecord(currentTopic, score, completionTime);
             
             showScreen('result-screen');
             document.getElementById('final-score').innerText = `${score} / 10`;
