@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ms">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -33,7 +33,7 @@
             display: flex;
         }
 
-        /* --- STYLES SIDEBAR SEBELAH KIRI --- */
+        /* SIDEBAR STYLES */
         .sidebar {
             width: 250px;
             background-color: var(--sidebar-bg);
@@ -115,7 +115,7 @@
             background-color: #C0392B;
         }
 
-        /* TOGGLE BUTTON UNTUK MOBILE */
+        /* MOBILE TOGGLE */
         .mobile-toggle {
             display: none;
             position: fixed;
@@ -131,7 +131,7 @@
             z-index: 101;
         }
 
-        /* --- KAWASAN KANDUNGAN UTAMA --- */
+        /* MAIN CONTENT AREA */
         .main-content {
             flex-grow: 1;
             padding: 30px;
@@ -172,56 +172,42 @@
             50% { transform: translateY(-6px); }
         }
 
-        /* Input Form & Profiles */
+        /* INPUT & FORM STYLES */
         .input-group {
             margin: 15px 0;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            align-items: center;
+            text-align: left;
         }
 
-        .custom-input {
-            width: 80%;
-            padding: 12px 20px;
+        .input-group label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
             font-size: 1rem;
-            border: 3px solid var(--primary-blue);
-            border-radius: 15px;
-            text-align: center;
+            border: 2px solid var(--primary-blue);
+            border-radius: 12px;
             font-family: 'Quicksand', sans-serif;
             font-weight: 700;
             outline: none;
         }
 
-        .custom-input:focus {
+        .form-input:focus {
             border-color: var(--primary-pink);
         }
 
-        .profile-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-            gap: 10px;
-            margin: 20px 0;
-        }
-
-        .profile-btn {
-            background-color: var(--primary-purple);
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 15px;
-            font-weight: bold;
-            font-size: 1rem;
+        .toggle-link {
+            color: #5E17EB;
             cursor: pointer;
-            transition: 0.2s;
+            font-weight: 700;
+            text-decoration: underline;
         }
 
-        .profile-btn:hover {
-            transform: scale(1.05);
-            background-color: #a35eff;
-        }
-
-        /* MENU UTAMA - HEADER LOGO & INTRO */
+        /* TOPIC GRID */
         .home-header {
             margin-bottom: 20px;
         }
@@ -283,7 +269,7 @@
         .topic-btn:nth-child(4n) { background-color: var(--primary-purple); box-shadow: 0 5px 0 #8d5cc4; color: white;}
         .topic-btn:nth-child(4n):hover { box-shadow: 0 8px 0 #8d5cc4; }
 
-        /* GAYA SKRIN LESSON */
+        /* LESSON SCREEN */
         .lesson-box {
             background: #F0F4F8;
             border-radius: 18px;
@@ -319,7 +305,7 @@
             margin-top: 5px;
         }
 
-        /* Skrin Soalan */
+        /* QUIZ SCREEN */
         .quiz-header {
             display: flex;
             justify-content: space-between;
@@ -405,12 +391,6 @@
             box-shadow: 0 2px 0 #E65100;
         }
 
-        .action-btn:disabled {
-            background-color: #BDC3C7;
-            box-shadow: none;
-            cursor: not-allowed;
-        }
-
         .home-btn {
             background-color: #3498DB;
             box-shadow: 0 4px 0 #1F618D;
@@ -429,7 +409,7 @@
             box-shadow: 0 2px 0 #922B21;
         }
 
-        /* Skrin Keputusan & Rekod Masa */
+        /* RESULTS & SCORE BOARDS */
         .result-score {
             font-size: 3rem;
             font-family: 'Fredoka One', cursive;
@@ -475,18 +455,38 @@
             z-index: 1;
         }
 
-        /* Profil Card Detail */
+        /* PROFILE SECTION */
         .profile-card-details {
             background: #F0F4F8;
             padding: 20px;
             border-radius: 15px;
             margin: 20px 0;
             text-align: left;
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
 
         .profile-card-details p {
-            margin-bottom: 10px;
+            margin-bottom: 8px;
+        }
+
+        .profile-list-box {
+            background: #FFFFFF;
+            border: 2px solid var(--primary-blue);
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .profile-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #EEE;
+        }
+
+        .profile-item:last-child {
+            border-bottom: none;
         }
 
         /* RESPONSIVE DESIGN */
@@ -524,13 +524,13 @@
 </head>
 <body>
 
-    <!-- TOGGLE BUTTON UNTUK MOBILE -->
+    <!-- MOBILE TOGGLE BUTTON -->
     <button class="mobile-toggle" id="mobile-toggle-btn" onclick="toggleSidebar(event)">☰</button>
 
-    <!-- SIDEBAR SEBELAH KIRI -->
+    <!-- SIDEBAR -->
     <div class="sidebar" id="sidebar">
         <div class="sidebar-logo">
-            <img src="https://i.imgur.com/vPd4cjj.jpeg" alt="Logo Grammar Hub">
+            <img src="https://i.imgur.com/vPd4cjj.jpeg" alt="Grammar Hub Logo">
         </div>
         <div class="sidebar-title">Grammar Hub</div>
         <div class="sidebar-subtitle">English KSSR Primary</div>
@@ -540,59 +540,80 @@
                 📚 Home
             </li>
             <li class="nav-item" onclick="playClickSound(); navigateTo('profile-view-screen', this)">
-                👤 Profile
+                👤 Profiles
             </li>
             <li class="nav-item" onclick="playClickSound(); navigateTo('scores-screen', this)">
                 🏆 Scores
             </li>
-            <li class="nav-item logout-btn" onclick="playClickSound(); logoutUser()">
+            <li class="nav-item logout-btn" onclick="playClickSound(); logout()">
                 🚪 Logout
             </li>
         </ul>
     </div>
 
-    <!-- KAWASAN PAPARAN UTAMA -->
+    <!-- MAIN CONTENT AREA -->
     <div class="main-content">
         <div class="container">
 
-            <!-- 1A. SKRIN LOG IN / REGISTER EMAIL FIREBASE -->
-            <div id="auth-screen" class="card active">
-                <h1 style="font-family: 'Fredoka One', cursive; color: #FF5757; margin-bottom: 15px;">Grammar Hub</h1>
-                <h2 id="auth-title">Log Masuk Email 🔑</h2>
-                <div class="input-group">
-                    <input type="email" id="auth-email" class="custom-input" placeholder="E-mel anda">
-                    <input type="password" id="auth-password" class="custom-input" placeholder="Kata Laluan">
-                </div>
-                <button id="auth-main-btn" class="action-btn" onclick="playClickSound(); handleAuth()">Log Masuk</button>
-                <p style="margin-top: 15px; font-size: 0.9rem;" id="auth-toggle-text">
-                    Belum ada akaun? <a href="#" onclick="toggleAuthMode(); return false;" style="color: #5E17EB; font-weight: bold;">Daftar Sini</a>
-                </p>
-            </div>
-
-            <!-- 1B. SKRIN PILIH / CREAT PROFIL (MAX 6) -->
-            <div id="profile-select-screen" class="card">
-                <h2>Pilih Profil Murid 👦👧</h2>
-                <p style="margin-top: 5px; color: #666;">Setiap akaun disokong maksimum 6 profil sahaja.</p>
+            <!-- 1. LOGIN SCREEN -->
+            <div id="login-screen" class="card active">
+                <h1 style="font-family: 'Fredoka One', cursive; color: #FF5757; margin-bottom: 10px;">Grammar Hub</h1>
+                <h2>Welcome Back! 👋</h2>
+                <p style="margin-top: 5px; color: #666;">Log in using your registered email.</p>
                 
-                <div id="existing-profiles" class="profile-grid">
-                    <!-- Senarai profil dari Firebase dipaparkan di sini -->
+                <div class="input-group">
+                    <label for="login-email">Email Address</label>
+                    <input type="email" id="login-email" class="form-input" placeholder="example@email.com">
                 </div>
-
-                <hr style="margin: 20px 0; border: 1px dashed #ccc;">
-
-                <div id="create-profile-container">
-                    <h3>Tambah Profil Baharu</h3>
-                    <div class="input-group">
-                        <input type="text" id="new-profile-name" class="custom-input" placeholder="Nama Murid / Anak" maxlength="20">
-                    </div>
-                    <button id="add-profile-btn" class="action-btn" onclick="playClickSound(); createProfile()">Tambah Profil</button>
+                <div class="input-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" class="form-input" placeholder="••••••••">
                 </div>
-                <p id="max-profile-msg" style="color: red; font-weight: bold; display: none; margin-top: 10px;">
-                    Akaun ini telah mencapai had maksimum 6 profil.
+                <button class="action-btn" style="display:inline-block; width: 100%;" onclick="playClickSound(); handleLogin()">Log In 🚀</button>
+                <p style="margin-top: 15px; font-size: 0.9rem;">
+                    Don't have an account? <span class="toggle-link" onclick="showScreen('register-screen')">Register here</span>
                 </p>
             </div>
 
-            <!-- 2. SKRIN UTAMA (MENU TOPIK DENGAN LOGO & GREETING) -->
+            <!-- 2. REGISTER ACCOUNT SCREEN -->
+            <div id="register-screen" class="card">
+                <h1 style="font-family: 'Fredoka One', cursive; color: #FF5757; margin-bottom: 10px;">Grammar Hub</h1>
+                <h2>Create Account 📝</h2>
+                <p style="margin-top: 5px; color: #666;">Register to start tracking learning progress.</p>
+                
+                <div class="input-group">
+                    <label for="reg-email">Email Address</label>
+                    <input type="email" id="reg-email" class="form-input" placeholder="example@email.com">
+                </div>
+                <div class="input-group">
+                    <label for="reg-password">Password (min 6 chars)</label>
+                    <input type="password" id="reg-password" class="form-input" placeholder="••••••••">
+                </div>
+                <button class="action-btn" style="display:inline-block; width: 100%; background-color: var(--primary-green); box-shadow: 0 4px 0 #5aa33d;" onclick="playClickSound(); handleRegister()">Register 🌟</button>
+                <p style="margin-top: 15px; font-size: 0.9rem;">
+                    Already have an account? <span class="toggle-link" onclick="showScreen('login-screen')">Log In</span>
+                </p>
+            </div>
+
+            <!-- 3. PROFILE SELECTION / ADD SCREEN -->
+            <div id="profile-selection-screen" class="card">
+                <h2>Who is Learning? 🧒👧</h2>
+                <p style="color: #666; margin-top: 5px;">Select a student profile or add a new one.</p>
+                
+                <div class="profile-list-box" id="profile-selection-list">
+                    <!-- Profile buttons populated dynamically -->
+                </div>
+
+                <div style="margin-top: 20px; border-top: 2px dashed #DDD; padding-top: 15px;">
+                    <h3>Add New Profile</h3>
+                    <div class="input-group">
+                        <input type="text" id="new-profile-name" class="form-input" placeholder="Enter student name..." maxlength="20">
+                    </div>
+                    <button class="action-btn" style="display:inline-block;" onclick="playClickSound(); addNewProfile()">Add Profile ➕</button>
+                </div>
+            </div>
+
+            <!-- 4. HOME SCREEN -->
             <div id="home-screen" class="card">
                 <div class="home-header">
                     <img src="https://i.imgur.com/vPd4cjj.jpeg" alt="Grammar Hub Logo" class="home-app-logo">
@@ -610,7 +631,7 @@
                 </div>
             </div>
 
-            <!-- 3. SKRIN LESSON (PEMBELAJARAN SEBELUM KUIZ) -->
+            <!-- 5. LESSON SCREEN -->
             <div id="lesson-screen" class="card">
                 <h2 style="color: #333;">Lesson Time! 📖</h2>
                 <div class="lesson-box">
@@ -626,20 +647,21 @@
                 <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('home-screen')">Home 🏠</button>
             </div>
 
-            <!-- 4. SKRIN PAPARAN PROFIL -->
+            <!-- 6. PROFILES MANAGEMENT VIEW -->
             <div id="profile-view-screen" class="card">
-                <h2>User Profile 👤</h2>
+                <h2>Account & Profiles 👤</h2>
                 <div class="profile-card-details">
-                    <p><strong>Account Email:</strong> <span id="profile-email-val" style="color: #5E17EB;">-</span></p>
-                    <p><strong>Active Student:</strong> <span id="profile-name-val" style="color: #5E17EB;">-</span></p>
-                    <p><strong>Status:</strong> Active Learner 🌟</p>
+                    <p><strong>Account Email:</strong> <span id="acc-email-val" style="color: #5E17EB;">-</span></p>
+                    <p><strong>Active Student Profile:</strong> <span id="active-profile-val" style="color: #FF5757; font-weight: bold;">-</span></p>
                     <p><strong>Level:</strong> Primary School English (KSSR)</p>
                 </div>
-                <button class="action-btn" style="background-color: var(--primary-purple); box-shadow: 0 4px 0 #8d5cc4;" onclick="playClickSound(); switchProfile()">Tukar Profil 🔄</button>
+
+                <button class="action-btn" style="background-color: var(--primary-purple); box-shadow: 0 4px 0 #8d5cc4;" onclick="playClickSound(); showScreen('profile-selection-screen')">Switch / Add Profiles 🔄</button>
+                <br><br>
                 <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
             </div>
 
-            <!-- 5. SKRIN REKOD SEMUA SESI (ALL QUIZ SESSIONS HISTORY) -->
+            <!-- 7. SCORES HISTORY SCREEN -->
             <div id="scores-screen" class="card">
                 <h2 style="color: #333;">🏆 Quiz Attempt History</h2>
                 <p style="color: #666; margin-top: 5px;">Records of every quiz session completed!</p>
@@ -655,7 +677,7 @@
                             </tr>
                         </thead>
                         <tbody id="score-records-body">
-                            <!-- Rekod sesi dimuatkan melalui JS -->
+                            <!-- Loaded via JS -->
                         </tbody>
                     </table>
                 </div>
@@ -664,7 +686,7 @@
                 <button class="action-btn clear-btn" onclick="playClickSound(); clearHistory()">Clear History 🗑️</button>
             </div>
 
-            <!-- 6. SKRIN SOALAN KUIZ (BUTTON HOME DI BAWAH BUTTON NEXT QUESTION) -->
+            <!-- 8. QUIZ SCREEN -->
             <div id="quiz-screen" class="card">
                 <div class="quiz-header">
                     <span id="topic-title">Topic</span>
@@ -677,7 +699,7 @@
                 </div>
 
                 <div id="options-container" class="options-grid">
-                    <!-- Pilihan jawapan -->
+                    <!-- Option buttons -->
                 </div>
 
                 <div class="quiz-action-container">
@@ -686,7 +708,7 @@
                 </div>
             </div>
 
-            <!-- 7. SKRIN KEPUTUSAN -->
+            <!-- 9. RESULT SCREEN -->
             <div id="result-screen" class="card">
                 <h2>Awesome Job! 🎉</h2>
                 <p>You have completed the quiz!</p>
@@ -700,15 +722,15 @@
         </div>
     </div>
 
-    <!-- FIREBASE SDK MODULAR -->
+    <!-- FIREBASE SDKs (v9/v10 Compatibility Modular CDN via Scripts) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { 
             getAuth, 
             createUserWithEmailAndPassword, 
             signInWithEmailAndPassword, 
-            onAuthStateChanged, 
-            signOut 
+            signOut, 
+            onAuthStateChanged 
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { 
             getDatabase, 
@@ -716,10 +738,11 @@
             set, 
             push, 
             get, 
-            child 
-        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.app.js";
+            child, 
+            remove 
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        // Konfigurasi Firebase
+        // Provided Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyAgUl-DSLAGA4pRvmKTacvowO4E0OEXo5w",
             authDomain: "abcd-b1870.firebaseapp.com",
@@ -730,186 +753,189 @@
             appId: "1:890026579019:web:200fd135537b9ea2f7a9ce"
         };
 
+        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getDatabase(app);
 
-        // Variables Global Auth/Profile
-        let currentAuthUser = null;
-        let isSignUpMode = false;
-        let userProfiles = [];
+        // Global State Variables
+        window.currentUserAuth = null;
+        window.activeProfile = "";
+        window.userProfiles = [];
 
-        // Auth Listener
-        onAuthStateChanged(auth, (user) => {
+        // Auth Observer
+        onAuthStateChanged(auth, async (user) => {
             if (user) {
-                currentAuthUser = user;
-                document.getElementById("profile-email-val").innerText = user.email;
-                fetchUserProfiles();
+                window.currentUserAuth = user;
+                document.getElementById("nav-menu").style.display = "flex";
+                document.getElementById("acc-email-val").innerText = user.email;
+                await fetchProfiles();
             } else {
-                currentAuthUser = null;
-                window.currentUser = "";
-                showLoggedOutState();
-                showScreen("auth-screen");
+                window.currentUserAuth = null;
+                window.activeProfile = "";
+                document.getElementById("nav-menu").style.display = "none";
+                showScreen("login-screen");
             }
         });
 
-        // Toggle Mod Login / Sign Up
-        window.toggleAuthMode = function() {
-            isSignUpMode = !isSignUpMode;
-            if(isSignUpMode) {
-                document.getElementById("auth-title").innerText = "Daftar Akaun Baharu 📝";
-                document.getElementById("auth-main-btn").innerText = "Daftar Akaun";
-                document.getElementById("auth-toggle-text").innerHTML = 'Sudah ada akaun? <a href="#" onclick="toggleAuthMode(); return false;" style="color: #5E17EB; font-weight: bold;">Log Masuk Sini</a>';
-            } else {
-                document.getElementById("auth-title").innerText = "Log Masuk Email 🔑";
-                document.getElementById("auth-main-btn").innerText = "Log Masuk";
-                document.getElementById("auth-toggle-text").innerHTML = 'Belum ada akaun? <a href="#" onclick="toggleAuthMode(); return false;" style="color: #5E17EB; font-weight: bold;">Daftar Sini</a>';
-            }
-        }
+        // Authentication Functions
+        window.handleRegister = async function() {
+            const email = document.getElementById("reg-email").value.trim();
+            const password = document.getElementById("reg-password").value.trim();
 
-        // Pengurusan Auth
-        window.handleAuth = async function() {
-            const email = document.getElementById("auth-email").value.trim();
-            const password = document.getElementById("auth-password").value.trim();
-
-            if(!email || !password) {
-                alert("Sila isi e-mel dan kata laluan!");
+            if (!email || !password) {
+                alert("Please fill in all email and password fields.");
                 return;
             }
 
             try {
-                if(isSignUpMode) {
-                    await createUserWithEmailAndPassword(auth, email, password);
-                    alert("Akaun berjaya didaftarkan!");
-                } else {
-                    await signInWithEmailAndPassword(auth, email, password);
-                }
+                await createUserWithEmailAndPassword(auth, email, password);
+                alert("Registration successful! Welcome.");
             } catch (error) {
-                alert("Ralat: " + error.message);
+                alert("Registration failed: " + error.message);
             }
-        }
+        };
 
-        // Logout
-        window.logoutUser = function() {
-            signOut(auth).then(() => {
-                closeSidebar();
-            });
-        }
+        window.handleLogin = async function() {
+            const email = document.getElementById("login-email").value.trim();
+            const password = document.getElementById("login-password").value.trim();
 
-        // Ambil profil-profil pengguna dari Database Firebase
-        async function fetchUserProfiles() {
-            const dbRef = ref(db);
+            if (!email || !password) {
+                alert("Please fill in both email and password.");
+                return;
+            }
+
             try {
-                const snapshot = await get(child(dbRef, `users/${currentAuthUser.uid}/profiles`));
-                userProfiles = [];
+                await signInWithEmailAndPassword(auth, email, password);
+            } catch (error) {
+                alert("Login failed: " + error.message);
+            }
+        };
+
+        window.logout = async function() {
+            closeSidebar();
+            try {
+                await signOut(auth);
+                alert("You have logged out successfully.");
+            } catch (error) {
+                alert("Error logging out: " + error.message);
+            }
+        };
+
+        // Multi-Profile Functions
+        async function fetchProfiles() {
+            if (!window.currentUserAuth) return;
+            const uid = window.currentUserAuth.uid;
+            const dbRef = ref(db);
+            
+            try {
+                const snapshot = await get(child(dbRef, `users/${uid}/profiles`));
+                const listContainer = document.getElementById("profile-selection-list");
+                listContainer.innerHTML = "";
+
                 if (snapshot.exists()) {
-                    const data = snapshot.val();
-                    for(let id in data) {
-                        userProfiles.push({ id: id, name: data[id].name });
-                    }
+                    window.userProfiles = Object.values(snapshot.val());
+                    window.userProfiles.forEach(profName => {
+                        const btn = document.createElement("button");
+                        btn.className = "action-btn";
+                        btn.style.display = "block";
+                        btn.style.width = "100%";
+                        btn.style.margin = "8px 0";
+                        btn.innerText = `👤 ${profName}`;
+                        btn.onclick = () => selectProfile(profName);
+                        listContainer.appendChild(btn);
+                    });
+                } else {
+                    window.userProfiles = [];
+                    listContainer.innerHTML = "<p style='color:#777;'>No profiles created yet. Please create one below!</p>";
                 }
-                renderProfiles();
-                showScreen("profile-select-screen");
-            } catch(e) {
-                console.error("Ralat mengambil profil:", e);
+
+                if (!window.activeProfile) {
+                    showScreen("profile-selection-screen");
+                }
+            } catch (err) {
+                console.error("Error fetching profiles:", err);
             }
         }
 
-        // Paparkan profil di skrin
-        function renderProfiles() {
-            const container = document.getElementById("existing-profiles");
-            container.innerHTML = "";
-
-            userProfiles.forEach(p => {
-                const btn = document.createElement("button");
-                btn.className = "profile-btn";
-                btn.innerText = p.name;
-                btn.onclick = () => selectProfile(p.name);
-                container.appendChild(btn);
-            });
-
-            // Semak jika capai 6 profil
-            const addBtn = document.getElementById("add-profile-btn");
-            const inputName = document.getElementById("new-profile-name");
-            const msg = document.getElementById("max-profile-msg");
-
-            if (userProfiles.length >= 6) {
-                addBtn.disabled = true;
-                inputName.disabled = true;
-                msg.style.display = "block";
-            } else {
-                addBtn.disabled = false;
-                inputName.disabled = false;
-                msg.style.display = "none";
-            }
-        }
-
-        // Cipta profil baru (Limit 6)
-        window.createProfile = async function() {
+        window.addNewProfile = async function() {
             const nameInput = document.getElementById("new-profile-name");
-            const name = nameInput.value.trim();
+            const newName = nameInput.value.trim();
 
-            if (!name) {
-                alert("Sila masukkan nama profil!");
+            if (!newName) {
+                alert("Please enter a student name.");
                 return;
             }
 
-            if (userProfiles.length >= 6) {
-                alert("Maksimum 6 profil sahaja dibenarkan!");
-                return;
+            if (!window.currentUserAuth) return;
+            const uid = window.currentUserAuth.uid;
+
+            try {
+                const newProfileRef = push(ref(db, `users/${uid}/profiles`));
+                await set(newProfileRef, newName);
+                nameInput.value = "";
+                await fetchProfiles();
+                selectProfile(newName);
+            } catch (err) {
+                alert("Failed to add profile: " + err.message);
             }
+        };
 
-            const profileListRef = ref(db, `users/${currentAuthUser.uid}/profiles`);
-            const newProfileRef = push(profileListRef);
-            await set(newProfileRef, { name: name });
-
-            nameInput.value = "";
-            fetchUserProfiles();
-        }
-
-        // Pilih profil aktif
-        function selectProfile(name) {
-            window.currentUser = name;
-            showLoggedInState();
+        function selectProfile(profileName) {
+            window.activeProfile = profileName;
+            document.getElementById("home-greeting").innerText = `Hi ${profileName}! 👋`;
+            document.getElementById("active-profile-val").innerText = profileName;
             showScreen("home-screen");
         }
 
-        window.switchProfile = function() {
-            showScreen("profile-select-screen");
-        }
+        // Save Score Session to Database
+        window.saveSessionRecord = async function(topic, scoreValue, formattedTime) {
+            if (!window.currentUserAuth || !window.activeProfile) return;
+            const uid = window.currentUserAuth.uid;
 
-        // Simpan rekod kuiz ke Firebase Realtime Database
-        window.saveSessionRecord = function(topic, scoreValue, formattedTime) {
-            if (!currentAuthUser || !window.currentUser) return;
-
-            const historyRef = ref(db, `users/${currentAuthUser.uid}/history/${window.currentUser}`);
-            const newHistoryRef = push(historyRef);
-            set(newHistoryRef, {
+            const sessionData = {
+                profile: window.activeProfile,
                 topic: topic,
                 score: scoreValue,
-                time: formattedTime
-            });
-        }
+                time: formattedTime,
+                timestamp: Date.now()
+            };
 
-        // Muat turun rekod sejarah dari Firebase
+            try {
+                const historyRef = ref(db, `users/${uid}/history`);
+                const newSessionRef = push(historyRef);
+                await set(newSessionRef, sessionData);
+            } catch (err) {
+                console.error("Failed to save score history:", err);
+            }
+        };
+
+        // Load History Scoreboard
         window.loadScoreBoard = async function() {
             const tbody = document.getElementById("score-records-body");
-            tbody.innerHTML = "<tr><td colspan='4'>Memuatkan sejarah...</td></tr>";
+            tbody.innerHTML = "<tr><td colspan='4'>Loading history...</td></tr>";
 
-            if (!currentAuthUser || !window.currentUser) return;
-
+            if (!window.currentUserAuth) return;
+            const uid = window.currentUserAuth.uid;
             const dbRef = ref(db);
+
             try {
-                const snapshot = await get(child(dbRef, `users/${currentAuthUser.uid}/history/${window.currentUser}`));
+                const snapshot = await get(child(dbRef, `users/${uid}/history`));
                 tbody.innerHTML = "";
 
                 if (snapshot.exists()) {
-                    const data = snapshot.val();
-                    const historyArray = Object.values(data);
+                    const allData = Object.values(snapshot.val());
+                    // Filter history by active profile
+                    const profileData = allData.filter(item => item.profile === window.activeProfile);
 
-                    historyArray.slice().reverse().forEach((session, idx) => {
+                    if (profileData.length === 0) {
+                        tbody.innerHTML = `<tr><td colspan="4" style="color:#777; padding: 20px;">No quiz sessions recorded for ${window.activeProfile} yet!</td></tr>`;
+                        return;
+                    }
+
+                    profileData.slice().reverse().forEach((session, idx) => {
                         const tr = document.createElement("tr");
-                        const sessionNum = historyArray.length - idx;
+                        const sessionNum = profileData.length - idx;
 
                         tr.innerHTML = `
                             <td style="font-weight:700;">#${sessionNum}</td>
@@ -922,23 +948,36 @@
                 } else {
                     tbody.innerHTML = `<tr><td colspan="4" style="color:#777; padding: 20px;">No quiz sessions recorded yet! Start a quiz to see your history.</td></tr>`;
                 }
-            } catch(e) {
-                console.error(e);
+            } catch (err) {
+                tbody.innerHTML = `<tr><td colspan="4" style="color:red;">Error loading history.</td></tr>`;
             }
-        }
+        };
 
-        // Padam rekod sejarah
         window.clearHistory = async function() {
-            if (confirm("Are you sure you want to clear all your attempt history?")) {
-                const historyRef = ref(db, `users/${currentAuthUser.uid}/history/${window.currentUser}`);
-                await set(historyRef, null);
+            if (!confirm(`Are you sure you want to clear all history for ${window.activeProfile}?`)) return;
+
+            if (!window.currentUserAuth) return;
+            const uid = window.currentUserAuth.uid;
+
+            try {
+                const snapshot = await get(ref(db, `users/${uid}/history`));
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    for (let key in data) {
+                        if (data[key].profile === window.activeProfile) {
+                            await remove(ref(db, `users/${uid}/history/${key}`));
+                        }
+                    }
+                }
                 loadScoreBoard();
+            } catch (err) {
+                alert("Failed to clear history: " + err.message);
             }
-        }
+        };
     </script>
 
     <script>
-        // --- SISTEM BUNYI (WEB AUDIO API) ---
+        // WEB AUDIO SYSTEM
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
         function playClickSound() {
@@ -998,41 +1037,41 @@
             osc.stop(now + 0.25);
         }
 
-        // BANK NOTA LESSON
+        // LESSON NOTES BANK
         const lessonData = {
             nouns: {
-                title: "Nouns (Kata Nama)",
+                title: "Nouns",
                 desc: "<strong>Nouns</strong> are words used to name people, places, animals, or things. Pay attention to Singular (one) and Plural (more than one).",
                 examples: "<ul><li>Singular: <i>car, dog, child, tooth</i></li><li>Plural: <i>cars, dogs, children, teeth</i></li></ul>"
             },
             pronouns: {
-                title: "Pronouns (Kata Ganti Nama)",
+                title: "Pronouns",
                 desc: "<strong>Pronouns</strong> are words that take the place of nouns so we don't have to repeat the same noun.",
                 examples: "<ul><li>Girl/Woman: <b>She, Her</b></li><li>Boy/Man: <b>He, Him</b></li><li>Animal/Object: <b>It, Its</b></li><li>Group: <b>They, We</b></li></ul>"
             },
             verbs: {
-                title: "Verbs (Kata Kerja)",
+                title: "Verbs",
                 desc: "<strong>Verbs</strong> are action words. They show what someone or something is doing. Remember to check the tenses (present or past)!",
                 examples: "<ul><li>Present Tense: <i>walks, sings, flying</i></li><li>Past Tense: <i>walked, sang, caught</i></li></ul>"
             },
             adjectives: {
-                title: "Adjectives (Kata Sifat)",
+                title: "Adjectives",
                 desc: "<strong>Adjectives</strong> describe or give more information about a noun (size, color, shape, feeling).",
                 examples: "<ul><li>Size: <i>huge, small, long</i></li><li>Taste/Feel: <i>sweet, sour, cold, heavy</i></li><li>Comparison: <i>fast ➔ faster ➔ fastest</i></li></ul>"
             },
             prepositions: {
-                title: "Prepositions (Kata Sendi Nama)",
+                title: "Prepositions",
                 desc: "<strong>Prepositions</strong> tell us the position or location of something, or when something happens.",
                 examples: "<ul><li>Position: <i>under, on, inside, between, behind</i></li><li>Time: <i>at 7.00 a.m., in July, on Sunday</i></li></ul>"
             },
             conjunctions: {
-                title: "Conjunctions (Kata Hubung)",
+                title: "Conjunctions",
                 desc: "<strong>Conjunctions</strong> are joining words that connect words, phrases, or sentences together.",
                 examples: "<ul><li><b>And:</b> joins similar ideas.</li><li><b>But:</b> joins opposite ideas.</li><li><b>Because:</b> shows a reason.</li><li><b>So:</b> shows a result.</li></ul>"
             }
         };
 
-        // Bank Soalan KSSR
+        // KSSR QUESTION BANK
         const questionBank = {
             nouns: [
                 { q: "My father drives a new ________ to work.", options: ["car", "cars", "caring", "cared"], answer: 0 },
@@ -1108,14 +1147,14 @@
             ]
         };
 
-        // Pembolehubah Aplikasi
+        // App Logic Variables
         let currentTopic = "";
         let currentQuestions = [];
         let currentQuestionIndex = 0;
         let score = 0;
         let canAnswer = true;
 
-        // Tutup Sidebar jika pengguna tekan di luar kawasan sidebar
+        // Outside Click Sidebar Close
         document.addEventListener('click', function(event) {
             const sidebar = document.getElementById("sidebar");
             const mobileBtn = document.getElementById("mobile-toggle-btn");
@@ -1127,7 +1166,6 @@
             }
         });
 
-        // Tutup Sidebar Secara Khusus
         function closeSidebar() {
             const sidebar = document.getElementById("sidebar");
             if (sidebar) {
@@ -1135,23 +1173,9 @@
             }
         }
 
-        // Toggle Sidebar
         function toggleSidebar(event) {
             if(event) event.stopPropagation();
             document.getElementById("sidebar").classList.toggle("open");
-        }
-
-        function showLoggedInState() {
-            document.getElementById("nav-menu").style.display = "flex";
-            document.getElementById("profile-name-val").innerText = window.currentUser;
-            document.getElementById("home-greeting").innerText = `Hi ${window.currentUser}! 👋`;
-            if (typeof window.loadScoreBoard === 'function') {
-                window.loadScoreBoard();
-            }
-        }
-
-        function showLoggedOutState() {
-            document.getElementById("nav-menu").style.display = "none";
         }
 
         function navigateTo(screenId, element = null) {
@@ -1161,20 +1185,18 @@
                 document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
                 element.classList.add('active');
             }
-            if (screenId === 'scores-screen' && typeof window.loadScoreBoard === 'function') {
+            if (screenId === 'scores-screen') {
                 window.loadScoreBoard();
             }
             showScreen(screenId);
         }
 
-        // FUNGSI KEMBALI KE HOME DARIPADA KUIZ
         function confirmBackToHome() {
             if (confirm("Are you sure you want to exit the quiz and return to Home? Your current score for this quiz will not be saved.")) {
                 navigateTo('home-screen');
             }
         }
 
-        // FUNGSI BUAT LESSON SEBELUM KUIZ
         function openLesson(topic) {
             closeSidebar();
             currentTopic = topic;
@@ -1192,7 +1214,6 @@
             startQuiz(currentTopic);
         }
 
-        // Formatkan Tarikh & Masa Terkini
         function getFormattedDateTime() {
             const now = new Date();
             const dateStr = now.toLocaleDateString('en-GB'); 
@@ -1200,7 +1221,6 @@
             return `${dateStr}, ${timeStr}`;
         }
 
-        // Rawakkan Array Soalan
         function shuffle(array) {
             let currentIndex = array.length, randomIndex;
             while (currentIndex != 0) {
@@ -1211,7 +1231,6 @@
             return array;
         }
 
-        // Jalankan Kuiz
         function startQuiz(topic) {
             closeSidebar();
             currentTopic = topic;
@@ -1278,9 +1297,7 @@
 
         function showResults() {
             const completionTime = getFormattedDateTime();
-            if (typeof window.saveSessionRecord === 'function') {
-                window.saveSessionRecord(currentTopic, score, completionTime);
-            }
+            window.saveSessionRecord(currentTopic, score, completionTime);
             
             showScreen('result-screen');
             document.getElementById('final-score').innerText = `${score} / 10`;
