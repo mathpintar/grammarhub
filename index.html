@@ -27,7 +27,6 @@
 
         body {
             font-family: 'Quicksand', sans-serif;
-            /* Latar belakang baharu menggunakan imej Imgur pilihan anda dengan kesan penapis sedikit gelap agar teks mudah dibaca */
             background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('https://i.imgur.com/H46KuIJ.jpeg') no-repeat center center fixed;
             background-size: cover;
             color: var(--text-dark);
@@ -204,13 +203,6 @@
 
         .form-input:focus {
             border-color: var(--primary-pink);
-        }
-
-        .toggle-link {
-            color: #5E17EB;
-            cursor: pointer;
-            font-weight: 700;
-            text-decoration: underline;
         }
 
         /* TOPIC GRID */
@@ -584,7 +576,7 @@
             <div id="login-screen" class="card active">
                 <h1 style="font-family: 'Fredoka One', cursive; color: #FF5757; margin-bottom: 10px;">Grammar Hub</h1>
                 <h2>Welcome Back! 👋</h2>
-                <p style="margin-top: 5px; color: #666;">Log in using your registered email.</p>
+                <p style="margin-top: 5px; color: #666;">Log in using your authorized email.</p>
                 
                 <div class="input-group">
                     <label for="login-email">Email Address</label>
@@ -595,32 +587,9 @@
                     <input type="password" id="login-password" class="form-input" placeholder="••••••••">
                 </div>
                 <button class="action-btn" style="display:inline-block; width: 100%;" onclick="playClickSound(); handleLogin()">Log In 🚀</button>
-                <p style="margin-top: 15px; font-size: 0.9rem;">
-                    Don't have an account? <span class="toggle-link" onclick="showScreen('register-screen')">Register here</span>
-                </p>
             </div>
 
-            <!-- 2. REGISTER ACCOUNT SCREEN -->
-            <div id="register-screen" class="card">
-                <h1 style="font-family: 'Fredoka One', cursive; color: #FF5757; margin-bottom: 10px;">Grammar Hub</h1>
-                <h2>Create Account 📝</h2>
-                <p style="margin-top: 5px; color: #666;">Register to start tracking learning progress.</p>
-                
-                <div class="input-group">
-                    <label for="reg-email">Email Address</label>
-                    <input type="email" id="reg-email" class="form-input" placeholder="example@email.com">
-                </div>
-                <div class="input-group">
-                    <label for="reg-password">Password (min 6 chars)</label>
-                    <input type="password" id="reg-password" class="form-input" placeholder="••••••••">
-                </div>
-                <button class="action-btn" style="display:inline-block; width: 100%; background-color: var(--primary-green); box-shadow: 0 4px 0 #5aa33d;" onclick="playClickSound(); handleRegister()">Register 🌟</button>
-                <p style="margin-top: 15px; font-size: 0.9rem;">
-                    Already have an account? <span class="toggle-link" onclick="showScreen('login-screen')">Log In</span>
-                </p>
-            </div>
-
-            <!-- 3. PROFILE SELECTION / ADD SCREEN -->
+            <!-- 2. PROFILE SELECTION / ADD SCREEN -->
             <div id="profile-selection-screen" class="card">
                 <h2>Who is Learning? 🧒👧</h2>
                 <p style="color: #666; margin-top: 5px;">Select a student profile or add a new one.</p>
@@ -638,7 +607,7 @@
                 </div>
             </div>
 
-            <!-- 4. HOME SCREEN -->
+            <!-- 3. HOME SCREEN -->
             <div id="home-screen" class="card">
                 <div class="home-header">
                     <img src="https://i.imgur.com/vPd4cjj.jpeg" alt="Grammar Hub Logo" class="home-app-logo">
@@ -663,7 +632,7 @@
                 </div>
             </div>
 
-            <!-- 5. LESSON SCREEN -->
+            <!-- 4. LESSON SCREEN -->
             <div id="lesson-screen" class="card">
                 <h2 style="color: #333;">Lesson Time! 📖</h2>
                 <div class="lesson-box">
@@ -679,7 +648,7 @@
                 <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('home-screen')">Home 🏠</button>
             </div>
 
-            <!-- 6. PROFILES MANAGEMENT VIEW -->
+            <!-- 5. PROFILES MANAGEMENT VIEW -->
             <div id="profile-view-screen" class="card">
                 <h2>Account & Profiles 👤</h2>
                 <div class="profile-card-details">
@@ -693,7 +662,7 @@
                 <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
             </div>
 
-            <!-- 7. SCORES HISTORY SCREEN -->
+            <!-- 6. SCORES HISTORY SCREEN -->
             <div id="scores-screen" class="card">
                 <h2 style="color: #333;">🏆 Quiz Attempt History</h2>
                 <p style="color: #666; margin-top: 5px;">Records of every quiz session completed!</p>
@@ -718,7 +687,7 @@
                 <button class="action-btn clear-btn" onclick="playClickSound(); clearHistory()">Clear History 🗑️</button>
             </div>
 
-            <!-- 8. QUIZ SCREEN -->
+            <!-- 7. QUIZ SCREEN -->
             <div id="quiz-screen" class="card">
                 <div class="quiz-header">
                     <span id="topic-title">Topic</span>
@@ -740,7 +709,7 @@
                 </div>
             </div>
 
-            <!-- 9. RESULT SCREEN -->
+            <!-- 8. RESULT SCREEN -->
             <div id="result-screen" class="card">
                 <h2>Awesome Job! 🎉</h2>
                 <p>You have completed the quiz!</p>
@@ -759,7 +728,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { 
             getAuth, 
-            createUserWithEmailAndPassword, 
             signInWithEmailAndPassword, 
             signOut, 
             onAuthStateChanged 
@@ -805,23 +773,6 @@
                 showScreen("login-screen");
             }
         });
-
-        window.handleRegister = async function() {
-            const email = document.getElementById("reg-email").value.trim();
-            const password = document.getElementById("reg-password").value.trim();
-
-            if (!email || !password) {
-                alert("Please fill in all email and password fields.");
-                return;
-            }
-
-            try {
-                await createUserWithEmailAndPassword(auth, email, password);
-                alert("Registration successful! Welcome.");
-            } catch (error) {
-                alert("Registration failed: " + error.message);
-            }
-        };
 
         window.handleLogin = async function() {
             const email = document.getElementById("login-email").value.trim();
