@@ -263,6 +263,7 @@
             text-align: left;
             margin: 20px 0;
             border-left: 6px solid var(--primary-purple);
+            position: relative;
         }
 
         .lesson-title {
@@ -314,6 +315,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            position: relative;
         }
 
         .options-grid {
@@ -352,22 +354,59 @@
             color: white;
         }
 
+        .quiz-action-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
         .action-btn {
             background-color: #FF9800;
             color: white;
             border: none;
-            padding: 12px 30px;
+            padding: 12px 25px;
             border-radius: 20px;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 700;
             cursor: pointer;
             box-shadow: 0 4px 0 #E65100;
-            margin: 10px 5px;
+            margin: 5px;
         }
 
         .action-btn:active {
             transform: translateY(2px);
             box-shadow: 0 2px 0 #E65100;
+        }
+
+        /* BUTTON SUARA (SPEAKER BUTTON) */
+        .speech-btn {
+            background-color: #9B59B6;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 3px 0 #6C3483;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.2s;
+        }
+
+        .speech-btn:hover {
+            background-color: #8E44AD;
+        }
+
+        .home-btn {
+            background-color: #3498DB;
+            box-shadow: 0 4px 0 #1F618D;
+        }
+
+        .home-btn:active {
+            box-shadow: 0 2px 0 #1F618D;
         }
 
         .clear-btn {
@@ -536,7 +575,11 @@
 
             <!-- 3. SKRIN LESSON (PEMBELAJARAN SEBELUM KUIZ) -->
             <div id="lesson-screen" class="card">
-                <h2 style="color: #333;">Lesson Time! 📖</h2>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h2 style="color: #333;">Lesson Time! 📖</h2>
+                    <button class="speech-btn" onclick="readCurrentLesson()">🔊 Read Lesson</button>
+                </div>
+                
                 <div class="lesson-box">
                     <div class="lesson-title" id="lesson-title">Topic Title</div>
                     <div class="lesson-desc" id="lesson-desc">Lesson explanation content goes here...</div>
@@ -547,7 +590,7 @@
                 </div>
                 <button class="action-btn" style="display:inline-block; background-color: var(--primary-green); box-shadow: 0 4px 0 #5aa33d;" onclick="playClickSound(); startQuizAfterLesson()">Start Quiz 🚀</button>
                 <br>
-                <button class="action-btn" onclick="playClickSound(); navigateTo('home-screen')">Back ↩️</button>
+                <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('home-screen')">Home 🏠</button>
             </div>
 
             <!-- 4. SKRIN PAPARAN PROFIL -->
@@ -558,7 +601,7 @@
                     <p><strong>Status:</strong> Active Learner 🌟</p>
                     <p><strong>Level:</strong> Primary School English (KSSR)</p>
                 </div>
-                <button class="action-btn" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
+                <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
             </div>
 
             <!-- 5. SKRIN REKOD SEMUA SESI (ALL QUIZ SESSIONS HISTORY) -->
@@ -582,7 +625,7 @@
                     </table>
                 </div>
                 <br>
-                <button class="action-btn" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
+                <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
                 <button class="action-btn clear-btn" onclick="playClickSound(); clearHistory()">Clear History 🗑️</button>
             </div>
 
@@ -602,7 +645,11 @@
                     <!-- Pilihan jawapan -->
                 </div>
 
-                <button id="next-btn" class="action-btn" style="display:none;" onclick="playClickSound(); nextQuestion()">Next Question ➔</button>
+                <div class="quiz-action-container">
+                    <button class="speech-btn" onclick="readCurrentQuestion()">🔊 Listen Question</button>
+                    <button class="action-btn home-btn" onclick="playClickSound(); confirmBackToHome()">Home 🏠</button>
+                    <button id="next-btn" class="action-btn" style="display:none;" onclick="playClickSound(); nextQuestion()">Next Question ➔</button>
+                </div>
             </div>
 
             <!-- 7. SKRIN KEPUTUSAN -->
@@ -613,17 +660,66 @@
                 <div class="completion-time" id="completion-time">📅 Completed on: -</div>
                 <p id="feedback-message" style="font-weight: 700; color: #555;"></p>
                 <br>
-                <button class="action-btn" style="display:inline-block;" onclick="playClickSound(); navigateTo('home-screen')">Back to Menu 🔄</button>
+                <button class="action-btn home-btn" style="display:inline-block;" onclick="playClickSound(); navigateTo('home-screen')">Back to Menu 🏠</button>
             </div>
 
         </div>
     </div>
 
     <script>
+        // --- FUNGSI SUARA (TEXT-TO-SPEECH) ---
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                // Hentikan sebutan sedia ada jika ada
+                window.speechSynthesis.cancel();
+
+                // Gantikan garisan kosong (blank) dengan perkataan 'blank' supaya dibaca elok
+                const speechText = text.replace(/________/g, "blank");
+
+                const utterance = new SpeechSynthesisUtterance(speechText);
+                utterance.lang = 'en-US'; // Sebutan Bahasa Inggeris
+                utterance.rate = 0.9; // Kelajuan bacaan (sedikit perlahan untuk kanak-kanak)
+                utterance.pitch = 1.0;
+
+                window.speechSynthesis.speak(utterance);
+            } else {
+                console.warn("Text-to-speech is not supported in this browser.");
+            }
+        }
+
+        function stopSpeech() {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            }
+        }
+
+        function readCurrentQuestion() {
+            const qData = currentQuestions[currentQuestionIndex];
+            if (qData) {
+                let fullText = `Question ${currentQuestionIndex + 1}: ${qData.q}. Options are: `;
+                qData.options.forEach((opt, idx) => {
+                    fullText += `Option ${idx + 1}, ${opt}. `;
+                });
+                speakText(fullText);
+            }
+        }
+
+        function readCurrentLesson() {
+            const lesson = lessonData[currentTopic];
+            if (lesson) {
+                // Buang tag HTML untuk bacaan bersih
+                const tempDiv = document.createElement("div");
+                tempDiv.innerHTML = `${lesson.title}. ${lesson.desc}`;
+                const textToRead = tempDiv.textContent || tempDiv.innerText || "";
+                speakText(textToRead);
+            }
+        }
+
         // --- SISTEM BUNYI (WEB AUDIO API) ---
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
         function playClickSound() {
+            stopSpeech(); // Hentikan suara jika pengguna menekan butang lain
             if (audioCtx.state === 'suspended') audioCtx.resume();
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
@@ -639,6 +735,7 @@
         }
 
         function playCorrectSound() {
+            stopSpeech();
             if (audioCtx.state === 'suspended') audioCtx.resume();
             const now = audioCtx.currentTime;
             const osc1 = audioCtx.createOscillator();
@@ -665,6 +762,7 @@
         }
 
         function playWrongSound() {
+            stopSpeech();
             if (audioCtx.state === 'suspended') audioCtx.resume();
             const now = audioCtx.currentTime;
             const osc = audioCtx.createOscillator();
@@ -811,7 +909,7 @@
             }
         };
 
-        // Tutup Sidebar jika pengguna tekan di luar kawasan sidebar (kawasan main-content)
+        // Tutup Sidebar jika pengguna tekan di luar kawasan sidebar
         document.addEventListener('click', function(event) {
             const sidebar = document.getElementById("sidebar");
             const mobileBtn = document.getElementById("mobile-toggle-btn");
@@ -831,7 +929,7 @@
             }
         }
 
-        // Toggle Sidebar apabila butang menu ditekan
+        // Toggle Sidebar
         function toggleSidebar(event) {
             if(event) event.stopPropagation();
             document.getElementById("sidebar").classList.toggle("open");
@@ -851,7 +949,8 @@
         }
 
         function logout() {
-            closeSidebar(); // Autotutup sidebar
+            stopSpeech();
+            closeSidebar();
             localStorage.removeItem("grammar_hub_active_user");
             currentUser = "";
             document.getElementById("username-input").value = "";
@@ -871,7 +970,8 @@
         }
 
         function navigateTo(screenId, element = null) {
-            closeSidebar(); // Autotutup sidebar apabila butang navigasi / paparan belakang ditekan
+            stopSpeech();
+            closeSidebar();
 
             if (element) {
                 document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
@@ -883,9 +983,18 @@
             showScreen(screenId);
         }
 
+        // FUNGSI KEMBALI KE HOME DARIPADA KUIZ
+        function confirmBackToHome() {
+            stopSpeech();
+            if (confirm("Are you sure you want to exit the quiz and return to Home? Your current score for this quiz will not be saved.")) {
+                navigateTo('home-screen');
+            }
+        }
+
         // FUNGSI BUAT LESSON SEBELUM KUIZ
         function openLesson(topic) {
-            closeSidebar(); // Autotutup sidebar
+            stopSpeech();
+            closeSidebar();
             currentTopic = topic;
             const lesson = lessonData[topic];
 
@@ -897,16 +1006,16 @@
         }
 
         function startQuizAfterLesson() {
-            closeSidebar(); // Autotutup sidebar
+            stopSpeech();
+            closeSidebar();
             startQuiz(currentTopic);
         }
 
-        // PAPAN REKOD UNTUK SETIAP SESI / PERCUBAAN (HISTORY LOG)
+        // PAPAN REKOD UNTUK SETIAP SESI / PERCUBAAN
         function loadScoreBoard() {
             const tbody = document.getElementById("score-records-body");
             tbody.innerHTML = "";
             
-            // Ambil array rekod sejarah sesi
             const userHistory = JSON.parse(localStorage.getItem(`grammar_hub_history_${currentUser}`)) || [];
 
             if (userHistory.length === 0) {
@@ -914,7 +1023,6 @@
                 return;
             }
 
-            // Susun rekod secara kebalikan (paling baru di atas)
             userHistory.slice().reverse().forEach((session, idx) => {
                 const tr = document.createElement("tr");
                 const sessionNum = userHistory.length - idx;
@@ -929,11 +1037,9 @@
             });
         }
 
-        // Merekod Setiap Sesi Kuiz Ke Dalam Array Sejarah (History)
         function saveSessionRecord(topic, scoreValue, formattedTime) {
             let userHistory = JSON.parse(localStorage.getItem(`grammar_hub_history_${currentUser}`)) || [];
             
-            // Tambah rekod sesi baharu
             userHistory.push({
                 topic: topic,
                 score: scoreValue,
@@ -943,7 +1049,6 @@
             localStorage.setItem(`grammar_hub_history_${currentUser}`, JSON.stringify(userHistory));
         }
 
-        // Memadamkan Sejarah Sesi
         function clearHistory() {
             if (confirm("Are you sure you want to clear all your attempt history?")) {
                 localStorage.removeItem(`grammar_hub_history_${currentUser}`);
@@ -951,15 +1056,13 @@
             }
         }
 
-        // Formatkan Tarikh & Masa Terkini
         function getFormattedDateTime() {
             const now = new Date();
-            const dateStr = now.toLocaleDateString('en-GB'); // cth: 20/08/2026
-            const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // cth: 02:30 PM
+            const dateStr = now.toLocaleDateString('en-GB'); 
+            const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); 
             return `${dateStr}, ${timeStr}`;
         }
 
-        // Rawakkan Array Soalan
         function shuffle(array) {
             let currentIndex = array.length, randomIndex;
             while (currentIndex != 0) {
@@ -972,7 +1075,8 @@
 
         // Jalankan Kuiz
         function startQuiz(topic) {
-            closeSidebar(); // Autotutup sidebar
+            stopSpeech();
+            closeSidebar();
             currentTopic = topic;
             currentQuestions = shuffle([...questionBank[topic]]);
             currentQuestionIndex = 0;
@@ -986,6 +1090,7 @@
         }
 
         function loadQuestion() {
+            stopSpeech();
             canAnswer = true;
             document.getElementById('next-btn').style.display = 'none';
             
@@ -1003,11 +1108,17 @@
                 btn.onclick = () => checkAnswer(idx, btn);
                 optionsContainer.appendChild(btn);
             });
+
+            // Auto-baca soalan secara automatik bila dimuatkan
+            setTimeout(() => {
+                readCurrentQuestion();
+            }, 300);
         }
 
         function checkAnswer(selectedIndex, btnElement) {
             if (!canAnswer) return;
             canAnswer = false;
+            stopSpeech();
 
             const qData = currentQuestions[currentQuestionIndex];
             const allBtns = document.querySelectorAll('.option-btn');
@@ -1036,6 +1147,7 @@
         }
 
         function showResults() {
+            stopSpeech();
             const completionTime = getFormattedDateTime();
             saveSessionRecord(currentTopic, score, completionTime);
             
@@ -1044,15 +1156,25 @@
             document.getElementById('completion-time').innerText = `📅 Completed on: ${completionTime}`;
 
             const feedback = document.getElementById('feedback-message');
+            let resultSpeech = "";
             if (score === 10) {
                 feedback.innerText = "🌟 Outstanding! Perfect Score! 🌟";
+                resultSpeech = "Outstanding! Perfect Score!";
             } else if (score >= 7) {
                 feedback.innerText = "👍 Great Job! Keep it up!";
+                resultSpeech = "Great Job! Keep it up!";
             } else if (score >= 5) {
                 feedback.innerText = "😊 Good try! You can do better!";
+                resultSpeech = "Good try! You can do better!";
             } else {
                 feedback.innerText = "💪 Don't give up! Try again!";
+                resultSpeech = "Don't give up! Try again!";
             }
+
+            // Baca ucapan tahniah
+            setTimeout(() => {
+                speakText(`You scored ${score} out of 10. ${resultSpeech}`);
+            }, 300);
         }
 
         function showScreen(screenId) {
