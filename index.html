@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grammar Hub - Primary School English</title>
-    <!-- Google Fonts untuk font ceria -->
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -13,6 +13,8 @@
             --primary-blue: #5CE1E6;
             --primary-green: #7ED957;
             --primary-purple: #C38FFF;
+            --sidebar-bg: #2C3E50;
+            --sidebar-text: #FFFFFF;
             --text-dark: #2C3E50;
             --white: #FFFFFF;
         }
@@ -25,14 +27,118 @@
 
         body {
             font-family: 'Quicksand', sans-serif;
-            background: linear-gradient(135deg, #a8edd8 0%, #h8d7ff 100%);
-            background-color: #E0F7FA;
+            background: linear-gradient(135deg, #a8edd8 0%, #d8e7ff 100%);
             color: var(--text-dark);
             min-height: 100vh;
             display: flex;
+        }
+
+        /* --- STYLES SIDEBAR SEBELAH KIRI --- */
+        .sidebar {
+            width: 250px;
+            background-color: var(--sidebar-bg);
+            color: var(--sidebar-text);
+            display: flex;
+            flex-direction: column;
+            padding: 20px 15px;
+            box-shadow: 4px 0 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .sidebar-logo {
+            width: 90px;
+            height: 90px;
+            margin: 0 auto 10px auto;
+            background: #E0F7FA;
+            border-radius: 50%;
+            padding: 4px;
+            border: 3px dashed var(--primary-green);
+            overflow: hidden;
+            animation: bounce 2s infinite ease-in-out;
+        }
+
+        .sidebar-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .sidebar-title {
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.5rem;
+            color: var(--primary-yellow);
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .sidebar-subtitle {
+            font-size: 0.85rem;
+            text-align: center;
+            color: #BDC3C7;
+            margin-bottom: 25px;
+        }
+
+        .nav-menu {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex-grow: 1;
+        }
+
+        .nav-item {
+            padding: 12px 18px;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.2s ease;
+            color: #ECF0F1;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background-color: var(--primary-pink);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .nav-item.logout-btn {
+            background-color: #E74C3C;
+            margin-top: auto;
+        }
+
+        .nav-item.logout-btn:hover {
+            background-color: #C0392B;
+        }
+
+        /* TOGGLE BUTTON UNTUK SKRIN KECIL / MOBILE */
+        .mobile-toggle {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            background: var(--sidebar-bg);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 101;
+        }
+
+        /* --- KAWASAN KANDUNGAN UTAMA --- */
+        .main-content {
+            flex-grow: 1;
+            padding: 30px;
+            display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            overflow-y: auto;
         }
 
         .container {
@@ -45,72 +151,6 @@
             text-align: center;
             border: 5px solid var(--primary-yellow);
             position: relative;
-            overflow: hidden;
-        }
-
-        /* Gaya Logo Baharu */
-        .logo-container {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 10px auto;
-            background: #E0F7FA;
-            border-radius: 50%;
-            padding: 5px;
-            border: 4px dashed var(--primary-green);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            animation: bounce 2s infinite ease-in-out;
-            overflow: hidden;
-        }
-
-        .logo-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 50%;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
-        }
-
-        header h1 {
-            font-family: 'Fredoka One', cursive;
-            font-size: 2.5rem;
-            color: #FF5757;
-            text-shadow: 2px 2px var(--primary-yellow);
-            margin-bottom: 5px;
-        }
-
-        header p {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #5E17EB;
-            margin-bottom: 20px;
-        }
-
-        .user-bar {
-            background: #F0F4F8;
-            padding: 8px 15px;
-            border-radius: 20px;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 700;
-            margin-bottom: 15px;
-        }
-
-        .change-user-btn {
-            background: #FF5757;
-            color: white;
-            border: none;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 0.8rem;
-            cursor: pointer;
-            font-weight: 700;
         }
 
         .card {
@@ -125,6 +165,11 @@
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
         }
 
         /* Input Profil */
@@ -281,97 +326,173 @@
         }
 
         .record-table th, .record-table td {
-            padding: 10px;
+            padding: 12px;
             border: 1px solid #FFE082;
-            font-size: 0.95rem;
+            font-size: 1rem;
         }
 
         .record-table th {
             background-color: var(--primary-yellow);
         }
 
+        /* Profil Card Detail */
+        .profile-card-details {
+            background: #F0F4F8;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: left;
+            font-size: 1.1rem;
+        }
+
+        .profile-card-details p {
+            margin-bottom: 10px;
+        }
+
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+
+            .sidebar {
+                position: fixed;
+                left: -260px;
+                top: 0;
+                bottom: 0;
+                height: 100vh;
+            }
+
+            .sidebar.open {
+                left: 0;
+            }
+
+            .main-content {
+                padding: 70px 15px 20px 15px;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <header>
-            <!-- LOGO BAHARU -->
-            <div class="logo-container">
-                <img src="https://i.imgur.com/vPd4cjj.jpeg" alt="Logo Grammar Hub">
-            </div>
-            
-            <h1>Grammar Hub</h1>
-            <p>English KSSR Primary School</p>
-            <div id="user-display" class="user-bar" style="display:none;">
-                👤 Student: <span id="current-username" style="color:#5E17EB;">-</span>
-                <button class="change-user-btn" onclick="playClickSound(); changeUser()">Switch Profile</button>
-            </div>
-        </header>
+    <!-- TOGGLE BUTTON UNTUK MOBILE -->
+    <button class="mobile-toggle" onclick="toggleSidebar()">☰</button>
 
-        <!-- SKRIN DAFTAR NAMA -->
-        <div id="profile-screen" class="card active">
-            <h2>Welcome! 👋</h2>
-            <p style="margin-top: 10px;">Please enter your name to start learning:</p>
-            <div class="input-group">
-                <input type="text" id="username-input" class="name-input" placeholder="Type your name here..." maxlength="20">
-            </div>
-            <button class="action-btn" style="display:inline-block;" onclick="playClickSound(); registerUser()">Start Learning 🚀</button>
+    <!-- SIDEBAR SEBELAH KIRI -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <img src="https://i.imgur.com/vPd4cjj.jpeg" alt="Logo Grammar Hub">
         </div>
+        <div class="sidebar-title">Grammar Hub</div>
+        <div class="sidebar-subtitle">English KSSR Primary</div>
 
-        <!-- SKRIN UTAMA (MENU TOPIK & REKOD) -->
-        <div id="home-screen" class="card">
-            <h2 style="margin-bottom: 10px; color: #333;">Choose a Topic! 📚</h2>
-            <div class="topic-grid">
-                <button class="topic-btn" onclick="playClickSound(); startQuiz('nouns')">Nouns 🍎</button>
-                <button class="topic-btn" onclick="playClickSound(); startQuiz('pronouns')">Pronouns 👦👧</button>
-                <button class="topic-btn" onclick="playClickSound(); startQuiz('verbs')">Verbs 🏃‍♂️</button>
-                <button class="topic-btn" onclick="playClickSound(); startQuiz('adjectives')">Adjectives 🎨</button>
-                <button class="topic-btn" onclick="playClickSound(); startQuiz('prepositions')">Prepositions 📦</button>
-                <button class="topic-btn" onclick="playClickSound(); startQuiz('conjunctions')">Conjunctions 🔗</button>
+        <ul class="nav-menu" id="nav-menu" style="display: none;">
+            <li class="nav-item active" onclick="playClickSound(); navigateTo('home-screen', this)">
+                📚 Home
+            </li>
+            <li class="nav-item" onclick="playClickSound(); navigateTo('profile-view-screen', this)">
+                👤 Profile
+            </li>
+            <li class="nav-item" onclick="playClickSound(); navigateTo('scores-screen', this)">
+                🏆 Scores
+            </li>
+            <li class="nav-item logout-btn" onclick="playClickSound(); logout()">
+                🚪 Logout
+            </li>
+        </ul>
+    </div>
+
+    <!-- KAWASAN PAPARAN UTAMA -->
+    <div class="main-content">
+        <div class="container">
+
+            <!-- 1. SKRIN DAFTAR NAMA / AVAL -->
+            <div id="profile-screen" class="card active">
+                <h1 style="font-family: 'Fredoka One', cursive; color: #FF5757; margin-bottom: 15px;">Grammar Hub</h1>
+                <h2>Welcome! 👋</h2>
+                <p style="margin-top: 10px;">Please enter your name to start learning:</p>
+                <div class="input-group">
+                    <input type="text" id="username-input" class="name-input" placeholder="Type your name here..." maxlength="20">
+                </div>
+                <button class="action-btn" style="display:inline-block;" onclick="playClickSound(); registerUser()">Start Learning 🚀</button>
             </div>
 
-            <!-- JADUAL REKOD SKOR -->
-            <h3 style="margin-top: 25px; color: #333;">🏆 My Highest Scores</h3>
-            <table class="record-table">
-                <thead>
-                    <tr>
-                        <th>Topic</th>
-                        <th>Best Score</th>
-                    </tr>
-                </thead>
-                <tbody id="score-records-body">
-                    <!-- Rekod dimuatkan melalui JS -->
-                </tbody>
-            </table>
-        </div>
-
-        <!-- SKRIN SOALAN -->
-        <div id="quiz-screen" class="card">
-            <div class="quiz-header">
-                <span id="topic-title">Topic</span>
-                <span>Question: <span id="question-num">1</span>/10</span>
-                <span>Score: <span id="current-score">0</span></span>
+            <!-- 2. SKRIN UTAMA (MENU TOPIK) -->
+            <div id="home-screen" class="card">
+                <h2 style="margin-bottom: 15px; color: #333;">Choose a Topic! 📚</h2>
+                <div class="topic-grid">
+                    <button class="topic-btn" onclick="playClickSound(); startQuiz('nouns')">Nouns 🍎</button>
+                    <button class="topic-btn" onclick="playClickSound(); startQuiz('pronouns')">Pronouns 👦👧</button>
+                    <button class="topic-btn" onclick="playClickSound(); startQuiz('verbs')">Verbs 🏃‍♂️</button>
+                    <button class="topic-btn" onclick="playClickSound(); startQuiz('adjectives')">Adjectives 🎨</button>
+                    <button class="topic-btn" onclick="playClickSound(); startQuiz('prepositions')">Prepositions 📦</button>
+                    <button class="topic-btn" onclick="playClickSound(); startQuiz('conjunctions')">Conjunctions 🔗</button>
+                </div>
             </div>
 
-            <div id="question-text" class="question-box">
-                Question content goes here...
+            <!-- 3. SKRIN PAPARAN PROFIL -->
+            <div id="profile-view-screen" class="card">
+                <h2>User Profile 👤</h2>
+                <div class="profile-card-details">
+                    <p><strong>Student Name:</strong> <span id="profile-name-val" style="color: #5E17EB;">-</span></p>
+                    <p><strong>Status:</strong> Active Learner 🌟</p>
+                    <p><strong>Level:</strong> Primary School English (KSSR)</p>
+                </div>
+                <button class="action-btn" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
             </div>
 
-            <div id="options-container" class="options-grid">
-                <!-- Pilihan jawapan -->
+            <!-- 4. SKRIN REKOD SKOR (SCORES) -->
+            <div id="scores-screen" class="card">
+                <h2 style="color: #333;">🏆 My Highest Scores</h2>
+                <p style="color: #666; margin-top: 5px;">Track your grammar performance here!</p>
+                <table class="record-table">
+                    <thead>
+                        <tr>
+                            <th>Topic</th>
+                            <th>Best Score</th>
+                        </tr>
+                    </thead>
+                    <tbody id="score-records-body">
+                        <!-- Rekod dimuatkan melalui JS -->
+                    </tbody>
+                </table>
+                <br>
+                <button class="action-btn" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
             </div>
 
-            <button id="next-btn" class="action-btn" style="display:none;" onclick="playClickSound(); nextQuestion()">Next Question ➔</button>
-        </div>
+            <!-- 5. SKRIN SOALAN KUIZ -->
+            <div id="quiz-screen" class="card">
+                <div class="quiz-header">
+                    <span id="topic-title">Topic</span>
+                    <span>Question: <span id="question-num">1</span>/10</span>
+                    <span>Score: <span id="current-score">0</span></span>
+                </div>
 
-        <!-- SKRIN KEPUTUSAN -->
-        <div id="result-screen" class="card">
-            <h2>Awesome Job! 🎉</h2>
-            <p>You have completed the quiz!</p>
-            <div class="result-score" id="final-score">0 / 10</div>
-            <p id="feedback-message" style="font-weight: 700; color: #555;"></p>
-            <button class="action-btn" style="display:inline-block;" onclick="playClickSound(); goHome()">Back to Menu 🔄</button>
+                <div id="question-text" class="question-box">
+                    Question content goes here...
+                </div>
+
+                <div id="options-container" class="options-grid">
+                    <!-- Pilihan jawapan -->
+                </div>
+
+                <button id="next-btn" class="action-btn" style="display:none;" onclick="playClickSound(); nextQuestion()">Next Question ➔</button>
+            </div>
+
+            <!-- 6. SKRIN KEPUTUSAN -->
+            <div id="result-screen" class="card">
+                <h2>Awesome Job! 🎉</h2>
+                <p>You have completed the quiz!</p>
+                <div class="result-score" id="final-score">0 / 10</div>
+                <p id="feedback-message" style="font-weight: 700; color: #555;"></p>
+                <br>
+                <button class="action-btn" style="display:inline-block;" onclick="playClickSound(); navigateTo('home-screen')">Back to Menu 🔄</button>
+            </div>
+
         </div>
     </div>
 
@@ -525,8 +646,10 @@
             const savedUser = localStorage.getItem("grammar_hub_active_user");
             if (savedUser) {
                 currentUser = savedUser;
-                showHomeScreen();
+                showLoggedInState();
+                showScreen("home-screen");
             } else {
+                showLoggedOutState();
                 showScreen("profile-screen");
             }
         };
@@ -540,21 +663,44 @@
             }
             currentUser = inputName;
             localStorage.setItem("grammar_hub_active_user", currentUser);
-            showHomeScreen();
+            showLoggedInState();
+            showScreen("home-screen");
         }
 
-        function changeUser() {
+        function logout() {
             localStorage.removeItem("grammar_hub_active_user");
+            currentUser = "";
             document.getElementById("username-input").value = "";
-            document.getElementById("user-display").style.display = "none";
+            showLoggedOutState();
             showScreen("profile-screen");
         }
 
-        function showHomeScreen() {
-            document.getElementById("current-username").innerText = currentUser;
-            document.getElementById("user-display").style.display = "inline-flex";
+        function showLoggedInState() {
+            document.getElementById("nav-menu").style.display = "flex";
+            document.getElementById("profile-name-val").innerText = currentUser;
             loadScoreBoard();
-            showScreen("home-screen");
+        }
+
+        function showLoggedOutState() {
+            document.getElementById("nav-menu").style.display = "none";
+        }
+
+        function navigateTo(screenId, element = null) {
+            if (element) {
+                document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+                element.classList.add('active');
+            }
+            if (screenId === 'scores-screen') {
+                loadScoreBoard();
+            }
+            showScreen(screenId);
+            
+            // Tutup sidebar pada paparan mudah alih jika terbuka
+            document.getElementById("sidebar").classList.remove("open");
+        }
+
+        function toggleSidebar() {
+            document.getElementById("sidebar").classList.toggle("open");
         }
 
         // Papan Rekod Skor
@@ -674,10 +820,6 @@
             } else {
                 feedback.innerText = "💪 Don't give up! Try again!";
             }
-        }
-
-        function goHome() {
-            showHomeScreen();
         }
 
         function showScreen(screenId) {
