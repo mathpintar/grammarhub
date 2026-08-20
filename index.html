@@ -570,20 +570,20 @@
         .slots-container {
             display: flex;
             justify-content: center;
-            gap: 8px;
+            gap: 10px;
             margin: 20px 0;
             flex-wrap: wrap;
         }
 
         .letter-slot {
-            width: 45px;
-            height: 45px;
+            width: 58px;
+            height: 58px;
             border: 3px dashed var(--primary-purple);
-            border-radius: 10px;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.3rem;
+            font-size: 1.6rem;
             font-weight: bold;
             background: #F9F6FF;
             color: #5E17EB;
@@ -598,25 +598,25 @@
         .bank-container {
             display: flex;
             justify-content: center;
-            gap: 8px;
+            gap: 10px;
             margin: 15px 0;
             flex-wrap: wrap;
-            min-height: 60px;
+            min-height: 70px;
         }
 
         .draggable-letter {
-            width: 45px;
-            height: 45px;
+            width: 58px;
+            height: 58px;
             background: var(--primary-yellow);
-            border: 2px solid #C2A332;
-            border-radius: 10px;
+            border: 3px solid #C2A332;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
+            font-size: 1.5rem;
             font-weight: bold;
             cursor: grab;
-            box-shadow: 0 3px 0 #C2A332;
+            box-shadow: 0 4px 0 #C2A332;
             user-select: none;
         }
 
@@ -1387,7 +1387,6 @@
             ]
         };
 
-        // BANK SOALAN SPELLING KHAS (Gambar + Kata)
         const spellingBank = [
             { word: "CAT", img: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=300" },
             { word: "DOG", img: "https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=300" },
@@ -1399,46 +1398,46 @@
             { word: "BALL", img: "https://images.unsplash.com/photo-1575361204480-aadea25e6e68?w=300" },
             { word: "DUCK", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1lBQsIP8TQKvt8bDqEax2r9twBadftD7t-7IjBZq7JQ&s=10" },
             { word: "MILK", img: "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300" },
-  { word: "BIRD", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuARXyNRb3k_lCTA_GM4lq69RUZVpJR4t3JxEJJp47XA&s" },
-  { word: "LION", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSciTKo2Thsfc7vfT75aasclu3M8WcqzrtyWBvNT8S-hw&s=10" },
-  { word: "FROG", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIWI8HWva1RNSKdWSkyqaKytfqf0wcln2LKAnJl0SH0Q&s=10" },
-  { word: "BEAR", img: "https://images.unsplash.com/photo-1530595467537-0b5996c41f2d?w=300" },
-  { word: "ELEPHANT", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3kHWnHIAPU1g7Ntc42t-KG77eqv5cuys9WGa0W8o-dQ&s" },
-  { word: "HORSE", img: "https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?w=300" },
-  { word: "MONKEY", img: "https://images.unsplash.com/photo-1540573133985-778788170485?w=300" },
-  { word: "RABBIT", img: "https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?w=300" },
-  { word: "SNAKE", img: "https://images.unsplash.com/photo-1531386151447-fd76ad50012f?w=300" },
-  { word: "TIGER", img: "https://images.unsplash.com/photo-1561731216-c3a4d99437d5?w=300" },
-  { word: "BREAD", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8usLfSSIMRUQ88bDXOTSc6NLPF02OIZBRiJLgQ5eFCw&s=10" },
-  { word: "CAKE", img: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=300" },
-  { word: "BANANA", img: "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=300" },
-  { word: "EGG", img: "https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?w=300" },
-  { word: "PIZZA", img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=300" },
-  { word: "CHEESE", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeoZan9I5Z0joqS7yZd4hH9WXAHtzgnHOK1Gcj5JZn6g&s=10" },
-  { word: "ORANGE", img: "https://images.unsplash.com/photo-1611080626919-7cf5a9dbab5b?w=300" },
-  { word: "ICE", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLs_c_bKivWn1OH88PQ3P5oN_vI83IaAQkHRXAiJfAsw&s=10" },
-  { word: "CHAIR", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxCkhDafNP9fQAHat2tL5th-3yUdrNZWbBjDiVYuDNpA&s=10" },
-  { word: "TABLE", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWIxpn4M3gBudIvMVmlmyw3emCdmzhfsYQkCLGZpVjfw&s=10" },
-  { word: "CLOCK", img: "https://images.unsplash.com/photo-1563861826100-9cb868fdbe1c?w=300" },
-  { word: "LAMP", img: "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=300" },
-  { word: "DOOR", img: "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=300" },
-  { word: "PHONE", img: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=300" },
-  { word: "PEN", img: "https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?w=300" },
-  { word: "CUP", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTeFa1xUDdgZxpsNEM2WjasJKH82LRYDcEykaU9d5MkQ&s=10" },
-  { word: "SUN", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJNX4krQyjlDRljzi984f8GoYVysvpweXgo37F6IKvOg&s=10" },
-  { word: "MOON", img: "https://images.unsplash.com/photo-1532693322450-2cb5c511067d?w=300" },
-  { word: "RAIN", img: "https://images.unsplash.com/photo-1519692933481-e162a57d6721?w=300" },
-  { word: "FLOWER", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTE97wzpAcXRQWUFbg6JGvWivxBLHnzFq2p9DVZRMKZg&s=10" },
-  { word: "MOUNTAIN", img: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=300" },
-  { word: "SEA", img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=300" },
-  { word: "CAR", img: "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=300" },
-  { word: "BUS", img: "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?w=300" },
-  { word: "TRAIN", img: "https://images.unsplash.com/photo-1474487548417-781cb71495f3?w=300" },
-  { word: "BOAT", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgp7-gvfdXvwyImvq494Awxo47TcFEZf3pMZscIA1Ecw&s=10" },
-  { word: "PLANE", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3kutKSPWFsqEFe1-_DhNCgHqtS_cawayspQqfGDqQDA&s=10" },
-  { word: "HAT", img: "https://images.unsplash.com/photo-1534215754734-18e55d13e346?w=300" },
-  { word: "SHOE", img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300" },
-  { word: "HAND", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6SOM7n4gFMQYI_cQTUnoprc0RM8beiEt9vzF7pTyHYw&s=10" }
+            { word: "BIRD", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuARXyNRb3k_lCTA_GM4lq69RUZVpJR4t3JxEJJp47XA&s" },
+            { word: "LION", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSciTKo2Thsfc7vfT75aasclu3M8WcqzrtyWBvNT8S-hw&s=10" },
+            { word: "FROG", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIWI8HWva1RNSKdWSkyqaKytfqf0wcln2LKAnJl0SH0Q&s=10" },
+            { word: "BEAR", img: "https://images.unsplash.com/photo-1530595467537-0b5996c41f2d?w=300" },
+            { word: "ELEPHANT", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3kHWnHIAPU1g7Ntc42t-KG77eqv5cuys9WGa0W8o-dQ&s" },
+            { word: "HORSE", img: "https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?w=300" },
+            { word: "MONKEY", img: "https://images.unsplash.com/photo-1540573133985-778788170485?w=300" },
+            { word: "RABBIT", img: "https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?w=300" },
+            { word: "SNAKE", img: "https://images.unsplash.com/photo-1531386151447-fd76ad50012f?w=300" },
+            { word: "TIGER", img: "https://images.unsplash.com/photo-1561731216-c3a4d99437d5?w=300" },
+            { word: "BREAD", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8usLfSSIMRUQ88bDXOTSc6NLPF02OIZBRiJLgQ5eFCw&s=10" },
+            { word: "CAKE", img: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=300" },
+            { word: "BANANA", img: "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=300" },
+            { word: "EGG", img: "https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?w=300" },
+            { word: "PIZZA", img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=300" },
+            { word: "CHEESE", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeoZan9I5Z0joqS7yZd4hH9WXAHtzgnHOK1Gcj5JZn6g&s=10" },
+            { word: "ORANGE", img: "https://images.unsplash.com/photo-1611080626919-7cf5a9dbab5b?w=300" },
+            { word: "ICE", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLs_c_bKivWn1OH88PQ3P5oN_vI83IaAQkHRXAiJfAsw&s=10" },
+            { word: "CHAIR", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxCkhDafNP9fQAHat2tL5th-3yUdrNZWbBjDiVYuDNpA&s=10" },
+            { word: "TABLE", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWIxpn4M3gBudIvMVmlmyw3emCdmzhfsYQkCLGZpVjfw&s=10" },
+            { word: "CLOCK", img: "https://images.unsplash.com/photo-1563861826100-9cb868fdbe1c?w=300" },
+            { word: "LAMP", img: "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=300" },
+            { word: "DOOR", img: "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=300" },
+            { word: "PHONE", img: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=300" },
+            { word: "PEN", img: "https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?w=300" },
+            { word: "CUP", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTeFa1xUDdgZxpsNEM2WjasJKH82LRYDcEykaU9d5MkQ&s=10" },
+            { word: "SUN", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJNX4krQyjlDRljzi984f8GoYVysvpweXgo37F6IKvOg&s=10" },
+            { word: "MOON", img: "https://images.unsplash.com/photo-1532693322450-2cb5c511067d?w=300" },
+            { word: "RAIN", img: "https://images.unsplash.com/photo-1519692933481-e162a57d6721?w=300" },
+            { word: "FLOWER", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTE97wzpAcXRQWUFbg6JGvWivxBLHnzFq2p9DVZRMKZg&s=10" },
+            { word: "MOUNTAIN", img: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=300" },
+            { word: "SEA", img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=300" },
+            { word: "CAR", img: "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=300" },
+            { word: "BUS", img: "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?w=300" },
+            { word: "TRAIN", img: "https://images.unsplash.com/photo-1474487548417-781cb71495f3?w=300" },
+            { word: "BOAT", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgp7-gvfdXvwyImvq494Awxo47TcFEZf3pMZscIA1Ecw&s=10" },
+            { word: "PLANE", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3kutKSPWFsqEFe1-_DhNCgHqtS_cawayspQqfGDqQDA&s=10" },
+            { word: "HAT", img: "https://images.unsplash.com/photo-1534215754734-18e55d13e346?w=300" },
+            { word: "SHOE", img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300" },
+            { word: "HAND", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6SOM7n4gFMQYI_cQTUnoprc0RM8beiEt9vzF7pTyHYw&s=10" }
         ];
 
         let currentTopic = "";
@@ -1448,7 +1447,6 @@
         let canAnswer = true;
         let selectedQuestionCount = 10;
 
-        // Pembolehubah khas Spelling
         let spellingQuestions = [];
         let spellingIndex = 0;
         let spellingScore = 0;
@@ -1612,7 +1610,6 @@
             }
         }
 
-        // --- FUNGSI KHAS MODUL SPELLING ---
         function startSpellingQuiz(count) {
             let extended = [];
             while (extended.length < count) {
@@ -1636,13 +1633,11 @@
             document.getElementById('spelling-question-num').innerText = spellingIndex + 1;
             document.getElementById('spelling-img').src = currentItem.img;
 
-            // Sebut secara automatik perkataan
             speakWord(currentItem.word);
 
             const wordLength = currentItem.word.length;
             userFilledLetters = new Array(wordLength).fill(null);
 
-            // Sediakan Huruf Pilihan (Campur huruf betul dengan beberapa huruf distraktor)
             let lettersArr = currentItem.word.split('');
             const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
             while (lettersArr.length < wordLength + 3) {
@@ -1660,7 +1655,6 @@
         }
 
         function renderSpellingBoard(targetWord) {
-            // Render Slots Kosong
             const slotsContainer = document.getElementById('slots-container');
             slotsContainer.innerHTML = '';
             userFilledLetters.forEach((val, index) => {
@@ -1669,7 +1663,6 @@
                 slot.innerText = val ? val.letter : '_';
                 slot.onclick = () => {
                     if (val !== null) {
-                        // Kembalikan huruf ke bank
                         availableLetters[val.bankIndex].used = false;
                         userFilledLetters[index] = null;
                         renderSpellingBoard(targetWord);
@@ -1678,7 +1671,6 @@
                 slotsContainer.appendChild(slot);
             });
 
-            // Render Bank Huruf di Bawah
             const bankContainer = document.getElementById('letter-bank');
             bankContainer.innerHTML = '';
             availableLetters.forEach((item, bankIdx) => {
@@ -1686,7 +1678,6 @@
                 lBtn.className = `draggable-letter ${item.used ? 'used' : ''}`;
                 lBtn.innerText = item.letter;
                 
-                // Sokongan klik/tap untuk masukkan ke slot kosong pertama
                 lBtn.onclick = () => {
                     if (!item.used) {
                         const emptyIndex = userFilledLetters.indexOf(null);
@@ -1699,7 +1690,6 @@
                     }
                 };
 
-                // Sokongan Drag & Drop
                 lBtn.draggable = !item.used;
                 lBtn.ondragstart = (e) => {
                     e.dataTransfer.setData('text/plain', JSON.stringify({ letter: item.letter, bankIndex: bankIdx }));
@@ -1708,7 +1698,6 @@
                 bankContainer.appendChild(lBtn);
             });
 
-            // Tambah event drop pada slots container atau slot individu
             const slots = slotsContainer.children;
             for(let i=0; i<slots.length; i++) {
                 slots[i].ondragover = (e) => e.preventDefault();
@@ -1726,16 +1715,13 @@
         }
 
         function checkSpellingCompletion(targetWord) {
-            // Semak jika semua slot sudah diisi
             if (!userFilledLetters.includes(null)) {
                 const formedWord = userFilledLetters.map(item => item.letter).join('');
                 if (formedWord === targetWord) {
-                    // Betul! Bunyi kejayaan dan ayat semangat
                     playCorrectSound();
                     spellingScore++;
                     document.getElementById('spelling-current-score').innerText = spellingScore;
                     
-                    // Paparkan mesej motivasi ringkas menerusi alert mesra kanak-kanak atau ubah UI
                     speakWord("Great job! Correct!");
                     document.getElementById('spelling-next-btn').style.display = 'block';
                 } else {
@@ -1750,7 +1736,6 @@
             if (spellingIndex < spellingQuestions.length) {
                 loadSpellingQuestion();
             } else {
-                // Selesai kuiz spelling, salurkan ke keputusan
                 score = spellingScore;
                 selectedQuestionCount = spellingQuestions.length;
                 showResults();
