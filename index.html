@@ -354,9 +354,9 @@
 
         .quiz-action-container {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            align-items: center;
             gap: 10px;
-            flex-wrap: wrap;
         }
 
         .action-btn {
@@ -602,7 +602,7 @@
                 <button class="action-btn clear-btn" onclick="playClickSound(); clearHistory()">Clear History 🗑️</button>
             </div>
 
-            <!-- 6. SKRIN SOALAN KUIZ (TAMBAH BUTTON BACK TO HOME) -->
+            <!-- 6. SKRIN SOALAN KUIZ (BUTTON HOME DI BAWAH BUTTON NEXT QUESTION) -->
             <div id="quiz-screen" class="card">
                 <div class="quiz-header">
                     <span id="topic-title">Topic</span>
@@ -619,8 +619,8 @@
                 </div>
 
                 <div class="quiz-action-container">
-                    <button class="action-btn home-btn" onclick="playClickSound(); confirmBackToHome()">Home 🏠</button>
                     <button id="next-btn" class="action-btn" style="display:none;" onclick="playClickSound(); nextQuestion()">Next Question ➔</button>
+                    <button class="action-btn home-btn" onclick="playClickSound(); confirmBackToHome()">Home 🏠</button>
                 </div>
             </div>
 
