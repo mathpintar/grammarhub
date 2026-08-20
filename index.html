@@ -713,7 +713,7 @@
                             <tr>
                                 <th>No.</th>
                                 <th>Topic</th>
-                                <th>Score</th>
+                                <th>Score (%)</th>
                                 <th>Date & Time</th>
                             </tr>
                         </thead>
@@ -753,7 +753,7 @@
             <div id="result-screen" class="card">
                 <h2>Awesome Job! 🎉</h2>
                 <p>You have completed the quiz!</p>
-                <div class="result-score" id="final-score">0 / 10</div>
+                <div class="result-score" id="final-score">0%</div>
                 <div class="completion-time" id="completion-time">📅 Completed on: -</div>
                 <p id="feedback-message" style="font-weight: 700; color: #555;"></p>
                 <br>
@@ -910,10 +910,14 @@
             if (!window.currentUserAuth || !window.activeProfile) return;
             const uid = window.currentUserAuth.uid;
 
+            // Kira nilai peratusan (contoh: 80%)
+            const percentage = Math.round((scoreValue / totalQ) * 100);
+
             const sessionData = {
                 profile: window.activeProfile,
                 topic: topic,
-                score: `${scoreValue} / ${totalQ}`,
+                score: `${percentage}%`, // Disimpan dalam bentuk peratus
+                rawScore: `${scoreValue} / ${totalQ}`, // Simpanan pilihan asal jika perlukan rujukan
                 time: formattedTime,
                 timestamp: Date.now()
             };
@@ -1289,7 +1293,7 @@
         let currentQuestionIndex = 0;
         let score = 0;
         let canAnswer = true;
-        let selectedQuestionCount = 10; // Nilai lalai
+        let selectedQuestionCount = 10;
 
         document.addEventListener('click', function(event) {
             const sidebar = document.getElementById("sidebar");
@@ -1377,11 +1381,6 @@
             closeSidebar();
             currentTopic = topic;
             
-            // Ambil soalan dari bank, rambang, dan potong mengikut bilangan yang dipilih pengguna
-            let bank = [...questionBank[topic]];
-            
-            // Jika bilangan yang diminta lebih besar daripada bank sedia ada, ulang atau guna setakat yang ada
-            // (Untuk bank yang ada 10 soalan, jika pengguna pilih 20/40, kita boleh gabungkan semula bank secara rawak)
             let extendedBank = [];
             while (extendedBank.length < count) {
                 extendedBank = extendedBank.concat(shuffle([...questionBank[topic]]));
@@ -1454,11 +1453,11 @@
             window.saveSessionRecord(currentTopic, score, selectedQuestionCount, completionTime);
             
             showScreen('result-screen');
-            document.getElementById('final-score').innerText = `${score} / ${selectedQuestionCount}`;
+            const percentage = Math.round((score / selectedQuestionCount) * 100);
+            document.getElementById('final-score').innerText = `${percentage}%`;
             document.getElementById('completion-time').innerText = `📅 Completed on: ${completionTime}`;
 
             const feedback = document.getElementById('feedback-message');
-            const percentage = (score / selectedQuestionCount) * 100;
             
             if (percentage === 100) {
                 feedback.innerText = "🌟 Outstanding! Perfect Score! 🌟";
