@@ -228,12 +228,12 @@
         <div id="home-screen" class="card active">
             <h2 style="margin-bottom: 15px; color: #333;">Choose a Topic! 📚</h2>
             <div class="topic-grid">
-                <button class="topic-btn" onclick="startQuiz('nouns')">Nouns 🍎</button>
-                <button class="topic-btn" onclick="startQuiz('pronouns')">Pronouns 👦👧</button>
-                <button class="topic-btn" onclick="startQuiz('verbs')">Verbs 🏃‍♂️</button>
-                <button class="topic-btn" onclick="startQuiz('adjectives')">Adjectives 🎨</button>
-                <button class="topic-btn" onclick="startQuiz('prepositions')">Prepositions 📦</button>
-                <button class="topic-btn" onclick="startQuiz('conjunctions')">Conjunctions 🔗</button>
+                <button class="topic-btn" onclick="playClickSound(); startQuiz('nouns')">Nouns 🍎</button>
+                <button class="topic-btn" onclick="playClickSound(); startQuiz('pronouns')">Pronouns 👦👧</button>
+                <button class="topic-btn" onclick="playClickSound(); startQuiz('verbs')">Verbs 🏃‍♂️</button>
+                <button class="topic-btn" onclick="playClickSound(); startQuiz('adjectives')">Adjectives 🎨</button>
+                <button class="topic-btn" onclick="playClickSound(); startQuiz('prepositions')">Prepositions 📦</button>
+                <button class="topic-btn" onclick="playClickSound(); startQuiz('conjunctions')">Conjunctions 🔗</button>
             </div>
         </div>
 
@@ -253,7 +253,7 @@
                 <!-- Pilihan jawapan akan dimuatkan oleh JavaScript -->
             </div>
 
-            <button id="next-btn" class="action-btn" onclick="nextQuestion()">Next Question ➔</button>
+            <button id="next-btn" class="action-btn" onclick="playClickSound(); nextQuestion()">Next Question ➔</button>
         </div>
 
         <!-- SKRIN KEPUTUSAN -->
@@ -262,12 +262,78 @@
             <p>You have completed the quiz!</p>
             <div class="result-score" id="final-score">0 / 10</div>
             <p id="feedback-message" style="font-weight: 700; color: #555;"></p>
-            <button class="home-btn" onclick="goHome()">Play Again 🔄</button>
+            <button class="home-btn" onclick="playClickSound(); goHome()">Play Again 🔄</button>
         </div>
     </div>
 
     <script>
-        // Bank Soalan mengikut format KSSR Sekolah Rendah (10 soalan unik setiap topik)
+        // --- SISTEM BUNYI (WEB AUDIO API) ---
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        // Bunyi klik biasa (Butang Menu & Next)
+        function playClickSound() {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.08);
+            gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+            gain.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.08);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.08);
+        }
+
+        // Bunyi Jawapan Betul (Ceria & Tinggi)
+        function playCorrectSound() {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const now = audioCtx.currentTime;
+            
+            // Nada 1
+            const osc1 = audioCtx.createOscillator();
+            const gain1 = audioCtx.createGain();
+            osc1.type = 'triangle';
+            osc1.frequency.setValueAtTime(523.25, now); // C5
+            gain1.gain.setValueAtTime(0.3, now);
+            gain1.gain.linearRampToValueAtTime(0.01, now + 0.15);
+            osc1.connect(gain1);
+            gain1.connect(audioCtx.destination);
+            osc1.start(now);
+            osc1.stop(now + 0.15);
+
+            // Nada 2
+            const osc2 = audioCtx.createOscillator();
+            const gain2 = audioCtx.createGain();
+            osc2.type = 'triangle';
+            osc2.frequency.setValueAtTime(659.25, now + 0.1); // E5
+            gain2.gain.setValueAtTime(0.3, now + 0.1);
+            gain2.gain.linearRampToValueAtTime(0.01, now + 0.3);
+            osc2.connect(gain2);
+            gain2.connect(audioCtx.destination);
+            osc2.start(now + 0.1);
+            osc2.stop(now + 0.3);
+        }
+
+        // Bunyi Jawapan Salah (Nada Rendah)
+        function playWrongSound() {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const now = audioCtx.currentTime;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(220, now); // A3
+            osc.frequency.linearRampToValueAtTime(130, now + 0.25);
+            gain.gain.setValueAtTime(0.3, now);
+            gain.gain.linearRampToValueAtTime(0.01, now + 0.25);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start(now);
+            osc.stop(now + 0.25);
+        }
+
+        // Bank Soalan KSSR Bahasa Inggeris
         const questionBank = {
             nouns: [
                 { q: "My father drives a new ________ to work.", options: ["car", "cars", "caring", "cared"], answer: 0 },
@@ -343,14 +409,14 @@
             ]
         };
 
-        // Pembolehubah Sesi Soalan
+        // Pembolehubah Sesi
         let currentTopic = "";
         let currentQuestions = [];
         let currentQuestionIndex = 0;
         let score = 0;
         let canAnswer = true;
 
-        // Fungsi Rawak (Shuffle) Arrays
+        // Rawakkan soalan
         function shuffle(array) {
             let currentIndex = array.length, randomIndex;
             while (currentIndex != 0) {
@@ -364,7 +430,6 @@
         // Mulakan Kuiz
         function startQuiz(topic) {
             currentTopic = topic;
-            // Salin dan rawakkan soalan supaya tidak berulang & susunan sentiasa berbeza
             currentQuestions = shuffle([...questionBank[topic]]);
             currentQuestionIndex = 0;
             score = 0;
@@ -397,7 +462,7 @@
             });
         }
 
-        // Semak Jawapan
+        // Semak Jawapan & Mainkan Bunyi Suara Hasil
         function checkAnswer(selectedIndex, btnElement) {
             if (!canAnswer) return;
             canAnswer = false;
@@ -407,18 +472,18 @@
 
             if (selectedIndex === qData.answer) {
                 btnElement.classList.add('correct');
+                playCorrectSound(); // Bunyi jawapan betul
                 score++;
                 document.getElementById('current-score').innerText = score;
             } else {
                 btnElement.classList.add('wrong');
-                // Tunjuk jawapan yang betul
+                playWrongSound(); // Bunyi jawapan salah
                 allBtns[qData.answer].classList.add('correct');
             }
 
             document.getElementById('next-btn').style.display = 'block';
         }
 
-        // Soalan Seterusnya atau Tamat
         function nextQuestion() {
             currentQuestionIndex++;
             if (currentQuestionIndex < currentQuestions.length) {
@@ -428,7 +493,6 @@
             }
         }
 
-        // Papar Skrin Keputusan
         function showResults() {
             showScreen('result-screen');
             document.getElementById('final-score').innerText = `${score} / 10`;
@@ -445,12 +509,10 @@
             }
         }
 
-        // Kembali ke Menu Utama
         function goHome() {
             showScreen('home-screen');
         }
 
-        // Pengurusan Paparan Skrin
         function showScreen(screenId) {
             document.querySelectorAll('.card').forEach(card => card.classList.remove('active'));
             document.getElementById(screenId).classList.add('active');
