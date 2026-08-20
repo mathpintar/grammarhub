@@ -370,12 +370,23 @@
             box-shadow: 0 2px 0 #E65100;
         }
 
-        /* Skrin Keputusan & Rekod */
+        /* Skrin Keputusan & Rekod Masa */
         .result-score {
             font-size: 3rem;
             font-family: 'Fredoka One', cursive;
             color: #5E17EB;
             margin: 15px 0;
+        }
+
+        .completion-time {
+            font-size: 0.95rem;
+            color: #555;
+            background: #E0F7FA;
+            padding: 8px 15px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-bottom: 15px;
+            font-weight: 700;
         }
 
         .record-table {
@@ -388,9 +399,9 @@
         }
 
         .record-table th, .record-table td {
-            padding: 12px;
+            padding: 10px;
             border: 1px solid #FFE082;
-            font-size: 1rem;
+            font-size: 0.9rem;
         }
 
         .record-table th {
@@ -435,6 +446,11 @@
 
             .main-content {
                 padding: 70px 15px 20px 15px;
+            }
+
+            .record-table th, .record-table td {
+                font-size: 0.8rem;
+                padding: 6px;
             }
         }
     </style>
@@ -526,15 +542,16 @@
                 <button class="action-btn" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
             </div>
 
-            <!-- 5. SKRIN REKOD SKOR (SCORES) -->
+            <!-- 5. SKRIN REKOD SKOR & WAKTU (SCORES & TIMESTAMP) -->
             <div id="scores-screen" class="card">
-                <h2 style="color: #333;">🏆 My Highest Scores</h2>
-                <p style="color: #666; margin-top: 5px;">Track your grammar performance here!</p>
+                <h2 style="color: #333;">🏆 My Highest Scores & History</h2>
+                <p style="color: #666; margin-top: 5px;">Track your scores and last completed dates!</p>
                 <table class="record-table">
                     <thead>
                         <tr>
                             <th>Topic</th>
                             <th>Best Score</th>
+                            <th>Date & Time</th>
                         </tr>
                     </thead>
                     <tbody id="score-records-body">
@@ -569,6 +586,7 @@
                 <h2>Awesome Job! 🎉</h2>
                 <p>You have completed the quiz!</p>
                 <div class="result-score" id="final-score">0 / 10</div>
+                <div class="completion-time" id="completion-time">📅 Completed on: -</div>
                 <p id="feedback-message" style="font-weight: 700; color: #555;"></p>
                 <br>
                 <button class="action-btn" style="display:inline-block;" onclick="playClickSound(); navigateTo('home-screen')">Back to Menu 🔄</button>
@@ -634,7 +652,7 @@
             gain.gain.linearRampToValueAtTime(0.01, now + 0.25);
             osc.connect(gain);
             gain.connect(audioCtx.destination);
-            osc.start(now);
+            osc.start();
             osc.stop(now + 0.25);
         }
 
@@ -834,7 +852,7 @@
             startQuiz(currentTopic);
         }
 
-        // Papan Rekod Skor
+        // Papan Rekod Skor Dan Masa
         function loadScoreBoard() {
             const tbody = document.getElementById("score-records-body");
             tbody.innerHTML = "";
@@ -844,21 +862,45 @@
 
             topics.forEach(tp => {
                 const tr = document.createElement("tr");
-                const topScore = userScores[tp] !== undefined ? `${userScores[tp]} / 10` : "-";
+                const topicData = userScores[tp];
+                
+                let topScore = "-";
+                let timeStamp = "-";
+
+                if (topicData) {
+                    topScore = `${topicData.score} / 10`;
+                    timeStamp = topicData.time || "-";
+                }
+
                 tr.innerHTML = `
                     <td style="text-transform: capitalize; font-weight:700;">${tp}</td>
                     <td style="font-weight:700; color:#5E17EB;">${topScore}</td>
+                    <td style="font-size:0.8rem; color:#555;">${timeStamp}</td>
                 `;
                 tbody.appendChild(tr);
             });
         }
 
-        function saveScore(topic, newScore) {
+        // Merekod Skor Serta Tarikh/Waktu Jawapan
+        function saveScore(topic, newScore, formattedTime) {
             let userScores = JSON.parse(localStorage.getItem(`grammar_hub_scores_${currentUser}`)) || {};
-            if (userScores[topic] === undefined || newScore > userScores[topic]) {
-                userScores[topic] = newScore;
+            
+            // Simpan jika skor baru lebih tinggi atau jika belum ada rekod
+            if (!userScores[topic] || newScore >= userScores[topic].score) {
+                userScores[topic] = {
+                    score: newScore,
+                    time: formattedTime
+                };
                 localStorage.setItem(`grammar_hub_scores_${currentUser}`, JSON.stringify(userScores));
             }
+        }
+
+        // Formatkan Tarikh & Masa Terkini
+        function getFormattedDateTime() {
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('en-GB'); // cth: 20/08/2026
+            const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // cth: 02:30 PM
+            return `${dateStr}, ${timeStr}`;
         }
 
         // Rawakkan Array Soalan
@@ -937,9 +979,12 @@
         }
 
         function showResults() {
-            saveScore(currentTopic, score);
+            const completionTime = getFormattedDateTime();
+            saveScore(currentTopic, score, completionTime);
+            
             showScreen('result-screen');
             document.getElementById('final-score').innerText = `${score} / 10`;
+            document.getElementById('completion-time').innerText = `📅 Completed on: ${completionTime}`;
 
             const feedback = document.getElementById('feedback-message');
             if (score === 10) {
