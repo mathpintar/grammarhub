@@ -25,7 +25,6 @@
             padding: 0;
         }
 
-        /* UBAT UTAMA: Latar belakang bergerak untuk keseluruhan laman */
         body {
             font-family: 'Quicksand', sans-serif;
             background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('https://i.imgur.com/H46KuIJ.jpeg') no-repeat center center fixed;
@@ -36,7 +35,6 @@
             overflow-x: hidden;
         }
 
-        /* SIDEBAR STYLES */
         .sidebar {
             width: 250px;
             background-color: var(--sidebar-bg);
@@ -124,7 +122,6 @@
             background-color: #C0392B;
         }
 
-        /* MOBILE TOGGLE */
         .mobile-toggle {
             display: none;
             position: fixed;
@@ -140,7 +137,6 @@
             z-index: 101;
         }
 
-        /* MAIN CONTENT AREA */
         .main-content {
             flex-grow: 1;
             margin-left: 250px;
@@ -183,7 +179,6 @@
             50% { transform: translateY(-6px); }
         }
 
-        /* INPUT & FORM STYLES */
         .input-group {
             margin: 15px 0;
             text-align: left;
@@ -300,7 +295,6 @@
         .topic-btn:nth-child(5n-1) { background-color: var(--primary-purple); box-shadow: 0 5px 0 #8d5cc4; color: white;}
         .topic-btn:nth-child(5n) { background-color: var(--primary-yellow); box-shadow: 0 5px 0 #c2a332; }
 
-        /* LESSON SCREEN */
         .lesson-box {
             background: #F0F4F8;
             border-radius: 18px;
@@ -336,7 +330,6 @@
             margin-top: 5px;
         }
 
-        /* QUIZ SCREEN */
         .quiz-header {
             display: flex;
             justify-content: space-between;
@@ -506,6 +499,37 @@
             margin-top: 15px;
         }
 
+        /* Styling untuk Pilihan Bilangan Soalan */
+        .question-count-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .count-btn {
+            background-color: var(--primary-purple);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #8d5cc4;
+            transition: all 0.2s;
+        }
+
+        .count-btn:hover {
+            transform: translateY(-2px);
+            background-color: #b179ff;
+        }
+
+        .count-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #8d5cc4;
+        }
+
         @media (max-width: 768px) {
             body {
                 flex-direction: column;
@@ -644,9 +668,24 @@
                         <div id="lesson-examples">Examples go here...</div>
                     </div>
                 </div>
-                <button class="action-btn" style="display:inline-block; background-color: var(--primary-green); box-shadow: 0 4px 0 #5aa33d;" onclick="playClickSound(); startQuizAfterLesson()">Start Quiz 🚀</button>
+                <button class="action-btn" style="display:inline-block; background-color: var(--primary-green); box-shadow: 0 4px 0 #5aa33d;" onclick="playClickSound(); proceedToQuestionCount()">Choose Questions 🚀</button>
                 <br>
                 <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('home-screen')">Home 🏠</button>
+            </div>
+
+            <!-- BAHARU: SCREEN PILIH BILANGAN SOALAN -->
+            <div id="count-selection-screen" class="card">
+                <h2 style="color: #5E17EB; font-family: 'Fredoka One', cursive;">Select Question Count 📝</h2>
+                <p style="color: #666; margin-top: 5px;">How many questions would you like to answer?</p>
+                
+                <div class="question-count-grid">
+                    <button class="count-btn" onclick="playClickSound(); startQuizWithCount(5)">5 Questions</button>
+                    <button class="count-btn" onclick="playClickSound(); startQuizWithCount(10)">10 Questions</button>
+                    <button class="count-btn" onclick="playClickSound(); startQuizWithCount(20)">20 Questions</button>
+                    <button class="count-btn" onclick="playClickSound(); startQuizWithCount(40)">40 Questions</button>
+                </div>
+                <br>
+                <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
             </div>
 
             <!-- 5. PROFILES MANAGEMENT VIEW -->
@@ -692,7 +731,7 @@
             <div id="quiz-screen" class="card">
                 <div class="quiz-header">
                     <span id="topic-title">Topic</span>
-                    <span>Question: <span id="question-num">1</span>/10</span>
+                    <span>Question: <span id="question-num">1</span>/<span id="total-q-num">10</span></span>
                     <span>Score: <span id="current-score">0</span></span>
                 </div>
 
@@ -867,14 +906,14 @@
             showScreen("home-screen");
         }
 
-        window.saveSessionRecord = async function(topic, scoreValue, formattedTime) {
+        window.saveSessionRecord = async function(topic, scoreValue, totalQ, formattedTime) {
             if (!window.currentUserAuth || !window.activeProfile) return;
             const uid = window.currentUserAuth.uid;
 
             const sessionData = {
                 profile: window.activeProfile,
                 topic: topic,
-                score: scoreValue,
+                score: `${scoreValue} / ${totalQ}`,
                 time: formattedTime,
                 timestamp: Date.now()
             };
@@ -916,7 +955,7 @@
                         tr.innerHTML = `
                             <td style="font-weight:700;">#${sessionNum}</td>
                             <td style="text-transform: capitalize; font-weight:700;">${session.topic}</td>
-                            <td style="font-weight:700; color:#5E17EB;">${session.score} / 10</td>
+                            <td style="font-weight:700; color:#5E17EB;">${session.score}</td>
                             <td style="font-size:0.8rem; color:#555;">${session.time}</td>
                         `;
                         tbody.appendChild(tr);
@@ -1075,15 +1114,13 @@
                 { q: "My father drives a new ________ to work.", options: ["car", "cars", "caring", "cared"], answer: 0 },
                 { q: "There are three ________ in the cage.", options: ["bird", "birds", "birdies", "birding"], answer: 1 },
                 { q: "Encik Ahmad is a hardworking ________.", options: ["teacher", "teachers", "teaching", "taught"], answer: 0 },
-               { q: "I need to brush my ________ every night.", options: ["tooth", "teeth", "tooths", "teethes"], answer: 1 },
+                { q: "I need to brush my ________ every night.", options: ["tooth", "teeth", "tooths", "teethes"], answer: 1 },
                 { q: "The ________ is barking loudly at the cat.", options: ["dog", "dogs", "doggy", "dogging"], answer: 0 },
                 { q: "She bought two ________ of bread from the bakery.", options: ["loaf", "loaves", "loafs", "loafes"], answer: 1 },
                 { q: "Kuala Lumpur is a big ________.", options: ["city", "cities", "citys", "citing"], answer: 0 },
                 { q: "All the ________ are playing in the field.", options: ["child", "children", "childs", "childrens"], answer: 1 },
                 { q: "Put the books on the ________, please.", options: ["table", "tables", "tabling", "tabled"], answer: 0 },
-                { q: "Five ________ are swimming in the pond.", options: ["goose", "geese", "gooses", "geeses"], answer: 1 },
-              
-
+                { q: "Five ________ are swimming in the pond.", options: ["goose", "geese", "gooses", "geeses"], answer: 1 }
             ],
             pronouns: [
                 { q: "Aina is hungry. ________ wants to eat a burger.", options: ["He", "She", "It", "They"], answer: 1 },
@@ -1212,6 +1249,7 @@
         let currentQuestionIndex = 0;
         let score = 0;
         let canAnswer = true;
+        let selectedQuestionCount = 10; // Nilai lalai
 
         document.addEventListener('click', function(event) {
             const sidebar = document.getElementById("sidebar");
@@ -1267,9 +1305,15 @@
             showScreen("lesson-screen");
         }
 
-        function startQuizAfterLesson() {
+        function proceedToQuestionCount() {
             closeSidebar();
-            startQuiz(currentTopic);
+            showScreen("count-selection-screen");
+        }
+
+        function startQuizWithCount(count) {
+            closeSidebar();
+            selectedQuestionCount = count;
+            startQuiz(currentTopic, selectedQuestionCount);
         }
 
         function getFormattedDateTime() {
@@ -1289,15 +1333,27 @@
             return array;
         }
 
-        function startQuiz(topic) {
+        function startQuiz(topic, count) {
             closeSidebar();
             currentTopic = topic;
-            currentQuestions = shuffle([...questionBank[topic]]);
+            
+            // Ambil soalan dari bank, rambang, dan potong mengikut bilangan yang dipilih pengguna
+            let bank = [...questionBank[topic]];
+            
+            // Jika bilangan yang diminta lebih besar daripada bank sedia ada, ulang atau guna setakat yang ada
+            // (Untuk bank yang ada 10 soalan, jika pengguna pilih 20/40, kita boleh gabungkan semula bank secara rawak)
+            let extendedBank = [];
+            while (extendedBank.length < count) {
+                extendedBank = extendedBank.concat(shuffle([...questionBank[topic]]));
+            }
+            
+            currentQuestions = extendedBank.slice(0, count);
             currentQuestionIndex = 0;
             score = 0;
 
             document.getElementById('topic-title').innerText = topic.toUpperCase();
             document.getElementById('current-score').innerText = score;
+            document.getElementById('total-q-num').innerText = count;
 
             showScreen('quiz-screen');
             loadQuestion();
@@ -1355,18 +1411,20 @@
 
         function showResults() {
             const completionTime = getFormattedDateTime();
-            window.saveSessionRecord(currentTopic, score, completionTime);
+            window.saveSessionRecord(currentTopic, score, selectedQuestionCount, completionTime);
             
             showScreen('result-screen');
-            document.getElementById('final-score').innerText = `${score} / 10`;
+            document.getElementById('final-score').innerText = `${score} / ${selectedQuestionCount}`;
             document.getElementById('completion-time').innerText = `📅 Completed on: ${completionTime}`;
 
             const feedback = document.getElementById('feedback-message');
-            if (score === 10) {
+            const percentage = (score / selectedQuestionCount) * 100;
+            
+            if (percentage === 100) {
                 feedback.innerText = "🌟 Outstanding! Perfect Score! 🌟";
-            } else if (score >= 7) {
+            } else if (percentage >= 70) {
                 feedback.innerText = "👍 Great Job! Keep it up!";
-            } else if (score >= 5) {
+            } else if (percentage >= 50) {
                 feedback.innerText = "😊 Good try! You can do better!";
             } else {
                 feedback.innerText = "💪 Don't give up! Try again!";
@@ -1377,7 +1435,6 @@
             document.querySelectorAll('.card').forEach(card => card.classList.remove('active'));
             document.getElementById(screenId).classList.add('active');
             
-            // PENYELESAIAN: Bawa paparan ke atas setiap kali skrin bertukar
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
