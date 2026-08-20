@@ -265,18 +265,21 @@
 
         .topic-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
             margin-top: 15px;
+            max-height: 320px;
+            overflow-y: auto;
+            padding-right: 5px;
         }
 
         .topic-btn {
             background-color: var(--primary-blue);
             color: var(--text-dark);
             border: none;
-            padding: 18px 15px;
+            padding: 15px 12px;
             border-radius: 18px;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.2s ease;
@@ -289,14 +292,11 @@
             box-shadow: 0 8px 0 #3bafb3;
         }
 
-        .topic-btn:nth-child(2n) { background-color: var(--primary-pink); box-shadow: 0 5px 0 #c74597; color: white;}
-        .topic-btn:nth-child(2n):hover { box-shadow: 0 8px 0 #c74597; }
-        
-        .topic-btn:nth-child(3n) { background-color: var(--primary-green); box-shadow: 0 5px 0 #5aa33d; }
-        .topic-btn:nth-child(3n):hover { box-shadow: 0 8px 0 #5aa33d; }
-
-        .topic-btn:nth-child(4n) { background-color: var(--primary-purple); box-shadow: 0 5px 0 #8d5cc4; color: white;}
-        .topic-btn:nth-child(4n):hover { box-shadow: 0 8px 0 #8d5cc4; }
+        .topic-btn:nth-child(5n-4) { background-color: var(--primary-blue); box-shadow: 0 5px 0 #3bafb3; }
+        .topic-btn:nth-child(5n-3) { background-color: var(--primary-pink); box-shadow: 0 5px 0 #c74597; color: white;}
+        .topic-btn:nth-child(5n-2) { background-color: var(--primary-green); box-shadow: 0 5px 0 #5aa33d; }
+        .topic-btn:nth-child(5n-1) { background-color: var(--primary-purple); box-shadow: 0 5px 0 #8d5cc4; color: white;}
+        .topic-btn:nth-child(5n) { background-color: var(--primary-yellow); box-shadow: 0 5px 0 #c2a332; }
 
         /* LESSON SCREEN */
         .lesson-box {
@@ -629,6 +629,11 @@
                     <button class="topic-btn" onclick="playClickSound(); openLesson('adjectives')">Adjectives 🎨</button>
                     <button class="topic-btn" onclick="playClickSound(); openLesson('prepositions')">Prepositions 📦</button>
                     <button class="topic-btn" onclick="playClickSound(); openLesson('conjunctions')">Conjunctions 🔗</button>
+                    <button class="topic-btn" onclick="playClickSound(); openLesson('articles')">Articles (A, An, The) 🔤</button>
+                    <button class="topic-btn" onclick="playClickSound(); openLesson('presentTense')">Simple Present ⏰</button>
+                    <button class="topic-btn" onclick="playClickSound(); openLesson('pastTense')">Simple Past ⌛</button>
+                    <button class="topic-btn" onclick="playClickSound(); openLesson('singularPlural')">Singular & Plural 👥</button>
+                    <button class="topic-btn" onclick="playClickSound(); openLesson('demonstratives')">This, That, These, Those 👉</button>
                 </div>
             </div>
 
@@ -1000,6 +1005,7 @@
             const now = audioCtx.currentTime;
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
+            osc.type.sawtooth;
             osc.type = 'sawtooth';
             osc.frequency.setValueAtTime(220, now);
             osc.frequency.linearRampToValueAtTime(130, now + 0.25);
@@ -1041,6 +1047,31 @@
                 title: "Conjunctions",
                 desc: "<strong>Conjunctions</strong> are joining words that connect words, phrases, or sentences together.",
                 examples: "<ul><li><b>And:</b> joins similar ideas.</li><li><b>But:</b> joins opposite ideas.</li><li><b>Because:</b> shows a reason.</li><li><b>So:</b> shows a result.</li></ul>"
+            },
+            articles: {
+                title: "Articles (A, An, The)",
+                desc: "<strong>Articles</strong> are words that define a noun as specific or unspecific. Use 'a' before consonant sounds, 'an' before vowel sounds (a, e, i, o, u), and 'the' for specific things.",
+                examples: "<ul><li><b>A:</b> <i>a cat, a book, a university</i></li><li><b>An:</b> <i>an apple, an umbrella, an hour</i></li><li><b>The:</b> <i>the sun, the tallest boy</i></li></ul>"
+            },
+            presentTense: {
+                title: "Simple Present Tense",
+                desc: "<strong>Simple Present Tense</strong> is used to talk about habits, general truths, or things that happen regularly.",
+                examples: "<ul><li>Singular subject (He/She/It/Ali): Add <b>-s</b> or <b>-es</b> (e.g., <i>eats, goes</i>).</li><li>Plural subject (I/You/We/They): Use base verb (e.g., <i>eat, go</i>).</li></ul>"
+            },
+            pastTense: {
+                title: "Simple Past Tense",
+                desc: "<strong>Simple Past Tense</strong> is used for actions that happened and finished in the past.",
+                examples: "<ul><li>Regular verbs: Add <b>-ed</b> (e.g., <i>walk ➔ walked</i>).</li><li>Irregular verbs: Change form completely (e.g., <i>go ➔ went, eat ➔ ate</i>).</li></ul>"
+            },
+            singularPlural: {
+                title: "Singular and Plural",
+                desc: "<strong>Singular</strong> means only one person, place, or thing. <strong>Plural</strong> means more than one.",
+                examples: "<ul><li>Regular: add <b>-s</b> (<i>cat ➔ cats</i>) or <b>-es</b> (<i>box ➔ boxes</i>).</li><li>Irregular: <i>man ➔ men, child ➔ children, foot ➔ feet</i>.</li></ul>"
+            },
+            demonstratives: {
+                title: "This, That, These, Those",
+                desc: "<strong>Demonstrative pronouns</strong> point to specific things near or far away.",
+                examples: "<ul><li>Near (Singular): <b>This</b> (<i>This is my pencil</i>)</li><li>Far (Singular): <b>That</b> (<i>That is a star</i>)</li><li>Near (Plural): <b>These</b> (<i>These are my shoes</i>)</li><li>Far (Plural): <b>Those</b> (<i>Those are birds</i>)</li></ul>"
             }
         };
 
@@ -1116,6 +1147,66 @@
                 { q: "Wash your hands ________ you eat your meal.", options: ["before", "but", "so", "or"], answer: 0 },
                 { q: "He ran fast, ________ he missed the bus.", options: ["and", "but", "so", "because"], answer: 1 },
                 { q: "Is the answer true ________ false?", options: ["and", "but", "or", "so"], answer: 2 }
+            ],
+            articles: [
+                { q: "She wants to eat ________ apple.", options: ["a", "an", "the", "-"], answer: 1 },
+                { q: "I saw ________ cat in our backyard.", options: ["a", "an", "the", "-"], answer: 0 },
+                { q: "________ sun rises in the east.", options: ["A", "An", "The", "-"], answer: 2 },
+                { q: "He bought ________ umbrella yesterday.", options: ["a", "an", "the", "-"], answer: 1 },
+                { q: "My brother is ________ honest boy.", options: ["a", "an", "the", "-"], answer: 1 },
+                { q: "Please give me ________ book on the desk.", options: ["a", "an", "the", "-"], answer: 2 },
+                { q: "There is ________ elephant at the zoo.", options: ["a", "an", "the", "-"], answer: 1 },
+                { q: "Ali has ________ pet dog.", options: ["a", "an", "the", "-"], answer: 0 },
+                { q: "She is ________ best student in class.", options: ["a", "an", "the", "-"], answer: 2 },
+                { q: "He waits for ________ hour.", options: ["a", "an", "the", "-"], answer: 1 }
+            ],
+            presentTense: [
+                { q: "Cats ________ milk.", options: ["drink", "drinks", "drinking", "drank"], answer: 0 },
+                { q: "He ________ to school every day.", options: ["cycle", "cycles", "cycling", "cycled"], answer: 1 },
+                { q: "I ________ English grammar.", options: ["love", "loves", "loving", "loved"], answer: 0 },
+                { q: "My mother ________ delicious food.", options: ["cook", "cooks", "cooking", "cooked"], answer: 1 },
+                { q: "Birds ________ in the sky.", options: ["fly", "flies", "flying", "flew"], answer: 0 },
+                { q: "The sun ________ in the east.", options: ["set", "sets", "setting", "rise"], answer: 1 },
+                { q: "We ________ football every evening.", options: ["play", "plays", "playing", "played"], answer: 0 },
+                { q: "She ________ her teeth twice a day.", options: ["brush", "brushes", "brushed", "brushing"], answer: 1 },
+                { q: "They ________ hard for their exams.", options: ["study", "studies", "studying", "studied"], answer: 0 },
+                { q: "A dog ________ a tail.", options: ["have", "has", "having", "had"], answer: 1 }
+            ],
+            pastTense: [
+                { q: "Yesterday, I ________ to the library.", options: ["go", "goes", "went", "going"], answer: 2 },
+                { q: "She ________ a letter last night.", options: ["write", "writes", "wrote", "writing"], answer: 2 },
+                { q: "They ________ football last weekend.", options: ["play", "plays", "played", "playing"], answer: 2 },
+                { q: "My father ________ a new car last month.", options: ["buy", "buys", "bought", "buying"], answer: 2 },
+                { q: "The baby ________ all night long.", options: ["cry", "cries", "cried", "crying"], answer: 2 },
+                { q: "We ________ a movie yesterday.", options: ["watch", "watches", "watched", "watching"], answer: 2 },
+                { q: "He ________ an apple just now.", options: ["eat", "eats", "ate", "eating"], answer: 2 },
+                { q: "It ________ heavily last evening.", options: ["rain", "rains", "rained", "raining"], answer: 2 },
+                { q: "Ali ________ his homework an hour ago.", options: ["finish", "finishes", "finished", "finishing"], answer: 2 },
+                { q: "The bird ________ away quickly.", options: ["fly", "flies", "flew", "flying"], answer: 2 }
+            ],
+            singularPlural: [
+                { q: "Plural form of 'child' is ________.", options: ["childs", "children", "childes", "child"], answer: 1 },
+                { q: "Plural form of 'box' is ________.", options: ["boxs", "boxes", "boxen", "box"], answer: 1 },
+                { q: "Singular form of 'teeth' is ________.", options: ["tooth", "teeths", "toot", "teeth"], answer: 0 },
+                { q: "Plural form of 'baby' is ________.", options: ["babys", "babies", "baby", "babes"], answer: 1 },
+                { q: "Plural form of 'fish' is usually ________.", options: ["fishes", "fish", "fishs", "fishen"], answer: 1 },
+                { q: "Plural form of 'man' is ________.", options: ["mans", "men", "menn", "man"], answer: 1 },
+                { q: "Plural form of 'tomato' is ________.", options: ["tomatos", "tomatoes", "tomato", "tomatoe"], answer: 1 },
+                { q: "Singular form of 'mice' is ________.", options: ["mouse", "mices", "mous", "mice"], answer: 0 },
+                { q: "Plural form of 'bus' is ________.", options: ["buss", "buses", "busies", "busi"], answer: 1 },
+                { q: "Plural form of 'foot' is ________.", options: ["foots", "feets", "feet", "foot"], answer: 2 }
+            ],
+            demonstratives: [
+                { q: "________ is my apple here in my hand.", options: ["This", "That", "These", "Those"], answer: 0 },
+                { q: "Look at ________ stars high up in the sky.", options: ["this", "that", "these", "those"], answer: 3 },
+                { q: "________ books on this desk belong to me.", options: ["This", "That", "These", "That's"], answer: 2 },
+                { q: "Is ________ bird far away an eagle?", options: ["this", "that", "these", "those"], answer: 1 },
+                { q: "________ are my new shoes on my feet.", options: ["This", "That", "These", "Those"], answer: 2 },
+                { q: "Can you see ________ airplanes flying far away?", options: ["this", "that", "these", "those"], answer: 3 },
+                { q: "________ is a wonderful day today.", options: ["This", "That", "These", "Those"], answer: 0 },
+                { q: "Who left ________ dirty dishes over there?", options: ["this", "that", "these", "those"], answer: 3 },
+                { q: "Take ________ pencil and write your name.", options: ["this", "these", "those", "they"], answer: 0 },
+                { q: "________ mountains in the distance are huge.", options: ["This", "That", "These", "Those"], answer: 3 }
             ]
         };
 
