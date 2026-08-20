@@ -209,13 +209,13 @@
 
         /* TOPIC GRID */
         .home-header {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .home-app-logo {
-            width: 90px;
-            height: 90px;
-            margin: 0 auto 10px auto;
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 8px auto;
             border-radius: 50%;
             border: 4px solid var(--primary-yellow);
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
@@ -224,21 +224,52 @@
         .home-intro-title {
             font-family: 'Fredoka One', cursive;
             color: #5E17EB;
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             margin-bottom: 5px;
         }
 
         .home-intro-subtitle {
-            font-size: 1.05rem;
+            font-size: 0.95rem;
             color: #555;
             font-weight: 700;
+        }
+
+        /* PROFILE BADGE BAR DI HOME */
+        .active-profile-badge {
+            background: #E0F7FA;
+            border: 2px dashed var(--primary-blue);
+            padding: 8px 15px;
+            border-radius: 15px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        .switch-profile-btn {
+            background: var(--primary-purple);
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 2px 0 #8d5cc4;
+        }
+
+        .switch-profile-btn:active {
+            transform: translateY(1px);
+            box-shadow: none;
         }
 
         .topic-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 15px;
-            margin-top: 20px;
+            margin-top: 15px;
         }
 
         .topic-btn {
@@ -477,18 +508,6 @@
             margin-top: 15px;
         }
 
-        .profile-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px;
-            border-bottom: 1px solid #EEE;
-        }
-
-        .profile-item:last-child {
-            border-bottom: none;
-        }
-
         /* RESPONSIVE DESIGN */
         @media (max-width: 768px) {
             body {
@@ -618,7 +637,14 @@
                 <div class="home-header">
                     <img src="https://i.imgur.com/vPd4cjj.jpeg" alt="Grammar Hub Logo" class="home-app-logo">
                     <h2 class="home-intro-title" id="home-greeting">Hi Student! 👋</h2>
-                    <p class="home-intro-subtitle">Welcome to Grammar Hub! Pick a topic below to start learning.</p>
+                    
+                    <!-- BUTANG PILIH/TUKAR PROFIL -->
+                    <div class="active-profile-badge">
+                        <span>Profile: <strong id="current-badge-name" style="color: #5E17EB;">-</strong></span>
+                        <button class="switch-profile-btn" onclick="playClickSound(); showScreen('profile-selection-screen')">Switch 🔄</button>
+                    </div>
+
+                    <p class="home-intro-subtitle">Pick a topic below to start learning.</p>
                 </div>
 
                 <div class="topic-grid">
@@ -722,7 +748,7 @@
         </div>
     </div>
 
-    <!-- FIREBASE SDKs (v9/v10 Compatibility Modular CDN via Scripts) -->
+    <!-- FIREBASE SDKs -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { 
@@ -742,7 +768,6 @@
             remove 
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        // Provided Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyAgUl-DSLAGA4pRvmKTacvowO4E0OEXo5w",
             authDomain: "abcd-b1870.firebaseapp.com",
@@ -753,17 +778,14 @@
             appId: "1:890026579019:web:200fd135537b9ea2f7a9ce"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getDatabase(app);
 
-        // Global State Variables
         window.currentUserAuth = null;
         window.activeProfile = "";
         window.userProfiles = [];
 
-        // Auth Observer
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 window.currentUserAuth = user;
@@ -778,7 +800,6 @@
             }
         });
 
-        // Authentication Functions
         window.handleRegister = async function() {
             const email = document.getElementById("reg-email").value.trim();
             const password = document.getElementById("reg-password").value.trim();
@@ -822,7 +843,6 @@
             }
         };
 
-        // Multi-Profile Functions
         async function fetchProfiles() {
             if (!window.currentUserAuth) return;
             const uid = window.currentUserAuth.uid;
@@ -885,10 +905,10 @@
             window.activeProfile = profileName;
             document.getElementById("home-greeting").innerText = `Hi ${profileName}! 👋`;
             document.getElementById("active-profile-val").innerText = profileName;
+            document.getElementById("current-badge-name").innerText = profileName;
             showScreen("home-screen");
         }
 
-        // Save Score Session to Database
         window.saveSessionRecord = async function(topic, scoreValue, formattedTime) {
             if (!window.currentUserAuth || !window.activeProfile) return;
             const uid = window.currentUserAuth.uid;
@@ -910,7 +930,6 @@
             }
         };
 
-        // Load History Scoreboard
         window.loadScoreBoard = async function() {
             const tbody = document.getElementById("score-records-body");
             tbody.innerHTML = "<tr><td colspan='4'>Loading history...</td></tr>";
@@ -925,7 +944,6 @@
 
                 if (snapshot.exists()) {
                     const allData = Object.values(snapshot.val());
-                    // Filter history by active profile
                     const profileData = allData.filter(item => item.profile === window.activeProfile);
 
                     if (profileData.length === 0) {
@@ -977,7 +995,6 @@
     </script>
 
     <script>
-        // WEB AUDIO SYSTEM
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
         function playClickSound() {
@@ -1037,7 +1054,6 @@
             osc.stop(now + 0.25);
         }
 
-        // LESSON NOTES BANK
         const lessonData = {
             nouns: {
                 title: "Nouns",
@@ -1071,7 +1087,6 @@
             }
         };
 
-        // KSSR QUESTION BANK
         const questionBank = {
             nouns: [
                 { q: "My father drives a new ________ to work.", options: ["car", "cars", "caring", "cared"], answer: 0 },
@@ -1147,14 +1162,12 @@
             ]
         };
 
-        // App Logic Variables
         let currentTopic = "";
         let currentQuestions = [];
         let currentQuestionIndex = 0;
         let score = 0;
         let canAnswer = true;
 
-        // Outside Click Sidebar Close
         document.addEventListener('click', function(event) {
             const sidebar = document.getElementById("sidebar");
             const mobileBtn = document.getElementById("mobile-toggle-btn");
