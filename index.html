@@ -475,7 +475,7 @@
 <body>
 
     <!-- TOGGLE BUTTON UNTUK MOBILE -->
-    <button class="mobile-toggle" onclick="toggleSidebar()">☰</button>
+    <button class="mobile-toggle" id="mobile-toggle-btn" onclick="toggleSidebar(event)">☰</button>
 
     <!-- SIDEBAR SEBELAH KIRI -->
     <div class="sidebar" id="sidebar">
@@ -546,6 +546,8 @@
                     </div>
                 </div>
                 <button class="action-btn" style="display:inline-block; background-color: var(--primary-green); box-shadow: 0 4px 0 #5aa33d;" onclick="playClickSound(); startQuizAfterLesson()">Start Quiz 🚀</button>
+                <br>
+                <button class="action-btn" onclick="playClickSound(); navigateTo('home-screen')">Back ↩️</button>
             </div>
 
             <!-- 4. SKRIN PAPARAN PROFIL -->
@@ -809,6 +811,32 @@
             }
         };
 
+        // Tutup Sidebar jika pengguna tekan di luar kawasan sidebar (kawasan main-content)
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById("sidebar");
+            const mobileBtn = document.getElementById("mobile-toggle-btn");
+            
+            if (sidebar.classList.contains("open")) {
+                if (!sidebar.contains(event.target) && !mobileBtn.contains(event.target)) {
+                    closeSidebar();
+                }
+            }
+        });
+
+        // Tutup Sidebar Secara Khusus
+        function closeSidebar() {
+            const sidebar = document.getElementById("sidebar");
+            if (sidebar) {
+                sidebar.classList.remove("open");
+            }
+        }
+
+        // Toggle Sidebar apabila butang menu ditekan
+        function toggleSidebar(event) {
+            if(event) event.stopPropagation();
+            document.getElementById("sidebar").classList.toggle("open");
+        }
+
         // Pendaftaran Profil
         function registerUser() {
             const inputName = document.getElementById("username-input").value.trim();
@@ -823,6 +851,7 @@
         }
 
         function logout() {
+            closeSidebar(); // Autotutup sidebar
             localStorage.removeItem("grammar_hub_active_user");
             currentUser = "";
             document.getElementById("username-input").value = "";
@@ -842,6 +871,8 @@
         }
 
         function navigateTo(screenId, element = null) {
+            closeSidebar(); // Autotutup sidebar apabila butang navigasi / paparan belakang ditekan
+
             if (element) {
                 document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
                 element.classList.add('active');
@@ -850,16 +881,11 @@
                 loadScoreBoard();
             }
             showScreen(screenId);
-            
-            document.getElementById("sidebar").classList.remove("open");
-        }
-
-        function toggleSidebar() {
-            document.getElementById("sidebar").classList.toggle("open");
         }
 
         // FUNGSI BUAT LESSON SEBELUM KUIZ
         function openLesson(topic) {
+            closeSidebar(); // Autotutup sidebar
             currentTopic = topic;
             const lesson = lessonData[topic];
 
@@ -871,6 +897,7 @@
         }
 
         function startQuizAfterLesson() {
+            closeSidebar(); // Autotutup sidebar
             startQuiz(currentTopic);
         }
 
@@ -945,6 +972,7 @@
 
         // Jalankan Kuiz
         function startQuiz(topic) {
+            closeSidebar(); // Autotutup sidebar
             currentTopic = topic;
             currentQuestions = shuffle([...questionBank[topic]]);
             currentQuestionIndex = 0;
